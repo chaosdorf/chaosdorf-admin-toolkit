@@ -1,0 +1,2 @@
+forcecommand/forcecommand usr/lib/nagios/
+forcecommand/forcecommand.cfg etc/nagios/

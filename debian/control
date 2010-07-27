@@ -1,0 +1,26 @@
+Source: chaosdorf-admin-toolkit
+Section: admin
+Priority: optional
+Maintainer: Chaosdorf Admins <admin@chaosdorf.de>
+Uploaders: Maximilian Gass <mxey@chaosdorf.de>,
+ Daniel Friesel <derf@chaosdorf.de>
+Build-Depends: debhelper (>= 7)
+Standards-Version: 3.9.1
+Homepage: http://github.com/chaosdorf/chaosdorf-admin-toolkit
+Vcs-Git: http://github.com/chaosdorf/chaosdorf-admin-toolkit.git
+Vcs-Browser: http://github.com/chaosdorf/chaosdorf-admin-toolkit
+
+Package: chaosdorf-admin-toolkit
+Architecture: all
+Depends: ${misc:Depends},
+ etckeeper,
+ htop
+ nagios-plugins-basic,
+ ntp,
+ postfix,
+ vim,
+ zsh
+Description: all-in-one package for Chaosdorf hosts
+ chaosdorf-admin-toolkit depends on several packages commonly used hosts of the
+ Chaos Computer Club Düsseldorf. It also provides tools and configuration files
+ we use like Nagios/Icinga check scripts.
