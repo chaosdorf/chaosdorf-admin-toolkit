@@ -1,0 +1,26 @@
+#!/bin/sh
+# Make sure an MTA is not configured as open relay
+
+if [ -z "$1" ]; then
+	echo 'NORELAY: Invalid invocation'
+	exit 10
+fi
+
+OUT="$(swaks -S 2 -s "$1" -f foo@example.org -t barz@example.org)"
+
+RET=${?}
+
+case ${RET} in
+	24)
+		echo "NORELAY OK: ${OUT}"
+		exit 0
+	;;
+	0)
+		echo 'NORELAY CRITICAL: Mail to derf@chaosdorf.de accepted'
+		exit 2
+	;;
+	*)
+		echo "NORELAY UNKNOWN: ${OUT}"
+		exit 3
+	;;
+esac
