@@ -14,7 +14,7 @@ Package: chaosdorf-admin-toolkit
 Architecture: all
 Depends: ${misc:Depends},
  etckeeper,
- htop
+ htop,
  nagios-plugins-basic,
  ntp,
  postfix,
