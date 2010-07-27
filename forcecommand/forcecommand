@@ -1,0 +1,37 @@
+#!/usr/bin/env perl
+# Copyright © 2010 by Daniel Friesel <derf@chaosdorf.de>
+# License: WTFPL:
+#   0. You just DO WHAT THE FUCK YOU WANT TO.
+#
+# SSH forcecommand to be used for nagios ssh checks etc.
+# Example line for ssh authorized_keys file:
+# command="/usr/local/lib/nagios/forcecommand /etc/nagios/forcecommand.cfg",no-agent-forwarding,no-port-forwarding,no-pty,no-X11-forwarding $key
+#
+# Configfile format:
+# ssh_command = real_command
+# Example:
+# check_users = /usr/lib/nagios/plugins/check_users -w 5 -c 10
+
+use strict;
+use warnings;
+
+my $conffile = shift or die("Usage: $0 <configfile>\n");
+my %commands;
+my $input = $ENV{'SSH_ORIGINAL_COMMAND'} or die("No command\n");;
+
+open(my $conf, '<', $conffile) or die("Can't open $conffile: $!\n");
+
+while (my $line = <$conf>) {
+	my ($key, $value) = split(/ \s* = \s* /x, $line);
+	if ($key and $value) {
+		$commands{$key} = $value;
+	}
+}
+close($conf) or die("Cannot close $conffile: $!\n");
+
+if (exists $commands{$input}) {
+	exec($commands{$input});
+	exit 1;
+}
+
+die("Unknown command\n");
