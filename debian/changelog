@@ -1,3 +1,13 @@
+chaosdorf-admin-toolkit (2010.07.30) unstable; urgency=low
+
+  [ Daniel Friesel ]
+  * Add check_git_status nagios check
+
+  [ Maximilian Gass ]
+  * Add Depends on git-core and sudo
+
+ -- Maximilian Gass <mxey@chaosdorf.de>  Fri, 30 Jul 2010 22:34:14 +0200
+
 chaosdorf-admin-toolkit (2010.07.28) unstable; urgency=low
 
   * Initial release.
