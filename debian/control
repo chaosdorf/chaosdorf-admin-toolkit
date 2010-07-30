@@ -14,10 +14,12 @@ Package: chaosdorf-admin-toolkit
 Architecture: all
 Depends: ${misc:Depends},
  etckeeper,
+ git-core,
  htop,
  nagios-plugins-basic,
  ntp,
  postfix,
+ sudo,
  vim,
  zsh
 Description: all-in-one package for Chaosdorf hosts
