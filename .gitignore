@@ -1,0 +1,4 @@
+/debian/files
+/debian/chaosdorf-admin-toolkit
+/debian/chaosdorf-admin-toolkit.substvars
+/debian/chaosdorf-admin-toolkit.debhelper.log
