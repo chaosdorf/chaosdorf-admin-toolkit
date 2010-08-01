@@ -1,3 +1,13 @@
+chaosdorf-admin-toolkit (2010.08.01) unstable; urgency=low
+
+  [ Daniel Friesel ]
+  * forcecommand.cfg: +/srv/roundup (on frontend)
+  * Add .zshrc
+  * git: Ignore debian build files
+  * forcecommand.cfg: Use mountpoints instead of devices
+
+ -- Daniel Friesel <derf@chaosdorf.de>  Sun, 01 Aug 2010 18:09:44 +0200
+
 chaosdorf-admin-toolkit (2010.07.30) unstable; urgency=low
 
   [ Daniel Friesel ]
