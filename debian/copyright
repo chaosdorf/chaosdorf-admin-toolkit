@@ -1,0 +1,92 @@
+Format-Specification:
+  http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?op=file&rev=135
+
+Files: forcecommand/*, nagios-checks/local/check_git_status
+Copyright: 2010, Daniel Friesel <derf@chaosdorf.de>
+License: WTFPL
+
+Files: nagios-checks/local/check_apt_updates
+Copyright: 2004 SILVER SERVER Gmbh
+           2004, 2005, 2006, 2007, 2008 Peter Palfrader
+License: GPL-2+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ USA
+
+ On Debian systems, the full text of the GNU General Public
+ License version 2 can be found in the file
+ `/usr/share/common-licenses/GPL-2'.
+
+Files: nagios-checks/local/check_cert_expire
+Copyright: 2009 Peter Palfrader
+License: MIT
+
+Files: nagios-checks/local/check_kernel
+Copyright: 2008, 2009 Peter Palfrader
+           2009 Stephen Gran
+           2010 Uli Martens
+License: MIT
+
+Files: nagios-checks/remote/check_rbl
+Copyright: 2007, ETH Zurich.
+           2010, Elan Ruusamae <glen@delfi.ee>.
+License: GPL-3
+ This module is free software; you can redistribute it and/or modify it
+ under the terms of GNU general public license (gpl) version 3.
+
+ On Debian systems, the full text of the GNU General Public
+ License version 3 can be found in the file
+ `/usr/share/common-licenses/GPL-3'.
+
+
+Files: dotfiles/*, debian/*
+Copyright: 2010, Maximilian Gass <mxey@chaosdorf.de>
+           2010, Daniel Friesel <derf@chaosdorf.de>
+License: WTFPL
+
+License: MIT
+ Permission is hereby granted, free of charge, to any person obtaining
+ a copy of this software and associated documentation files (the
+ "Software"), to deal in the Software without restriction, including
+ without limitation the rights to use, copy, modify, merge, publish,
+ distribute, sublicense, and/or sell copies of the Software, and to
+ permit persons to whom the Software is furnished to do so, subject to
+ the following conditions:
+
+ The above copyright notice and this permission notice shall be
+ included in all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+License: WTFPL
+            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+                    Version 2, December 2004
+
+ Copyright (C) 2004 Sam Hocevar
+  14 rue de Plaisance, 75014 Paris, France
+ Everyone is permitted to copy and distribute verbatim or modified
+ copies of this license document, and changing it is allowed as long
+ as the name is changed.
+
+            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+
+  0. You just DO WHAT THE FUCK YOU WANT TO.
