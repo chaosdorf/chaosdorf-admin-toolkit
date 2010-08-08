@@ -1,0 +1,13 @@
+Collection of scripts and configs for Chaosdorf servers
+<http://www.chaosdorf.de/projekte/admin-toolkit/>
+
+This is a Debian package used on all Chaosdorf hosts.
+
+It ships configs and scripts used on all hosts (such as root's .zshrc and a
+few nagios checks); it also makes the setup of new hosts easier by depending
+on a few Debian packages we use on all hosts.
+
+You'll probably only be interested in the scripts in this repo, but if you
+want to build the Debian package for some reason, use:
+
+> git-buildpackage -us -uc
