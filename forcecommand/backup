@@ -1,0 +1,13 @@
+packages  = dpkg --get-selections
+etc       = tar -C / -cf - etc
+home      = tar -C / -cf - home
+srv       = tar -C / -cf - srv
+root      = tar -C / -cf - root
+var_log   = tar -C / -cf - var/log
+usr_local = tar -C / -cf - usr/local
+var_local = tar -C / -cf - var/local
+
+var_mail  = tar -C / -cf - var/mail
+cron      = tar -C / -cf - var/spool/cron
+ldap      = slapcat
+sqldump   = sh sqldump.sh
