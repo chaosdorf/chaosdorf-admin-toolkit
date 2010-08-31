@@ -76,3 +76,4 @@ PS2="${head}%_>${tail}"
 PS3="${head}?#${tail}"
 PS4="+%N:%i:%_> "
 
+zstyle ':completion:*' menu select=1
