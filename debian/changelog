@@ -1,3 +1,18 @@
+chaosdorf-admin-toolkit (2010.09.11) unstable; urgency=low
+
+  [ Daniel Friesel ]
+  * Add README
+  * Add forcecommand for backups
+  * zshrc: Enable menu completion
+
+  [ Maximilian Gass ]
+  * debian/copyright: Update FSF mail address
+  * Add check_libs
+  * debian/install: fix path for forcecommand configuration files
+  * Add Lintian override for file-in-unusual-dir root/.zshrc
+
+ -- Maximilian Gass <mxey@chaosdorf.de>  Sat, 11 Sep 2010 13:11:11 +0200
+
 chaosdorf-admin-toolkit (2010.08.07) unstable; urgency=low
 
   [ Maximilian Gass ]
