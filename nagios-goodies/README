@@ -1,0 +1,20 @@
+These scripts are used to announce icinga status changes to our IRC channel,
+#chaosdorf.  Since it is running on a different host than the icinga itself,
+it is slightly more complex than necessary.
+
+ircport is the AnyEvent-based IRC bot, based on a similar one by Maximilian
+Gass.
+
+notify-chaosdorf is the icinga-notification-script.
+
+The corresponding icinga config snippet:
+
+define command {
+	command_name  notify-host-irc-chaosdorf
+	command_line  /usr/local/lib/nagios/notify/chaosdorf-admins '$NOTIFICATIONTYPE$ host alert: $HOSTNAME$ is $HOSTSTATE$'
+}
+
+define command {
+	command_name  notify-service-irc-chaosdorf
+	command_line  /usr/local/lib/nagios/notify/chaosdorf-admins '$NOTIFICATIONTYPE$ service alert: $HOSTALIAS$/$SERVICEDESC$ is $SERVICESTATE$: $SERVICEOUTPUT$'
+}

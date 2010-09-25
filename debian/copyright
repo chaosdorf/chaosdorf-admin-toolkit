@@ -1,7 +1,7 @@
 Format-Specification:
   http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?op=file&rev=135
 
-Files: forcecommand/*, nagios-checks/local/check_git_status
+Files: forcecommand/*, nagios-checks/local/check_git_status, nagios-goodies/*
 Copyright: 2010, Daniel Friesel <derf@chaosdorf.de>
 License: WTFPL
 

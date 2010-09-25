@@ -1,0 +1,69 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use 5.010;
+
+use AnyEvent;
+use AnyEvent::Handle;
+use AnyEvent::IRC::Client;
+use AnyEvent::Socket;
+
+my $channel = '#chaosdorf';
+
+my $irc = AnyEvent::IRC::Client->new();
+
+sub announce {
+	my ($handle, $line) = @_;
+	$irc->send_chan($channel, 'PRIVMSG', $channel, $line);
+}
+
+tcp_server('10.200.200.2', '6666', sub {
+	my ($fh, $host, $port) = @_;
+	if (not $fh) {
+		say STDERR "Server failure: $!";
+		return;
+	}
+
+	my $handle;
+	$handle = AnyEvent::Handle->new(
+		fh => $fh,
+		on_eof   => sub { undef $handle },
+		on_error => sub { undef $handle },
+	);
+	
+	$handle->push_read(line => sub { announce(@_) });
+});
+
+sub connect_irc {
+	$irc->send_srv('JOIN', $channel);
+	$irc->enable_ssl();
+	$irc->connect('irc.oftc.net', 6697, {
+		nick => 'icinga',
+		user => 'icinga',
+		real => 'icinga on aneurysm.derf0.net',
+	});
+}
+
+sub reconnect_irc {
+	my $timer;
+	$timer = AnyEvent->timer(
+		after => 10,
+		cb => sub { undef $timer; connect_irc() }
+	);
+}
+
+$irc->reg_cb(
+	connect => sub {
+		my ($irc, $err) = @_;
+		if ($err) {
+			reconnect_irc();
+		}
+	},
+	disconnect => sub {
+		reconnect_irc();
+	},
+);
+
+connect_irc();
+AnyEvent->condvar->wait();
