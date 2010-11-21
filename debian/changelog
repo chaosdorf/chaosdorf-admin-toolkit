@@ -1,3 +1,15 @@
+chaosdorf-admin-toolkit (2010.11.16) unstable; urgency=low
+
+  [ Daniel Friesel ]
+  * Add nagios-goodies
+
+  [ Maximilian Gass ]
+  * Replace check_apt_updates with check_packages
+  * Add check_raid
+  * Add cron-apt to dependencies
+
+ -- Maximilian Gass <mxey@chaosdorf.de>  Tue, 16 Nov 2010 20:22:52 +0100
+
 chaosdorf-admin-toolkit (2010.09.11) unstable; urgency=low
 
   [ Daniel Friesel ]

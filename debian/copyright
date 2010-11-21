@@ -5,28 +5,13 @@ Files: forcecommand/*, nagios-checks/local/check_git_status, nagios-goodies/*
 Copyright: 2010, Daniel Friesel <derf@chaosdorf.de>
 License: WTFPL
 
-Files: nagios-checks/local/check_apt_updates
-Copyright: 2004 SILVER SERVER Gmbh
-           2004, 2005, 2006, 2007, 2008 Peter Palfrader
-License: GPL-2+
- This program is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
+Files: nagios-checks/local/check_packages
+Copyright: 2008, 2009 Peter Palfrader <peter@palfrader.org>
+License: MIT
 
- This program is distributed in the hope that it will be useful, but
- WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301,
- USA.
-
- On Debian systems, the full text of the GNU General Public
- License version 2 can be found in the file
- `/usr/share/common-licenses/GPL-2'.
+Files: nagios-checks/local/check_raid
+Copyright: 2003 Thomas Nilsen/Karl DeBisschop
+License: GPL
 
 Files: nagios-checks/local/check_cert_expire
 Copyright: 2009 Peter Palfrader
