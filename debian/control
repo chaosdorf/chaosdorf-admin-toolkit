@@ -13,6 +13,7 @@ Vcs-Browser: http://github.com/chaosdorf/chaosdorf-admin-toolkit
 Package: chaosdorf-admin-toolkit
 Architecture: all
 Depends: ${misc:Depends},
+ cron-apt,
  etckeeper,
  git-core,
  htop,
