@@ -15,3 +15,5 @@ git_usr_local   = /usr/bin/sudo /usr/lib/nagios/plugins/check_git_status /usr/lo
 git_srv_roundup = /usr/bin/sudo /usr/lib/nagios/plugins/check_git_status /srv/roundup
 smart_sda       = /usr/bin/sudo /usr/lib/nagios/plugins/check_ide_smart -d /dev/sda -n
 smart_sdb       = /usr/bin/sudo /usr/lib/nagios/plugins/check_ide_smart -d /dev/sdb -n
+smart_hda       = /usr/bin/sudo /usr/lib/nagios/plugins/check_ide_smart -d /dev/hda -n
+smart_hdc       = /usr/bin/sudo /usr/lib/nagios/plugins/check_ide_smart -d /dev/hdc -n
