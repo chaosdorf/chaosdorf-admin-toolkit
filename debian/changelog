@@ -1,3 +1,13 @@
+chaosdorf-admin-toolkit (2010.12.23) unstable; urgency=low
+
+  [ Maximilian Gass ]
+  * check_ssh_no_password_login: remove use of temporary file
+
+  [ Daniel Friesel ]
+  * forcecommand/nagios: Add SMART checks
+
+ -- Daniel Friesel <derf@chaosdorf.de>  Thu, 23 Dec 2010 18:43:13 +0100
+
 chaosdorf-admin-toolkit (2010.11.16) unstable; urgency=low
 
   [ Daniel Friesel ]
