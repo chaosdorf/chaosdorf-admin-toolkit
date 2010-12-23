@@ -1,8 +1,6 @@
 disk_root       = /usr/lib/nagios/plugins/check_disk -w 20% -c 10% -p /
 disk_home       = /usr/lib/nagios/plugins/check_disk -w 20% -c 10% -p /home
 disk_boot       = /usr/lib/nagios/plugins/check_disk -w 20% -c 10% -p /boot
-smart_sda       = /usr/lib/nagios/plugins/check_ide_smart -d /dev/sda -n
-smart_sdb       = /usr/lib/nagios/plugins/check_ide_smart -d /dev/sdb -n
 libs            = /usr/lib/nagios/plugins/check_libs
 load            = /usr/lib/nagios/plugins/check_load -w 15,10,5 -c 30,25,20
 processes       = /usr/lib/nagios/plugins/check_procs -w 150 -c 200
@@ -15,3 +13,5 @@ certificate     = /usr/lib/nagios/plugins/check_cert_expire /etc/ssl/chaosdorf.c
 git_etc         = /usr/bin/sudo /usr/lib/nagios/plugins/check_git_status /etc
 git_usr_local   = /usr/bin/sudo /usr/lib/nagios/plugins/check_git_status /usr/local
 git_srv_roundup = /usr/bin/sudo /usr/lib/nagios/plugins/check_git_status /srv/roundup
+smart_sda       = /usr/bin/sudo /usr/lib/nagios/plugins/check_ide_smart -d /dev/sda -n
+smart_sdb       = /usr/bin/sudo /usr/lib/nagios/plugins/check_ide_smart -d /dev/sdb -n
