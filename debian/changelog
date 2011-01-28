@@ -1,3 +1,17 @@
+chaosdorf-admin-toolkit (2011.01.28) unstable; urgency=low
+
+  [ Daniel Friesel ]
+  * Fix forcecommand for nagios. Whoops.
+  * forcecommand/nagios: Add smart checks for figurehead
+
+  [ Maximilian Gass ]
+  * forcecommand/nagios: Use sudo for check_libs
+
+  [ Daniel Friesel ]
+  * forcecommand/nagios: Adjust check thresholds
+
+ -- Daniel Friesel <derf@chaosdorf.de>  Fri, 28 Jan 2011 19:20:41 +0100
+
 chaosdorf-admin-toolkit (2010.12.23) unstable; urgency=low
 
   [ Maximilian Gass ]
