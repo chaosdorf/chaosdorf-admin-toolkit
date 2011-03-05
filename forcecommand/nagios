@@ -1,6 +1,8 @@
 disk_root       = /usr/lib/nagios/plugins/check_disk -w 12% -c 5% -p /
 disk_home       = /usr/lib/nagios/plugins/check_disk -w 5% -c 2% -p /home
 disk_boot       = /usr/lib/nagios/plugins/check_disk -w 12% -c 5% -p /boot
+hddtemp_sda     = /usr/lib/nagios/plugins/check_hddtemp /dev/sda 50 60
+hddtemp_sdb     = /usr/lib/nagios/plugins/check_hddtemp /dev/sdb 50 60
 libs            = /usr/bin/sudo /usr/lib/nagios/plugins/check_libs
 load            = /usr/lib/nagios/plugins/check_load -w 15,10,5 -c 30,25,20
 processes       = /usr/lib/nagios/plugins/check_procs -w 150 -c 200
