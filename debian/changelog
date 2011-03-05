@@ -1,3 +1,9 @@
+chaosdorf-admin-toolkit (2011.03.05) unstable; urgency=low
+
+  * Add Nagios check for hard disk temperature
+
+ -- Daniel Friesel <derf@chaosdorf.de>  Sat, 05 Mar 2011 22:00:23 +0100
+
 chaosdorf-admin-toolkit (2011.01.28) unstable; urgency=low
 
   [ Daniel Friesel ]
