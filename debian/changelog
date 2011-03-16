@@ -1,3 +1,9 @@
+chaosdorf-admin-toolkit (2011.03.16) unstable; urgency=low
+
+  * forcecommand/nagios: Adjust limits
+
+ -- Daniel Friesel <derf@chaosdorf.de>  Wed, 16 Mar 2011 17:32:23 +0100
+
 chaosdorf-admin-toolkit (2011.03.05) unstable; urgency=low
 
   * Add Nagios check for hard disk temperature
