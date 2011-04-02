@@ -1,0 +1,124 @@
+#!/usr/bin/env perl
+## Copyright © 2011 by Daniel Friesel <derf@finalrewind.org>
+## License: WTFPL:
+##   0. You just DO WHAT THE FUCK YOU WANT TO.
+use strict;
+use warnings;
+use 5.010;
+
+use LWP::UserAgent;
+
+my $ua = LWP::UserAgent->new(
+	requests_redirectable => [],
+	timeout => 10,
+);
+my ($test, @passed, @failed);
+
+sub pass {
+	push(@passed, $test);
+}
+
+sub fail {
+	push(@failed, $test);
+}
+
+sub check_redirect {
+	my (%pairs) = @_;
+
+	while (my ($from, $to) = each(%pairs)) {
+		my $response = $ua->get($from);
+
+		$test = "Redirect $from => $to";
+
+		if (
+				$response->code() == 301
+				and $response->header('Location') eq $to
+		) {
+			pass();
+		}
+		else {
+			fail();
+		}
+	}
+}
+
+sub check_ok {
+	my (@sites) = @_;
+
+	for my $site (@sites) {
+		my $response = $ua->get($site);
+
+		$test = "$site exists (and is no redirect)";
+
+		if (
+				$response->code() == 200
+		) {
+			pass();
+		}
+		else {
+			fail();
+		}
+	}
+}
+
+sub check_auth_required {
+	my (@sites) = @_;
+
+	for my $site (@sites) {
+		my $response = $ua->get($site);
+
+		$test = "$site requires auth";
+
+		if (
+				$response->code() == 401
+		) {
+			pass();
+		}
+		else {
+			fail();
+		}
+	}
+}
+
+sub finish_tests {
+	if (@failed == 0) {
+		printf(
+			"All %d tests OK\n",
+			scalar @passed,
+		);
+		exit 0;
+	}
+	else {
+		printf(
+			"WARNING: %d/%d tests failed: %s\n",
+			scalar @failed,
+			(@passed + @failed),
+			join(qq{; }, @failed),
+		);
+		exit 1;
+	}
+}
+
+check_ok(qw(
+	http://www.chaosdorf.de/
+	http://www.intercensor.org/
+	http://eh2002.chaosdorf.de/
+));
+
+check_redirect(
+	'http://chaosdorf.de/'              => 'http://www.chaosdorf.de/',
+	'http://duesseldorf.ccc.de/'        => 'http://www.chaosdorf.de/',
+	'http://eh02.easterhegg.eu/'        => 'http://eh2002.chaosdorf.de/',
+	'http://intercensor.org/'           => 'http://www.intercensor.org/',
+	'http://intern.chaosdorf.de/'       => 'https://intern.chaosdorf.de/',
+	'http://www.chaosdorf.de/cgi-bin/ikiwiki.cgi'
+		=> 'https://www.chaosdorf.de/cgi-bin/ikiwiki.cgi',
+	'http://www.chaosdorf.de/sympa'     => 'https://www.chaosdorf.de/sympa',
+);
+
+check_auth_required(qw(
+	https://intern.chaosdorf.de
+	https://www.chaosdorf.de/cgi-bin/ikiwiki.cgi
+));
+
+finish_tests();
