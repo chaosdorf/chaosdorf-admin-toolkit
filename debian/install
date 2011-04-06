@@ -2,4 +2,3 @@ forcecommand/forcecommand usr/lib/nagios/
 forcecommand/nagios etc/forcecommand/
 forcecommand/backup etc/forcecommand/
 nagios-checks/local/* usr/lib/nagios/plugins/
-dotfiles/.zshrc root/

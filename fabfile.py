@@ -22,5 +22,6 @@ def deploy(version):
 
 def configs():
 	check_etc()
+	put('dotfiles/zshrc', '/root/.zshrc')
 	put('etckeeper/etckeeper.conf', '/etc/etckeeper/')
 	run('etckeeper commit "chaosdorf-admin-toolkit configfile updates"')

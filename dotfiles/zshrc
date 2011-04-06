@@ -1,3 +1,6 @@
+# managed by chaosdorf-admin-toolkit
+# only edit in the git repo
+
 autoload -U compinit
 compinit
 
