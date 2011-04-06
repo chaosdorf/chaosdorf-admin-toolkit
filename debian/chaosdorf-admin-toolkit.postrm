@@ -1,8 +1,0 @@
-#!/bin/sh -e
-
-if [ "$1" = remove -o "$1" = abort-install -o "$1" = disappear ]; then
-	dpkg-divert --package chaosdorf-admin-toolkit --rename --remove \
-		/etc/etckeeper/etckeeper.conf
-fi
-
-#DEBHELPER#

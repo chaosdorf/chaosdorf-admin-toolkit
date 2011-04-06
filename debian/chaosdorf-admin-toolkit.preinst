@@ -1,9 +1,0 @@
-#!/bin/sh -e
-
-if [ "$1" = install -o "$1" = upgrade ]; then
-	dpkg-divert --package chaosdorf-admin-toolkit --add --rename --divert \
-		/etc/etckeeper/etckeeper.conf.etckeeper \
-		/etc/etckeeper/etckeeper.conf
-fi
-
-#DEBHELPER#

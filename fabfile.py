@@ -14,3 +14,6 @@ def deploy(version):
 	run("dpkg --install /tmp/chaosdorf-admin-toolkit_%s_all.deb" % version)
 	run('etckeeper post-install')
 	run("rm /tmp/chaosdorf-admin-toolkit_%s_all.deb" % version)
+
+def configs():
+	put('etckeeper/etckeeper.conf', '/etc/etckeeper/')
