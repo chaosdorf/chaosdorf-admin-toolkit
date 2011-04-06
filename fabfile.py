@@ -8,9 +8,9 @@ env.hosts = [
 	'root@vm.chaosdorf.de',
 ]
 
-def deploy(file):
-	put("../%s" % file, '/tmp/')
+def deploy(version):
+	put("../chaosdorf-admin-toolkit_%s_all.deb" % version, '/tmp/')
 	run('etckeeper pre-install')
-	run("dpkg --install /tmp/%s" % file)
+	run("dpkg --install /tmp/chaosdorf-admin-toolkit_%s_all.deb" % version)
 	run('etckeeper post-install')
-	run("rm /tmp/%s" % file)
+	run("rm /tmp/chaosdorf-admin-toolkit_%s_all.deb" % version)
