@@ -1,3 +1,4 @@
+etckeeper/etckeeper.conf etc/etckeeper
 forcecommand/forcecommand usr/lib/nagios/
 forcecommand/nagios etc/forcecommand/
 forcecommand/backup etc/forcecommand/
