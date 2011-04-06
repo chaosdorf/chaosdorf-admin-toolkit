@@ -1,3 +1,11 @@
+chaosdorf-admin-toolkit (2011.04.06) unstable; urgency=low
+
+  * forcecommand: Support fuer Befehlszeilen mit Gleichheitszeichen
+  * Add nagios check for websites (redirects etc)
+  * forcecommand/nagios: Sort, add sensors check
+
+ -- Daniel Friesel <derf@chaosdorf.de>  Wed, 06 Apr 2011 13:03:44 +0200
+
 chaosdorf-admin-toolkit (2011.03.16) unstable; urgency=low
 
   * forcecommand/nagios: Adjust limits
