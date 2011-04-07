@@ -1,3 +1,4 @@
+from __future__ import with_statement
 from fabric.api import *
 
 env.hosts = [
@@ -10,18 +11,65 @@ env.hosts = [
 
 env.shell = '/bin/sh -c'
 
-def check_etc():
-	run('etckeeper pre-install')
+def run_or_sudo(command, use_sudo):
+	if use_sudo:
+		sudo(command)
+	else:
+		run(command)
 
-def deploy(version):
-	check_etc()
-	put("../chaosdorf-admin-toolkit_%s_all.deb" % version, '/tmp/')
-	run("dpkg --install /tmp/chaosdorf-admin-toolkit_%s_all.deb" % version)
-	run('etckeeper post-install')
-	run("rm /tmp/chaosdorf-admin-toolkit_%s_all.deb" % version)
+def etckeeper_check(use_sudo=False):
+	run_or_sudo('etckeeper pre-install', use_sudo)
+
+def etckeeper_commit(message, use_sudo=False):
+	run_or_sudo('if etckeeper unclean; then etckeeper commit "%s"; fi' % message,
+		use_sudo)
+
+def etckeeper_done(use_sudo=False):
+	run_or_sudo('etckeeper post-install', use_sudo)
+
+# Fabric >= 1.0 can use sudo in put. However, thanks to
+# <http://code.fabfile.org/issues/show/320>, this does not help me at all.
+# So, I'll stick with 0.9.3 and use this instead. --derf
+def put_sudo(local, remote):
+	tmp = "/home/derf/fabtmp"
+	put(local, tmp)
+	sudo("mv %s %s" % (tmp, remote))
+	sudo("chmod a+rX %s" % remote)
+
+def put_icinga_check(name):
+	put_sudo(
+		"nagios-checks/remote/check_%s" % name,
+		"/usr/local/lib/nagios/plugins/check_%s" % name,
+	)
+
+def put_icinga_config(name):
+	put_sudo(
+		"nagios-checks/remote/%s.ini" % name,
+		"/etc/nagios/%s.ini" % name,
+	)
+
 
 def configs():
-	check_etc()
+	etckeeper_check()
 	put('dotfiles/zshrc', '/root/.zshrc')
 	put('etckeeper/etckeeper.conf', '/etc/etckeeper/')
-	run('etckeeper commit "chaosdorf-admin-toolkit configfile updates"')
+	etckeeper_commit('chaosdorf-admin-toolkit configfile updates')
+
+def deploy(version):
+	etckeeper_check()
+	put("../chaosdorf-admin-toolkit_%s_all.deb" % version, '/tmp/')
+	run("dpkg --install /tmp/chaosdorf-admin-toolkit_%s_all.deb" % version)
+	etckeeper_done()
+	run("rm /tmp/chaosdorf-admin-toolkit_%s_all.deb" % version)
+
+# Only for derf ;-)
+@hosts('aneurysm')
+def icinga():
+	etckeeper_check(use_sudo=True)
+	put_icinga_check('mail_no_relay')
+	put_icinga_check('rbl')
+	put_icinga_check('ssh_no_password_login')
+	put_icinga_check('websites')
+	put_icinga_config('chaosdorf_websites')
+	etckeeper_commit('Icinga config updates from chaosdorf-admin-toolkit',
+		use_sudo=True)
