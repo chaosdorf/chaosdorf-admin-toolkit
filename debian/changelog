@@ -1,3 +1,18 @@
+chaosdorf-admin-toolkit (2011.04.07) unstable; urgency=low
+
+  * Add fabfile
+  * Simplify fabfile (-> "fab deploy:2011.04.06" or similar)
+  * Try to add etckeeper.conf (with dpkg-divert) - not working yet
+  * Manage etckeeper.conf via fabric
+  * fabfile: Various improvements
+  * Install root's .zshrc via fabric instead of the debian package
+  * check_websites: Rewrite mit Nagios::Plugin, externe Config
+  * fabfile: Add task to update my icinga checks/configs
+  * Add check_ikiwiki
+  * Enable ikiwiki checks in forcecommand
+
+ -- Daniel Friesel <derf@chaosdorf.de>  Thu, 07 Apr 2011 22:25:14 +0200
+
 chaosdorf-admin-toolkit (2011.04.06) unstable; urgency=low
 
   * forcecommand: Support fuer Befehlszeilen mit Gleichheitszeichen
