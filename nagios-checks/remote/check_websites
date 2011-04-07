@@ -7,12 +7,34 @@ use warnings;
 use 5.010;
 
 use LWP::UserAgent;
+use Nagios::Plugin;
 
 my $ua = LWP::UserAgent->new(
 	requests_redirectable => [],
 	timeout => 10,
 );
 my ($test, @passed, @failed);
+
+my $nag = Nagios::Plugin->new(
+	usage => 'Usage: %s [-v|--verbose] [-H|--host <host>] '
+	       . '[-t|--timeout <timeout>]',
+);
+
+$nag->add_arg(
+	spec => 'auth|a=s@',
+	help => 'Verify that URL requires auth (HTTP 401)',
+);
+
+$nag->add_arg(
+	spec => 'ok|o=s@',
+	help => 'Verify that URL exists (HTTP 200)',
+);
+
+$nag->add_arg(
+	spec  => 'redirect|r=s@',
+	help  => 'Verify that FROM is a redirect (HTTP 301) to TO',
+	label => '"FROM TO"',
+);
 
 sub pass {
 	push(@passed, $test);
@@ -50,9 +72,24 @@ sub check_ok {
 
 		$test = "$site exists (and is no redirect)";
 
-		if (
-				$response->code() == 200
-		) {
+		if ($response->code() == 200) {
+			pass();
+		}
+		else {
+			fail();
+		}
+	}
+}
+
+sub check_exist {
+	my (@urls) = @_;
+
+	for my $url (@urls) {
+		my $response = $ua->get($url);
+
+		$test = "$url exists (no 404)";
+
+		if ($response->code() ~~ [qw[200 301]]) {
 			pass();
 		}
 		else {
@@ -69,9 +106,7 @@ sub check_auth_required {
 
 		$test = "$site requires auth";
 
-		if (
-				$response->code() == 401
-		) {
+		if ($response->code() == 401) {
 			pass();
 		}
 		else {
@@ -82,43 +117,51 @@ sub check_auth_required {
 
 sub finish_tests {
 	if (@failed == 0) {
-		printf(
-			"All %d tests OK\n",
-			scalar @passed,
+		$nag->nagios_exit(
+			OK,
+			sprintf(
+				'All %d tests OK',
+				scalar @passed,
+			),
 		);
-		exit 0;
 	}
 	else {
-		printf(
-			"WARNING: %d/%d tests failed: %s\n",
-			scalar @failed,
-			(@passed + @failed),
-			join(qq{; }, @failed),
+		$nag->nagios_exit(
+			WARNING,
+			sprintf(
+				'%d/%d tests failed: %s',
+				scalar @failed,
+				(@passed + @failed),
+				join(qq{; }, @failed),
+			),
 		);
 		exit 1;
 	}
 }
 
-check_ok(qw(
-	http://www.chaosdorf.de/
-	http://www.intercensor.org/
-	http://eh2002.chaosdorf.de/
-));
+$nag->getopts();
 
-check_redirect(
-	'http://chaosdorf.de/'              => 'http://www.chaosdorf.de/',
-	'http://duesseldorf.ccc.de/'        => 'http://www.chaosdorf.de/',
-	'http://eh02.easterhegg.eu/'        => 'http://eh2002.chaosdorf.de/',
-	'http://intercensor.org/'           => 'http://www.intercensor.org/',
-	'http://intern.chaosdorf.de/'       => 'https://intern.chaosdorf.de/',
-	'http://www.chaosdorf.de/cgi-bin/ikiwiki.cgi'
-		=> 'https://www.chaosdorf.de/cgi-bin/ikiwiki.cgi',
-	'http://www.chaosdorf.de/sympa'     => 'https://www.chaosdorf.de/sympa',
-);
+if ($nag->opts()->auth()) {
+	for my $url (@{ $nag->opts()->auth() }) {
+		check_auth_required($url);
+	}
+}
 
-check_auth_required(qw(
-	https://intern.chaosdorf.de
-	https://www.chaosdorf.de/cgi-bin/ikiwiki.cgi
-));
+if ($nag->opts()->ok()) {
+	for my $url (@{ $nag->opts()->ok() }) {
+		check_ok($url);
+	}
+}
+
+if ($nag->opts()->redirect()) {
+	for my $pair (@{ $nag->opts()->redirect() }) {
+		my ($from, $to) = split(qr{\s+}o, $pair);
+
+		$from =~ s{ ^ ["'] }{}ox;
+		$to =~ s{ ["'] $ }{}ox;
+
+		check_redirect($from => $to);
+	}
+}
 
 finish_tests();
