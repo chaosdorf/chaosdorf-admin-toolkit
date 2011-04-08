@@ -51,10 +51,10 @@ def configs():
 
 def deploy(version):
 	etckeeper_check()
-	put("../chaosdorf-admin-toolkit_%s_all.deb" % version, '/tmp/')
-	run("dpkg --install /tmp/chaosdorf-admin-toolkit_%s_all.deb" % version)
+	put("../chaosdorf-admin-toolkit_%s_all.deb" % version, '/root/')
+	run("dpkg --install /root/chaosdorf-admin-toolkit_%s_all.deb" % version)
+	run("rm /root/chaosdorf-admin-toolkit_%s_all.deb" % version)
 	etckeeper_done()
-	run("rm /tmp/chaosdorf-admin-toolkit_%s_all.deb" % version)
 
 # Only for derf ;-)
 @hosts('aneurysm')
