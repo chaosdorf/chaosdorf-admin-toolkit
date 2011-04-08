@@ -1,0 +1,10 @@
+#!/bin/sh
+## Copyright © 2011 by Daniel Friesel <derf@finalrewind.org>
+## License: WTFPL:
+##   0. You just DO WHAT THE FUCK YOU WANT TO.
+#
+# Stupid check_http wrapper which does not require the auth password on the
+# command line
+
+exec /usr/lib/nagios/plugins/check_http \
+	--authorization="$(cat /etc/nagios/chaosdorf_login)" "$@"

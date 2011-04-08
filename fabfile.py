@@ -60,6 +60,7 @@ def deploy(version):
 @hosts('aneurysm')
 def icinga():
 	etckeeper_check(use_sudo=True)
+	put_icinga_check('http_authed')
 	put_icinga_check('mail_no_relay')
 	put_icinga_check('rbl')
 	put_icinga_check('ssh_no_password_login')
