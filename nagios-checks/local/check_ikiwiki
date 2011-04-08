@@ -21,9 +21,27 @@ $np->add_arg(
 	required => 1,
 );
 
+$np->add_arg(
+	spec => 'group|g=s',
+	help => 'group the ikiwiki files should be owned by',
+);
+
+$np->add_arg(
+	spec => 'user|u=s',
+	help => 'user the ikiwiki files should be owned by',
+);
+
 $np->getopts();
 
 IkiWiki::Setup::load($np->opts()->config());
+
+my ($uid, $gid);
+if ($np->opts()->group()) {
+	$gid = getgrnam($np->opts()->group());
+}
+if ($np->opts()->user()) {
+	$uid = getpwnam($np->opts()->user());
+}
 
 my (@passed, @failed, $test);
 
@@ -39,7 +57,7 @@ my $tests = [
 	{
 		text => 'cgi_wrapper defined if cgiurl defined',
 		code => sub { length($config{'cgi_wrapper'}) },
-		depends => [qw[ cgiurl ]],
+		depends => [ $config{'cgiurl'} ],
 	},
 	{
 		# All our wikis are git-based, so git_wrapper _must_ be defined
@@ -55,7 +73,7 @@ my $tests = [
 				$config{'cgi_wrapper'},
 				$config{'cgi_wrappermode'},
 		) },
-		depends => [qw[ cgi_wrapper ]],
+		depends => [ $config{'cgi_wrapper'} ],
 	},
 	{
 		text => 'git wrapper has correct mode',
@@ -63,12 +81,28 @@ my $tests = [
 				$config{'git_wrapper'},
 				$config{'git_wrappermode'},
 		) },
-		depends => [qw[ git_wrapper ]],
+		depends => [ $config{'git_wrapper'} ],
 	},
 	{
 		text => 'omega plugin cgi exists',
 		code => sub { -e $config{'omega_cgi'} },
-		depends => [qw[ omega_cgi ]],
+		depends => [ $config{'omega_cgi'} ],
+	},
+	{
+		text => 'cgi wrapper has correct owner',
+		code => sub {
+			my ($s_uid, $s_gid) = (stat($config{'cgi_wrapper'}))[4, 5];
+			return ($s_uid == $uid and $s_gid == $gid);
+		},
+		depends => [ $config{'cgi_wrapper'}, $uid, $gid],
+	},
+	{
+		text => 'git wrapper has correct owner',
+		code => sub {
+			my ($s_uid, $s_gid) = (stat($config{'git_wrapper'}))[4, 5];
+			return ($s_uid == $uid and $s_gid == $gid);
+		},
+		depends => [ $config{'git_wrapper'}, $uid, $gid],
 	},
 ];
 
@@ -96,8 +130,8 @@ CHECK: for my $check (@{ $tests }) {
 	verbose('check ' . $check->{'text'});
 
 	if ($check->{'depends'}) {
-		for my $key (@{ $check->{'depends'} }) {
-			if (not (defined $config{$key} and length($config{$key}))) {
+		for my $value (@{ $check->{'depends'} }) {
+			if (not (defined $value and length($value))) {
 				verbose('      skipped (depends not satisfied)');
 				next CHECK;
 			}
