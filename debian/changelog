@@ -1,3 +1,19 @@
+chaosdorf-admin-toolkit (2011.04.08) unstable; urgency=low
+
+  * Add dependency on libnagios-plugin-perl
+  * Add icinga chaosdorf.cfg
+  * Extend website checks
+  * fab icinga: Leave system in a clean state if something fails
+  * Add custom nagios check definitions
+  * check_ikiwiki: Make sure git_wrapper (and possibly cgi_wrapper) are defined
+  * check_ikiwiki: Add verbose mode
+  * check_websites: Minor improvements
+  * Add intern.chaosdorf.de checks
+  * check_ikiwiki: Check for UID/GID of wrappers as well
+  * fab deploy: Put .deb into /root/ instead of /tmp/
+
+ -- Daniel Friesel <derf@chaosdorf.de>  Fri, 08 Apr 2011 19:16:58 +0200
+
 chaosdorf-admin-toolkit (2011.04.07) unstable; urgency=low
 
   * Add fabfile
