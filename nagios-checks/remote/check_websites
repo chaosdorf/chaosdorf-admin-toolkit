@@ -32,8 +32,8 @@ $nag->add_arg(
 
 $nag->add_arg(
 	spec  => 'redirect|r=s@',
-	help  => 'Verify that FROM is a redirect (HTTP 301) to TO',
-	label => '"FROM TO"',
+	help  => 'Verify that FROM is a redirect (HTTP 301 by default) to TO',
+	label => '"FROM TO [HTTP CODE]"',
 );
 
 sub pass {
@@ -45,7 +45,7 @@ sub fail {
 }
 
 sub check_redirect {
-	my (%pairs) = @_;
+	my ($code, %pairs) = @_;
 
 	while (my ($from, $to) = each(%pairs)) {
 		my $response = $ua->get($from);
@@ -53,7 +53,7 @@ sub check_redirect {
 		$test = "Redirect $from => $to";
 
 		if (
-				$response->code() == 301
+				$response->code() == $code
 				and $response->header('Location') eq $to
 		) {
 			pass();
@@ -155,12 +155,13 @@ if ($nag->opts()->ok()) {
 
 if ($nag->opts()->redirect()) {
 	for my $pair (@{ $nag->opts()->redirect() }) {
-		my ($from, $to) = split(qr{\s+}o, $pair);
+		$pair =~ s{ ^ ["'] }{}ox;
+		$pair =~ s{ ["'] $ }{}ox;
 
-		$from =~ s{ ^ ["'] }{}ox;
-		$to =~ s{ ["'] $ }{}ox;
+		my ($from, $to, $code) = split(qr{\s+}o, $pair);
+		$code //= 301;
 
-		check_redirect($from => $to);
+		check_redirect($code, $from => $to);
 	}
 }
 
