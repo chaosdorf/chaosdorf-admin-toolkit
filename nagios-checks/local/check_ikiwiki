@@ -37,6 +37,19 @@ my $tests = [
 		code => sub { -e $config{'destdir'} },
 	},
 	{
+		text => 'cgi_wrapper defined if cgiurl defined',
+		code => sub { length($config{'cgi_wrapper'}) },
+		depends => [qw[ cgiurl ]],
+	},
+	{
+		# All our wikis are git-based, so git_wrapper _must_ be defined
+		text => 'git_wrapper defined',
+		code => sub {
+			defined($config{'git_wrapper'})
+			and length($config{'git_wrapper'})
+		},
+	},
+	{
 		text => 'cgi wrapper has correct mode',
 		code => sub { check_wrapper(
 				$config{'cgi_wrapper'},
