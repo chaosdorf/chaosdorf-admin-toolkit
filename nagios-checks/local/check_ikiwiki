@@ -12,7 +12,7 @@ use IkiWiki::Setup;
 use Nagios::Plugin;
 
 my $np = Nagios::Plugin->new(
-	usage => 'Usage: %s'
+	usage => 'Usage: %s [-v|--verbose] -c|--config <ikiwiki config file>',
 );
 
 $np->add_arg(
@@ -84,20 +84,32 @@ sub check_wrapper {
 	return ($mode_on_fs == $mode);
 }
 
+sub verbose {
+	my ($str) = @_;
+	if ($np->opts()->verbose()) {
+		say $str;
+	}
+}
+
 CHECK: for my $check (@{ $tests }) {
+
+	verbose('check ' . $check->{'text'});
 
 	if ($check->{'depends'}) {
 		for my $key (@{ $check->{'depends'} }) {
 			if (not (defined $config{$key} and length($config{$key}))) {
+				verbose('      skipped (depends not satisfied)');
 				next CHECK;
 			}
 		}
 	}
 
 	if (&{ $check->{'code'} }) {
+		verbose('      passed');
 		push(@passed, $check->{'text'});
 	}
 	else {
+		verbose('      failed');
 		push(@failed, $check->{'text'});
 	}
 }
