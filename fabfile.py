@@ -42,12 +42,6 @@ def put_icinga_check(name):
 		"/usr/local/lib/nagios/plugins/check_%s" % name,
 	)
 
-def put_icinga_config(name):
-	put_sudo(
-		"nagios-checks/remote/%s.ini" % name,
-		"/etc/nagios/%s.ini" % name,
-	)
-
 
 def configs():
 	etckeeper_check()
@@ -70,6 +64,9 @@ def icinga():
 	put_icinga_check('rbl')
 	put_icinga_check('ssh_no_password_login')
 	put_icinga_check('websites')
-	put_icinga_config('chaosdorf_websites')
+	put_sudo('icinga/chaosdorf_websites.ini',
+		'/etc/nagios/chaosdorf_websites.ini')
+	put_sudo('icinga/chaosdorf.cfg', '/etc/icinga/objects/chaosdorf.cfg')
+	sudo('/etc/init.d/icinga reload')
 	etckeeper_commit('Icinga config updates from chaosdorf-admin-toolkit',
 		use_sudo=True)
