@@ -15,33 +15,46 @@ my $ua = LWP::UserAgent->new(
 );
 my ($test, @passed, @failed);
 
-my $nag = Nagios::Plugin->new(
+my $np = Nagios::Plugin->new(
 	usage => 'Usage: %s [-v|--verbose] [-H|--host <host>] '
 	       . '[-t|--timeout <timeout>]',
 );
 
-$nag->add_arg(
+$np->add_arg(
 	spec => 'auth|a=s@',
 	help => 'Verify that URL requires auth (HTTP 401)',
 );
 
-$nag->add_arg(
+$np->add_arg(
 	spec => 'ok|o=s@',
 	help => 'Verify that URL exists (HTTP 200)',
 );
 
-$nag->add_arg(
+$np->add_arg(
 	spec  => 'redirect|r=s@',
 	help  => 'Verify that FROM is a redirect (HTTP 301 by default) to TO',
 	label => '"FROM TO [HTTP CODE]"',
 );
 
+sub test {
+	($test) = @_;
+	if ($np->opts()->verbose()) {
+		say "check ${test}";
+	}
+}
+
 sub pass {
 	push(@passed, $test);
+	if ($np->opts()->verbose()) {
+		say '      passed';
+	}
 }
 
 sub fail {
 	push(@failed, $test);
+	if ($np->opts()->verbose()) {
+		say '      failed';
+	}
 }
 
 sub check_redirect {
@@ -50,7 +63,7 @@ sub check_redirect {
 	while (my ($from, $to) = each(%pairs)) {
 		my $response = $ua->get($from);
 
-		$test = "Redirect $from => $to";
+		test("Redirect (HTTP $code) $from => $to");
 
 		if (
 				$response->code() == $code
@@ -70,7 +83,7 @@ sub check_ok {
 	for my $site (@sites) {
 		my $response = $ua->get($site);
 
-		$test = "$site exists (and is no redirect)";
+		test("$site exists (HTTP 200)");
 
 		if ($response->code() == 200) {
 			pass();
@@ -87,7 +100,7 @@ sub check_exist {
 	for my $url (@urls) {
 		my $response = $ua->get($url);
 
-		$test = "$url exists (no 404)";
+		test("$url exists (no 404)");
 
 		if ($response->code() ~~ [qw[200 301]]) {
 			pass();
@@ -104,7 +117,7 @@ sub check_auth_required {
 	for my $site (@sites) {
 		my $response = $ua->get($site);
 
-		$test = "$site requires auth";
+		test("$site requires auth (HTTP 401)");
 
 		if ($response->code() == 401) {
 			pass();
@@ -117,44 +130,44 @@ sub check_auth_required {
 
 sub finish_tests {
 	if (@failed == 0) {
-		$nag->nagios_exit(
+		$np->nagios_exit(
 			OK,
 			sprintf(
-				'All %d tests OK',
+				'All %d subchecks passed',
 				scalar @passed,
 			),
 		);
 	}
 	else {
-		$nag->nagios_exit(
+		$np->nagios_exit(
 			WARNING,
 			sprintf(
-				'%d/%d tests failed: %s',
+				'%d/%d subchecks failed: %s',
 				scalar @failed,
 				(@passed + @failed),
-				join(qq{; }, @failed),
+				join(q{; }, @failed),
 			),
 		);
 		exit 1;
 	}
 }
 
-$nag->getopts();
+$np->getopts();
 
-if ($nag->opts()->auth()) {
-	for my $url (@{ $nag->opts()->auth() }) {
+if ($np->opts()->auth()) {
+	for my $url (@{ $np->opts()->auth() }) {
 		check_auth_required($url);
 	}
 }
 
-if ($nag->opts()->ok()) {
-	for my $url (@{ $nag->opts()->ok() }) {
+if ($np->opts()->ok()) {
+	for my $url (@{ $np->opts()->ok() }) {
 		check_ok($url);
 	}
 }
 
-if ($nag->opts()->redirect()) {
-	for my $pair (@{ $nag->opts()->redirect() }) {
+if ($np->opts()->redirect()) {
+	for my $pair (@{ $np->opts()->redirect() }) {
 		$pair =~ s{ ^ ["'] }{}ox;
 		$pair =~ s{ ["'] $ }{}ox;
 
