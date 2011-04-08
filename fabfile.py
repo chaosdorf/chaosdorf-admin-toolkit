@@ -67,10 +67,13 @@ def icinga():
 	put_sudo('icinga/chaosdorf_websites.ini',
 		'/etc/nagios/chaosdorf_websites.ini')
 	put_sudo('icinga/chaosdorf.cfg', '/etc/icinga/objects/chaosdorf.cfg')
+	put_sudo('icinga/checks.cfg', '/etc/nagios-plugins/config/chaosdorf.cfg')
 
-	sudo('if ! /etc/init.d/icinga check; then '
-		+ 'etckeeper vcs checkout icinga/objects/chaosdorf.cfg; '
-		+ 'exit 1; fi')
+	sudo('if ! /etc/init.d/icinga check; then etckeeper vcs checkout '
+		+ 'icinga/objects/chaosdorf.cfg '
+		+ 'nagios/chaosdorf_websites.ini '
+		+ 'nagios-plugins/config/chaosdorf.cfg '
+		+ '; exit 1; fi')
 
 	sudo('/etc/init.d/icinga reload')
 	etckeeper_commit('Icinga config updates from chaosdorf-admin-toolkit',
