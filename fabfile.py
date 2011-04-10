@@ -57,7 +57,7 @@ def deploy(version):
 	etckeeper_done()
 
 # Only for derf ;-)
-@hosts('aneurysm')
+@hosts('derf@derf.homelinux.org')
 def icinga():
 	etckeeper_check(use_sudo=True)
 	put_icinga_check('http_authed')
@@ -69,6 +69,8 @@ def icinga():
 		'/etc/nagios/chaosdorf_websites.ini')
 	put_sudo('icinga/chaosdorf.cfg', '/etc/icinga/objects/chaosdorf.cfg')
 	put_sudo('icinga/checks.cfg', '/etc/nagios-plugins/config/chaosdorf.cfg')
+	put_sudo('nagios-goodies/irc-announce/notify',
+		'/usr/local/lib/nagios/notify/chaosdorf-admins')
 
 	sudo('if ! /etc/init.d/icinga check; then etckeeper vcs checkout '
 		+ 'icinga/objects/chaosdorf.cfg '
@@ -78,4 +80,15 @@ def icinga():
 
 	sudo('/etc/init.d/icinga reload')
 	etckeeper_commit('Icinga config updates from chaosdorf-admin-toolkit',
+		use_sudo=True)
+
+# Same here
+@hosts('steel.derf0.net')
+def announcer():
+	etckeeper_check(use_sudo=True)
+	put_sudo('nagios-goodies/irc-announce/run', '/etc/service/ircport/run')
+	put_sudo('nagios-goodies/irc-announce/ircport',
+		'/usr/local/bin/icinga-irc')
+	sudo('svc -t /etc/service/ircport')
+	etckeeper_commit('icinga-irc updates from chaosdorf-admin-toolkit',
 		use_sudo=True)
