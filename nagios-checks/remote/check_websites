@@ -10,6 +10,7 @@ use LWP::UserAgent;
 use Nagios::Plugin;
 
 my $ua = LWP::UserAgent->new(
+	max_size => 4096,
 	requests_redirectable => [],
 	timeout => 10,
 );
@@ -142,10 +143,10 @@ sub finish_tests {
 		$np->nagios_exit(
 			WARNING,
 			sprintf(
-				'%d/%d subchecks failed: %s',
+				"%d/%d subchecks failed\n%s",
 				scalar @failed,
 				(@passed + @failed),
-				join(q{; }, @failed),
+				join("\n", @failed),
 			),
 		);
 		exit 1;
