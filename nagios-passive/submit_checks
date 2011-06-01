@@ -25,12 +25,13 @@ sub make_sections {
 }
 
 sub run_check {
-	my ($host, $check, $cmd_string) = @_;
+	my ( $host, $check, $cmd_string ) = @_;
 
 	my @cmd = split( / /, $cmd_string );
 	my $out;
 
-	my $harness = harness( \@cmd,
+	my $harness = harness(
+		\@cmd,
 		'<'  => \undef,
 		'>&' => \$out,
 	);
@@ -39,21 +40,17 @@ sub run_check {
 
 	chomp $out;
 
-	return sprintf(
-		"%s\t%s\t%s\t%s\n",
-		$host,
-		$check,
-		$harness->result() || 0,
-		$out,
-	);
+	return sprintf( "%s\t%s\t%s\t%s\n",
+		$host, $check, $harness->result() || 0, $out, );
 }
 
 sub submit_checks {
 	my ($str) = @_;
 
-	my $harness = harness( [qw[send_nsca -H derf.homelinux.org]],
+	my $harness = harness(
+		[qw[send_nsca -H derf.homelinux.org]],
 		'<'  => \$str,
-		'>'  => sub {},
+		'>'  => sub { },
 		'2>' => \*STDERR,
 	);
 
@@ -67,11 +64,11 @@ given ($hostname) {
 	default             { $report_hostname = "${hostname}.chaosdorf.de" }
 }
 
-for my $host (qw( common $report_hostname )) {
+for my $host ( 'common', $report_hostname ) {
 	for my $section ( make_sections( $host, @intervals ) ) {
 		for my $name ( keys %{ $cfg->{$section} // {} } ) {
-			$results .= run_check( $report_hostname,
-			$name, $cfg->{$section}->{$name} );
+			$results .= run_check( $report_hostname, $name,
+				$cfg->{$section}->{$name} );
 		}
 	}
 }

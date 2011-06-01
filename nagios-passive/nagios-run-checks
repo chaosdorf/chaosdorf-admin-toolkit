@@ -3,6 +3,6 @@
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 MAILTO=root
 
-0,5,10,20,25,30,35,40,45,50,55 * * * * nagios /usr/lib/nagios/submit_checks /etc/nagios/passive_checks.cfg
-15 * * * * nagios /usr/lib/nagios/submit_checks /etc/nagios/passive_checks.cfg 60
+0,5,10,20,25,30,35,40,45,50,55 * * * * nagios /usr/lib/nagios/run_checks
+15 * * * * nagios /usr/lib/nagios/run_checks 60
 
