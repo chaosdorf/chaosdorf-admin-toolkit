@@ -5,16 +5,14 @@ use warnings;
 use 5.010;
 
 use Config::Tiny;
-use File::Slurp qw(slurp);
 use IPC::Run qw(harness);
 
 our $VERSION = '0.1';
 
 my $conffile = shift or die("Usage: $0 <config> [intervals]\n");
 
-my $cfg      = Config::Tiny->read($conffile);
-my $hostname = slurp('/etc/hostname');
-my $report_hostname;
+my $cfg       = Config::Tiny->read($conffile);
+my $hostname  = qx{hostname -f};
 my @intervals = @ARGV;
 my $results   = q{};
 
@@ -59,16 +57,11 @@ sub submit_checks {
 
 chomp($hostname);
 
-given ($hostname) {
-	when ('figurehead') { $report_hostname = 'chaosdorf.dyndns.org' }
-	default             { $report_hostname = "${hostname}.chaosdorf.de" }
-}
-
-for my $host ( 'common', $report_hostname ) {
+for my $host ( 'common', $hostname ) {
 	for my $section ( make_sections( $host, @intervals ) ) {
 		for my $name ( keys %{ $cfg->{$section} // {} } ) {
-			$results .= run_check( $report_hostname, $name,
-				$cfg->{$section}->{$name} );
+			$results
+			  .= run_check( $hostname, $name, $cfg->{$section}->{$name} );
 		}
 	}
 }
