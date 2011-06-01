@@ -1,3 +1,13 @@
+chaosdorf-admin-toolkit (2011.06.01) unstable; urgency=low
+
+  * Add 'fab announcer' in case I ever update it
+  * Remove overdone stuff
+  * check_websites: Better readable output, only fetch first 4kB
+  * Switch to passive checks
+  * passive checks: Sleep up to one minute before running
+
+ -- Daniel Friesel <derf@chaosdorf.de>  Wed, 01 Jun 2011 16:15:51 +0200
+
 chaosdorf-admin-toolkit (2011.04.08) unstable; urgency=low
 
   * Add dependency on libnagios-plugin-perl
