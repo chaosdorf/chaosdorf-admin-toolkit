@@ -67,31 +67,93 @@ __END__
 
 =head1 NAME
 
+submit_checks - Run local nagios checks and submit as passive results via nsca
+
 =head1 SYNOPSIS
+
+B<submit_checks> I<conffile> [I<intervals ...>]
 
 =head1 VERSION
 
+version 0.1
+
 =head1 DESCRIPTION
+
+B<submit_checks> reads a list of checks from a config file, runs them and uses
+send_nsca(1) to report their results to a remote nagios server running
+nsca(1).
+
+Compared to other passive/active check methods, it should use less resources -
+it does not use SSH and even the encrypted nsca session is only opened one
+time.
 
 =head1 OPTIONS
 
-=over
-
-=back
+None.
 
 =head1 EXIT STATUS
 
+Zero unless something went completely wrong.
+
+The exit status is not affected by the executed nagios checks.
+
 =head1 CONFIGURATION
 
-None.
+I<conffile> is read using Config::Tiny(3pm).
+
+Its first statement must set the B<nsca_host> to the server running the NSCA.
+
+After that, it may contain an arbitrary number of sections, each one either of
+the form C<< [hostname] >> or C<< [hostname/interval] >>. The sections define
+the checks to be executed, in the form C<< Check Name = /path/to/plugin with
+arguments >>.
+
+The I<hostname> is either the FQDN (as reported by C<< hostname -f >>) or the
+special value B<common>, which means that the checks defined there will be run
+on any host.
+
+Sections with an I<interval> will only be used when that B<interval> was also
+specified on the commandline. Checks in a section without interval are always
+run.
+
+=head2 EXAMPLE
+
+	nsca_host = nagios.finalrewind.org
+
+	# Executed on any host
+	[common]
+
+	Load      = /usr/lib/nagios/plugins/check_load -w 15,10,5 -c 30,25,20
+	Packages  = /usr/lib/nagios/plugins/check_packages
+	Processes = /usr/lib/nagios/plugins/check_procs -w 200 -c 250
+	Users     = /usr/lib/nagios/plugins/check_users -w 14 -c 20
+
+	# Same, but only when submit_checks got a 60 as argument
+	[common/60]
+
+	Kernel Image    = /usr/lib/nagios/plugins/check_kernel
+
+	# Executed only when 'hostname -f' is vm.chaosdorf.de
+	[vm.chaosdorf.de]
+
+	RAID = /usr/lib/nagios/plugins/check_raid
+
 
 =head1 DEPENDENCIES
 
 =over
 
+=item * Config::Tiny(3pm)
+
+=item * IPC::Run(3pm)
+
+=item * nsca_send(1)
+
 =back
 
 =head1 BUGS AND LIMITATIONS
+
+Unknown.
 
 =head1 AUTHOR
 
