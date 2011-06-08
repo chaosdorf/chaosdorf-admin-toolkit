@@ -1,3 +1,16 @@
+chaosdorf-admin-toolkit (2011.06.08) unstable; urgency=low
+
+  * Remove no longer used nagios forcecommand
+  * Use debian/...cron.d for passive check cron file
+  * submit_checks: Use hostname -f
+  * passive_checks: Update hostname for figurehead
+  * nagios-passive: do not hardcode nsca server
+  * submit_checks: documentation
+  * Push backups instead of pulling them from aneurysm
+  * backup_external: frontend is the slowest host, so make it run last
+
+ -- Daniel Friesel <derf@chaosdorf.de>  Wed, 08 Jun 2011 18:02:58 +0200
+
 chaosdorf-admin-toolkit (2011.06.01) unstable; urgency=low
 
   * Add 'fab announcer' in case I ever update it
