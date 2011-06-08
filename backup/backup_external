@@ -4,25 +4,25 @@ KEYS='0x5166E005'
 HOST="$(hostname -f)"
 
 backup_dpkg() {
-	dpkg --get-selections > "/var/backups/aneurysm/${HOST}_packages"
+	dpkg --get-selections > "/var/backups/external/${HOST}_packages"
 }
 
 backup_ldap() {
 	slapcat \
 	| gpg --encrypt --always-trust -r ${KEYS} \
-	> "/var/backups/aneurysm/${HOST}_ldap.gpg"
+	> "/var/backups/external/${HOST}_ldap.gpg"
 }
 
 backup_sql() {
 	sh sqldump.sh \
 	| gpg --encrypt --always-trust -r ${KEYS} \
-	> "/var/backups/aneurysm/${HOST}_sql.gpg"
+	> "/var/backups/external/${HOST}_sql.gpg"
 }
 
 backup_tar() {
 	tar -C / -cJf - "${1}" \
 	| gpg --encrypt --always-trust -r ${KEYS} \
-	> "/var/backups/aneurysm/${HOST}_${2}.tar.xz.gpg"
+	> "/var/backups/external/${HOST}_${2}.tar.xz.gpg"
 }
 
 # Do not run *.chaosdorf.de backups simultaneously.
@@ -35,7 +35,7 @@ if [ ! -t 0 ]; then
 	esac
 fi
 
-mkdir /var/backups/aneurysm
+mkdir /var/backups/external
 
 backup_dpkg
 
@@ -68,10 +68,10 @@ case "${HOST}" in
 
 esac
 
-echo 'put /var/backups/aneurysm/* backup' \
+echo 'put /var/backups/external/* backup' \
 | sftp -q -b - chaosdorf@aneurysm.derf0.net
 
-rm -r /var/backups/aneurysm
+rm -r /var/backups/external
 
 echo "${HOST}\tBackup\t0\tCompleted on $(date)" \
 | send_nsca -H derf.homelinux.org \
