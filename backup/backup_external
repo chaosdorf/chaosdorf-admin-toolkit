@@ -63,7 +63,7 @@ case "${HOST}" in
 		;;
 
 	shells.chaosdorf.de)
-		backup_tar var/spool/ron crontabs
+		backup_tar var/spool/cron crontabs
 		;;
 
 esac
