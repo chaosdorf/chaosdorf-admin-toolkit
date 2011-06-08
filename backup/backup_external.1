@@ -1,0 +1,41 @@
+.Dd June 09, 2011
+.Dt BACKUP_EXTERNAL 1
+.Os
+.
+.
+.Sh NAME
+.
+.Nm backup_external
+.Nd Create backups and copy them to external hosts
+.
+.
+.Sh SYNOPSIS
+.
+.Nm
+.
+.
+.Sh DESCRIPTION
+.
+.Nm
+prepares a backup of /home, /srv and some other paths in
+/var/backups/aneurysm, compresses them with xz and encrypts them with gpg. It
+then transfers them to aneurysm.derf0.net and erases /var/backups/aneurysm.
+.
+.Pp
+.
+Note that, when run from cron or any other method without tty,
+.Nm
+will sleep one to three hours on some hosts. This is intended so that one can
+use the same crontab entry on all hosts without having to worry about backup
+jobs on the same physical system (VMs) running simultaneously.
+.
+.
+.Sh AUTHOR
+.
+Copyright (C) 2011 Daniel Friesel
+.Aq derf@finalrewind.org .
+.
+.
+.Sh LICENSE
+.
+You just DO WHAT THE FUCK YOU WANT TO.
