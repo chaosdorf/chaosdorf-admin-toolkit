@@ -1,0 +1,78 @@
+#!/bin/sh -e
+
+KEYS='0x5166E005'
+HOST="$(hostname -f)"
+
+backup_dpkg() {
+	dpkg --get-selections > "/var/backups/aneurysm/${HOST}_packages"
+}
+
+backup_ldap() {
+	slapcat \
+	| gpg --encrypt --always-trust -r ${KEYS} \
+	> "/var/backups/aneurysm/${HOST}_ldap.gpg"
+}
+
+backup_sql() {
+	sh sqldump.sh \
+	| gpg --encrypt --always-trust -r ${KEYS} \
+	> "/var/backups/aneurysm/${HOST}_sql.gpg"
+}
+
+backup_tar() {
+	tar -C / -cJf - "${1}" \
+	| gpg --encrypt --always-trust -r ${KEYS} \
+	> "/var/backups/aneurysm/${HOST}_${2}.tar.xz.gpg"
+}
+
+# Do not run *.chaosdorf.de backups simultaneously.
+# Omit this check when run manually.
+if [ ! -t 0 ]; then
+	case "${HOST}" in
+		backend.chaosdorf.de)  sleep 1h ;;
+		frontend.chaosdorf.de) sleep 2h ;;
+		shells.chaosdorf.de)   sleep 3h ;;
+	esac
+fi
+
+mkdir /var/backups/aneurysm
+
+backup_dpkg
+
+backup_tar etc       etc
+backup_tar home      home
+backup_tar root      root
+backup_tar var/log   var_log
+backup_tar usr/local usr_local
+backup_tar var/local var_local
+
+if [ "${HOST}" != figurehead.chaosdorf.dn42 ]; then
+	backup_tar home home
+	backup_tar srv  srv
+fi
+
+case "${HOST}" in
+
+	backend.chaosdorf.de)
+		backup_ldap
+		;;
+
+	frontend.chaosdorf.de)
+		backup_tar var/mail var_mail
+		backup_sql
+		;;
+
+	shells.chaosdorf.de)
+		backup_tar var/spool/ron crontabs
+		;;
+
+esac
+
+echo 'put /var/backups/aneurysm/* backup' \
+| sftp -q -b - chaosdorf@aneurysm.derf0.net
+
+rm -r /var/backups/aneurysm
+
+echo "${HOST}\tBackup\t0\tCompleted on $(date)" \
+| send_nsca -H derf.homelinux.org \
+> /dev/null

@@ -1,6 +1,5 @@
-forcecommand/forcecommand usr/lib/nagios/
-forcecommand/backup etc/forcecommand/
+backup/backup_external usr/sbin/
 nagios-checks/local/* usr/lib/nagios/plugins/
 nagios-passive/submit_checks usr/lib/nagios/
-nagios-passive/run_checks usr/lib/nagios
+nagios-passive/run_checks usr/lib/nagios/
 nagios-passive/passive_checks.cfg etc/nagios/
