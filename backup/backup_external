@@ -30,8 +30,8 @@ backup_tar() {
 if [ ! -t 0 ]; then
 	case "${HOST}" in
 		backend.chaosdorf.de)  sleep 1h ;;
-		frontend.chaosdorf.de) sleep 2h ;;
-		shells.chaosdorf.de)   sleep 3h ;;
+		frontend.chaosdorf.de) sleep 3h ;;
+		shells.chaosdorf.de)   sleep 2h ;;
 	esac
 fi
 
