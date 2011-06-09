@@ -40,7 +40,6 @@ mkdir /var/backups/external
 backup_dpkg
 
 backup_tar etc       etc
-backup_tar home      home
 backup_tar root      root
 backup_tar var/log   var_log
 backup_tar usr/local usr_local
