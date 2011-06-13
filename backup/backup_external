@@ -9,6 +9,7 @@ backup_dpkg() {
 
 backup_ldap() {
 	slapcat \
+	2> /dev/null \
 	| gpg --encrypt --always-trust -r ${KEYS} \
 	> "/var/backups/external/${HOST}_ldap.gpg"
 }
@@ -68,7 +69,8 @@ case "${HOST}" in
 esac
 
 echo 'put /var/backups/external/* backup' \
-| sftp -q -b - chaosdorf@aneurysm.derf0.net
+| sftp -q -b - chaosdorf@aneurysm.derf0.net \
+> /dev/null 2>&1
 
 rm -r /var/backups/external
 
