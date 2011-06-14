@@ -6,4 +6,4 @@ fi
 
 sleep $(( RANDOM % 60 ))
 
-exec /usr/lib/nagios/submit_checks /etc/nagios/passive_checks.cfg "$@"
+exec /usr/lib/nagios/submit_checks -c /etc/nagios/passive_checks.cfg "$@"

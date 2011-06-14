@@ -5,14 +5,18 @@ use warnings;
 use 5.010;
 
 use Config::Tiny;
+use Getopt::Std;
 use IPC::Run qw(harness);
 
 our $VERSION = '0.1';
 
-my $conffile = shift or die("Usage: $0 <config> [intervals]\n");
+my %opt;
+getopts( 'H:c:', \%opt );
+
+my $conffile = $opt{c} || die("Usage: $0 <config> [intervals]\n");
 
 my $cfg         = Config::Tiny->read($conffile);
-my $hostname    = qx{hostname -f};
+my $hostname    = $opt{H} || qx{hostname -f};
 my @intervals   = @ARGV;
 my $results     = q{};
 my $remote_host = $cfg->{_}->{nsca_host} or die("no remote host specified!\n");
