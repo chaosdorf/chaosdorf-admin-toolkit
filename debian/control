@@ -5,7 +5,7 @@ Maintainer: Chaosdorf Admins <admin@chaosdorf.de>
 Uploaders: Maximilian Gass <mxey@chaosdorf.de>,
  Daniel Friesel <derf@chaosdorf.de>
 Build-Depends: debhelper (>= 7)
-Standards-Version: 3.9.1
+Standards-Version: 3.9.2
 Homepage: http://github.com/chaosdorf/chaosdorf-admin-toolkit
 Vcs-Git: http://github.com/chaosdorf/chaosdorf-admin-toolkit.git
 Vcs-Browser: http://github.com/chaosdorf/chaosdorf-admin-toolkit
