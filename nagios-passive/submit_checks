@@ -11,7 +11,7 @@ use IPC::Run qw(harness);
 our $VERSION = '0.1';
 
 my %opt;
-getopts( 'H:c:', \%opt );
+getopts( 'H:R:c:', \%opt );
 
 my $conffile = $opt{c} || die("Usage: $0 <config> [intervals]\n");
 
@@ -19,7 +19,7 @@ my $cfg         = Config::Tiny->read($conffile);
 my $hostname    = $opt{H} || qx{hostname -f};
 my @intervals   = @ARGV;
 my $results     = q{};
-my $remote_host = $cfg->{_}->{nsca_host} or die("no remote host specified!\n");
+my $remote_host = $opt{R} || $cfg->{_}->{nsca_host} || die("no remote host specified!\n");
 
 my $send_nsca = harness(
 	[ 'send_nsca', '-H', $remote_host ],
@@ -75,7 +75,7 @@ submit_checks - Run local nagios checks and submit as passive results via nsca
 
 =head1 SYNOPSIS
 
-B<submit_checks> I<conffile> [I<intervals ...>]
+B<submit_checks> [B<-H> I<host>] [B<-R> I<nsca_host>] B<-c> I<conffile> [I<intervals ...>]
 
 =head1 VERSION
 
@@ -93,7 +93,23 @@ time.
 
 =head1 OPTIONS
 
-None.
+=over
+
+=item B<-H> I<hostname>
+
+By default, B<submit_checks> will use the system's FQDN (as reported by C<<
+hostname -f >>) when reading the config and reporting checks to the NSCA
+server. You can override that hostname with this option.
+
+=item B<-R> I<nsca_host>
+
+Override B<nsca_host> configuration parameter.
+
+=item B<-c> I<conffile>
+
+Read config from I<conffile> Mandatory.
+
+=back
 
 =head1 EXIT STATUS
 
@@ -112,9 +128,8 @@ the form C<< [hostname] >> or C<< [hostname/interval] >>. The sections define
 the checks to be executed, in the form C<< Check Name = /path/to/plugin with
 arguments >>.
 
-The I<hostname> is either the FQDN (as reported by C<< hostname -f >>) or the
-special value B<common>, which means that the checks defined there will be run
-on any host.
+I<hostname> is either the systems hostname or the specaf value B<commen>,
+which means that the checks defined there will be run on any host.
 
 Sections with an I<interval> will only be used when that B<interval> was also
 specified on the commandline. Checks in a section without interval are always
