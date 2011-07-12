@@ -1,3 +1,18 @@
+chaosdorf-admin-toolkit (2011.07.12) unstable; urgency=low
+
+  * backup: Typo gefixt
+  * Add backup-external documentation
+  * backup-external: Change path to /var/backups/external
+  * backup: /home got handled twice, whoops
+  * cron: Ignore nagios/run_checks output
+  * backup: so sftp -q is not quiet at all...
+  * nagios-passive/submit_checks: Use Getopt::Std
+  * nagios-passive/submit_checks: More flexibility, update documentation
+  * debian: Update to standards version 3.9.2 (no changes needed)
+  * nagios-passive: Add a meta-check (to be used for service dependencies)
+
+ -- Daniel Friesel <derf@chaosdorf.de>  Tue, 12 Jul 2011 11:15:48 +0200
+
 chaosdorf-admin-toolkit (2011.06.08) unstable; urgency=low
 
   * Remove no longer used nagios forcecommand
