@@ -65,7 +65,7 @@ for my $host ( 'common', $hostname ) {
 	}
 }
 
-$send_nsca->run() or die("send_nsca failed\n");
+$send_nsca->run() or warn("send_nsca failed\n");
 
 __END__
 
