@@ -1,3 +1,11 @@
+chaosdorf-admin-toolkit (2011.07.31) unstable; urgency=low
+
+  * nagios-passive: figurehead: Check absolute space instead of percentage for /home
+  * passive/submit_checks: Do not die if nsca failed. We'll notice anyways if it persists
+  * Add dpkg checkrestart hook
+
+ -- Daniel Friesel <derf@chaosdorf.de>  Sun, 31 Jul 2011 12:21:50 +0200
+
 chaosdorf-admin-toolkit (2011.07.12) unstable; urgency=low
 
   * backup: Typo gefixt
