@@ -1,3 +1,4 @@
+apt/99checkrestart /etc/apt/apt.conf.d/
 backup/backup_external usr/sbin/
 nagios-checks/local/* usr/lib/nagios/plugins/
 nagios-passive/submit_checks usr/lib/nagios/
