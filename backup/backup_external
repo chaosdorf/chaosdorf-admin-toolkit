@@ -21,7 +21,8 @@ backup_sql() {
 }
 
 backup_tar() {
-	tar -C / -cJf - "${1}" \
+	tar --warning=no-file-ignored --warning=no-file-changed \
+	-C / -cJf - "${1}" \
 	| gpg --encrypt --always-trust -r ${KEYS} \
 	> "/var/backups/external/${HOST}_${2}.tar.xz.gpg"
 }
@@ -77,3 +78,5 @@ rm -r /var/backups/external
 echo "${HOST}\tBackup\t0\tCompleted on $(date)" \
 | send_nsca -H derf.homelinux.org \
 > /dev/null
+
+exit 0
