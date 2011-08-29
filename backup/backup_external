@@ -27,13 +27,17 @@ backup_tar() {
 	> "/var/backups/external/${HOST}_${2}.tar.xz.gpg"
 }
 
-# Do not run *.chaosdorf.de backups simultaneously.
-# Omit this check when run manually.
+# Do not run *.chaosdorf.de backups simultaneously,
+# omit this check when run manually.
+# Also, do not run them between 03:00 and 04:00 because of DSL reconnect
+# (we start at 00:03)
 if [ ! -t 0 ]; then
 	case "${HOST}" in
-		backend.chaosdorf.de)  sleep 1h ;;
-		frontend.chaosdorf.de) sleep 3h ;;
-		shells.chaosdorf.de)   sleep 2h ;;
+		backend.chaosdorf.de)      sleep 1h ;; # 01:03
+		figurehead.chaosdorf.dn42)          ;; # 00:03
+		frontend.chaosdorf.de)     sleep 4h ;; # 04:03
+		shells.chaosdorf.de)       sleep 2h ;; # 02:03
+		vm.chaosdorf.de)                    ;; # 00:03
 	esac
 fi
 

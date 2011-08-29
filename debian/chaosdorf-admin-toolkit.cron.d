@@ -6,5 +6,5 @@ MAILTO=root
 0,5,10,20,25,30,35,40,45,50,55 * * * * nagios /usr/lib/nagios/run_checks 2> /dev/null
 15 * * * * nagios /usr/lib/nagios/run_checks 60 2> /dev/null
 
-03 1 * * 1 root /usr/sbin/backup_external
+03 0 * * 1 root /usr/sbin/backup_external
 
