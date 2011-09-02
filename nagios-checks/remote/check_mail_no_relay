@@ -1,12 +1,15 @@
 #!/bin/sh
 # Make sure an MTA is not configured as open relay
 
+FROM='foo@example.org'
+TO='barz@example.org'
+
 if [ -z "$1" ]; then
 	echo 'NORELAY: Invalid invocation'
 	exit 10
 fi
 
-OUT="$(swaks -S 2 -s "$1" -f foo@example.org -t barz@example.org)"
+OUT="$(swaks -S 2 -s "$1" -f "${FROM}" -t "${TO}")"
 
 RET=${?}
 
@@ -16,7 +19,7 @@ case ${RET} in
 		exit 0
 	;;
 	0)
-		echo 'NORELAY CRITICAL: Mail to barz@example.org accepted'
+		echo "NORELAY CRITICAL: Mail from ${FROM} to ${TO} accepted"
 		exit 2
 	;;
 	*)
