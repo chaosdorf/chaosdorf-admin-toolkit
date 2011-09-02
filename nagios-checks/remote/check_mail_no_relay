@@ -16,7 +16,7 @@ case ${RET} in
 		exit 0
 	;;
 	0)
-		echo 'NORELAY CRITICAL: Mail to derf@chaosdorf.de accepted'
+		echo 'NORELAY CRITICAL: Mail to barz@example.org accepted'
 		exit 2
 	;;
 	*)
