@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-KEYS='0x5166E005'
+KEYS='0x1D643B75'
 HOST="$(hostname -f)"
 
 backup_dpkg() {
