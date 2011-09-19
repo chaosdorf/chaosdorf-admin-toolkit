@@ -1,3 +1,14 @@
+chaosdorf-admin-toolkit (2011.09.19) unstable; urgency=low
+
+  * zshrc: Start/Stop/...: Use /usr/sbin/service
+  * backup_external: Ignore certain tar warnings
+  * backups: Don't run between 3am and 4am (DSL reconnect)
+  * check_mail_norelay: Fix CRITICAL message
+  * check_mail_no_relay: DRY
+  * backup: Change GPG key
+
+ -- Daniel Friesel <derf@chaosdorf.de>  Mon, 19 Sep 2011 16:14:15 +0200
+
 chaosdorf-admin-toolkit (2011.07.31) unstable; urgency=low
 
   * nagios-passive: figurehead: Check absolute space instead of percentage for /home
