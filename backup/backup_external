@@ -80,7 +80,7 @@ echo 'put /var/backups/external/* backup' \
 rm -r /var/backups/external
 
 echo "${HOST}\tBackup\t0\tCompleted on $(date)" \
-| send_nsca -H derf.homelinux.org \
+| send_nsca -H icinga.finalrewind.org \
 > /dev/null
 
 exit 0
