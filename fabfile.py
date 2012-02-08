@@ -2,8 +2,9 @@ from __future__ import with_statement
 from fabric.api import *
 
 env.hosts = [
-	'root@chaosdorf.dyndns.org', 
+	'root@chaosdorf.dyndns.org',
 	'root@backend.chaosdorf.de',
+	'root@extern.chaosdorf.de',
 	'root@frontend.chaosdorf.de',
 	'root@shells.chaosdorf.de',
 	'root@vm.chaosdorf.de',
