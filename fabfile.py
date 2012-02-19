@@ -25,6 +25,7 @@ def configs():
 	etckeeper_check()
 	put('dotfiles/zshrc', '/root/.zshrc')
 	put('etckeeper/etckeeper.conf', '/etc/etckeeper/')
+	put('apt/99checkrestart', '/etc/apt/apt.conf.d/')
 	etckeeper_commit('chaosdorf-admin-toolkit configfile updates')
 
 def deploy(version):
