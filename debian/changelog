@@ -1,3 +1,17 @@
+chaosdorf-admin-toolkit (2012.02.25) unstable; urgency=low
+
+  * nagios-passive: Move icinga host
+  * backup: Update NSCA host
+  * backup: Do not set -e flag in hashbang
+  * nagios -> chaosdorf websites: Remove intercensor.org check
+  * nagios: Remove Ikiwiki: intercensor check
+  * nagios: figurehead: Musikplatte ist raus
+  * add extern.chaosdorf.de
+  * fabfile: deploy checkrestart hook
+  * nagios-passive: check SSL on extern as well
+
+ -- Daniel Friesel <derf@chaosdorf.de>  Sat, 25 Feb 2012 02:01:38 +0100
+
 chaosdorf-admin-toolkit (2011.09.19) unstable; urgency=low
 
   * zshrc: Start/Stop/...: Use /usr/sbin/service
