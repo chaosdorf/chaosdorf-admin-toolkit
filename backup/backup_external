@@ -65,9 +65,12 @@ case "${HOST}" in
 		backup_ldap
 		;;
 
+	extern.chaosdorf.de)
+		backup_sql
+		;;
+
 	frontend.chaosdorf.de)
 		backup_tar var/mail var_mail
-		backup_sql
 		;;
 
 	shells.chaosdorf.de)
