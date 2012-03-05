@@ -60,12 +60,11 @@ for my $host ( 'common', $hostname ) {
 	for my $section ( make_sections( $host, @intervals ) ) {
 		for my $name ( keys %{ $cfg->{$section} // {} } ) {
 			$results
-			  .= run_check( $hostname, $name, $cfg->{$section}->{$name} );
+				= run_check( $hostname, $name, $cfg->{$section}->{$name} );
+			$send_nsca->run() or warn("send_nsca failed\n");
 		}
 	}
 }
-
-$send_nsca->run() or warn("send_nsca failed\n");
 
 __END__
 
