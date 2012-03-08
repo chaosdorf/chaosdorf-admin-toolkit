@@ -1,0 +1,8 @@
+#!/bin/sh
+
+for host in backend extern frontend shells vm; do
+	echo "\n\t${host}"
+	ssh -t ${host}.chaosdorf.de 'apt-get upgrade'
+done
+
+ssh -t figurehead 'apt-get upgrade'
