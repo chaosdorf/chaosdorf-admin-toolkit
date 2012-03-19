@@ -67,6 +67,7 @@ case "${HOST}" in
 
 	extern.chaosdorf.de)
 		backup_sql
+		backup_tar var/lib/mediawiki mediawiki
 		;;
 
 	frontend.chaosdorf.de)
