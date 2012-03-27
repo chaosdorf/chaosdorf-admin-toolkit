@@ -11,51 +11,44 @@ my $output = qx{ssh -o ConnectTimeout=5 root\@freifunk '/usr/sbin/batctl o'};
 my @neighbours;
 
 sub get_desc {
-    my ($id) = @_;
-    given ($id) {
-        when ('da5d4c9cdb8d') { return 'freifunk-feuerrot-01' }
-        when ('fad111810b75') { return 'ffd-chaosdorf-03' }
-        when ('fad1118dbead') { return 'ffd-chaosdorf-04' }
-        when ('76ea3ae1bab9') { return 'ffd-chaosdorf-02' }
-        when ('fad11161d72d') { return 'ffd-chaosdorf-01' }
-        when ('fad11180fba1') { return 'ffd-chaosdorf-05' }
-        default { return $id }
-    }
+	my ($id) = @_;
+	my %host = (
+		'da5d4c9cdb8d' => 'freifunk-feuerrot-01',
+		'fad111810b75' => 'ffd-chaosdorf-03',
+		'fad1118dbead' => 'ffd-chaosdorf-04',
+		'76ea3ae1bab9' => 'ffd-chaosdorf-02',
+		'fad11161d72d' => 'ffd-chaosdorf-01',
+		'fad11180fba1' => 'ffd-chaosdorf-05',
+	);
+	return $host{$id} || $id;
 }
 
-for my $line (split(/\n/, $output)) {
-    if ($line =~ m{ ^ ([0-9a-f:]{17}) }ox) {
-        my $neigh = $1;
-        $neigh =~ tr{:}{}d;
-        push(@neighbours, $neigh);
-    }
+for my $line ( split( /\n/, $output ) ) {
+	if ( $line =~ m{ ^ ([0-9a-f:]{17}) }ox ) {
+		my $neigh = $1;
+		$neigh =~ tr{:}{}d;
+		push( @neighbours, $neigh );
+	}
 }
 
-@neighbours = map  { $_->[0] }
-              sort { $a->[1] cmp $b->[1] }
-              map  { [$_, get_desc($_)] }
-                   @neighbours;
+@neighbours = sort { get_desc($a) cmp get_desc($b) } @neighbours;
 
-if (@ARGV == 0) {
-    for my $neighbour (@neighbours) {
-        printf("%s.value 1\n", $neighbour);
-    }
-    printf("total.value %d\n", int @neighbours);
+if ( @ARGV == 0 ) {
+	for my $neigh (@neighbours) {
+		printf( "%s.value 1\n", $neigh );
+	}
+	printf( "total.value %d\n", int @neighbours );
 }
-elsif ($ARGV[0] eq 'config') {
-    say 'graph_title Freifunk nodes';
-    say 'graph_vlabel nodes';
-    say 'graph_category network';
-    say 'graph_info Meshed Freifunk nodes';
+elsif ( $ARGV[0] eq 'config' ) {
+	say 'graph_title Freifunk nodes';
+	say 'graph_vlabel nodes';
+	say 'graph_category network';
+	say 'graph_info Meshed Freifunk nodes';
 
-    for my $neigh (@neighbours) {
-        printf(
-            "%s.label %s\n%s.draw %s\n%s.min 0\n",
-            $neigh, get_desc($neigh),
-            $neigh, 'AREASTACK',
-            $neigh,
-        );
-    }
-    say 'total.label total';
-    say 'total.draw LINE2';
+	for my $neigh (@neighbours) {
+		printf( "%s.label %s\n%s.draw %s\n%s.min 0\n",
+			$neigh, get_desc($neigh), $neigh, 'AREASTACK', $neigh, );
+	}
+	say 'total.label total';
+	say 'total.draw LINE2';
 }

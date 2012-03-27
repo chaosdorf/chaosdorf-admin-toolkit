@@ -7,7 +7,7 @@ use strict;
 use warnings;
 use 5.010;
 
-my ($dev) = ($0 =~ m{tc_new_(.+)});
+my ($dev) = ( $0 =~ m{tc_new_(.+)} );
 
 my $re_new_class = qr{
     ^ class \s htb \s (?<class> \S+ ) \s (parent \s 1:1|root)
@@ -19,53 +19,54 @@ my $re_stats = qr{
 my $state;
 my %bytes;
 my %label = (
-    htb_1_1 => 'total',
-    htb_1_10 => 'FTP / HTTP',
-    htb_1_11 => 'UDP',
-    htb_1_12 => 'interactive',
-    htb_1_13 => 'freifunk',
-    htb_1_20 => 'other',
+	htb_1_1  => 'total',
+	htb_1_10 => 'FTP / HTTP',
+	htb_1_11 => 'UDP',
+	htb_1_12 => 'interactive',
+	htb_1_13 => 'freifunk',
+	htb_1_20 => 'other',
 );
 my %max = (
-    lan => 24_000_000,
-    inet => 1_000_000,
+	lan  => 24_000_000,
+	inet => 1_000_000,
 );
 
 my $output = qx{tc -s class show dev $dev};
 
-for my $line (split(/\n/, $output)) {
-    if ($line =~ $re_new_class) {
-        $state = 'htb_' . $+{class};
-        $state =~ tr{:}{_};
-    }
-    elsif ($line =~ $re_stats and $state) {
-        $bytes{$state} = $+{bytes};
-        $state = undef;
-    }
+for my $line ( split( /\n/, $output ) ) {
+	if ( $line =~ $re_new_class ) {
+		$state = 'htb_' . $+{class};
+		$state =~ tr{:}{_};
+	}
+	elsif ( $line =~ $re_stats and $state ) {
+		$bytes{$state} = $+{bytes};
+		$state = undef;
+	}
 }
 
-if (@ARGV == 0) {
-    for my $class (sort keys %bytes) {
-        printf("%s.value %s\n", $class, $bytes{$class});
-    }
+if ( @ARGV == 0 ) {
+	for my $class ( sort keys %bytes ) {
+		printf( "%s.value %s\n", $class, $bytes{$class} );
+	}
 }
-elsif ($ARGV[0] eq 'config') {
-    say 'graph_order ' . join(' ', sort keys %bytes);
-    say "graph_title $dev traffic by class";
-    say 'graph_args --base 1000';
-    say 'graph_vlabel bits per ${graph_period}'; # yes, the '' are correct here
-    say 'graph_category network';
-    say "graph_info This graph shows the TC classes traffic of the $dev ntework interface";
+elsif ( $ARGV[0] eq 'config' ) {
+	say 'graph_order ' . join( q{ }, sort keys %bytes );
+	say "graph_title $dev traffic by class";
+	say 'graph_args --base 1000';
+	say 'graph_vlabel bits per ${graph_period}';  # yes, the '' are correct here
+	say 'graph_category network';
+	say
+"graph_info This graph shows the TC classes traffic of the $dev ntework interface";
 
-    for my $class (sort keys %bytes) {
-        printf(
-            "%s.label %s\n%s.type %s\n%s.min %d\n%s.max %d\n%s.draw %s\n%s.cdef %s,8,*\n",
-            $class, $label{$class},
-            $class, 'DERIVE',
-            $class, 0,
-            $class, $max{$dev},
-            $class, ($class eq 'htb_1_1' ? 'LINE2' : 'AREASTACK'),
-            $class, $class,
-        );
-    }
+	for my $class ( sort keys %bytes ) {
+		printf(
+"%s.label %s\n%s.type %s\n%s.min %d\n%s.max %d\n%s.draw %s\n%s.cdef %s,8,*\n",
+			$class, $label{$class},
+			$class, 'DERIVE',
+			$class, 0,
+			$class, $max{$dev},
+			$class, ( $class eq 'htb_1_1' ? 'LINE2' : 'AREASTACK' ),
+			$class, $class,
+		);
+	}
 }
