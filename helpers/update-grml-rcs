@@ -1,0 +1,6 @@
+#!/bin/sh
+
+set -e
+
+wget -O dotfiles/vimrc  http://git.grml.org/f/grml-etc-core/etc/vim/vimrc
+wget -O dotfiles/zshrc  http://git.grml.org/f/grml-etc-core/etc/zsh/zshrc

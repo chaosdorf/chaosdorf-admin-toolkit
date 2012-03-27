@@ -1,1 +1,3 @@
+# managed by chaosdorf-admin-toolkit
+
 DPkg::Post-Invoke      { "if [ -x /usr/sbin/checkrestart ]; then checkrestart; fi"; };

@@ -24,6 +24,7 @@ def etckeeper_done():
 def configs():
 	etckeeper_check()
 	put('dotfiles/zshrc', '/root/.zshrc')
+	put('dotfiles/vimrc', '/root/.vimrc')
 	put('etckeeper/etckeeper.conf', '/etc/etckeeper/')
 	put('apt/99checkrestart', '/etc/apt/apt.conf.d/')
 	etckeeper_commit('chaosdorf-admin-toolkit configfile updates')
