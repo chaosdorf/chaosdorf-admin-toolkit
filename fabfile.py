@@ -35,3 +35,12 @@ def deploy(version):
 	run("dpkg --install /root/chaosdorf-admin-toolkit_%s_all.deb" % version)
 	run("rm /root/chaosdorf-admin-toolkit_%s_all.deb" % version)
 	etckeeper_done()
+
+# most munin plugins need to be edited and tested on figurehead
+@hosts('root@chaosdorf.dyndns.org')
+def get_munin_plugins():
+	with cd('/usr/share/munin/plugins/'):
+		get('freifunk_nodes', 'munin/')
+		get('modem_status', 'munin/')
+		get('online_ips', 'munin/')
+		get('tc_new', 'munin/')
