@@ -1,0 +1,48 @@
+#!/bin/sh
+
+#%# family=auto
+#%# capabilities=autoconf
+
+if [ "$1" = "autoconf" ]; then
+	echo yes
+	exit 0
+fi
+
+if [ "$1" = "config" ]; then
+    cat <<'EOF'
+graph_title Online Hosts
+graph_args -l 0
+graph_vlabel Online Hosts
+graph_category network
+graph_info This graph shows the number of pingable hosts
+graph_order hosts infra dynip static
+hosts.label hosts
+hosts.draw LINE2
+hosts.info Current number of online hosts
+infra.label Infrastructure
+infra.draw AREA
+infra.info Infrastructure (Gateway, APs, Switches, Printer)
+dynip.label DHCP
+dynip.draw STACK
+dynip.info Guest hosts in DHCP range
+static.label Static
+static.draw STACK
+static.info Hosts with a static (non-DHCP) IP
+EOF
+    exit 0
+fi
+
+HOSTS="$(fping -c 1 -g -i 10 172.22.26.0/24 2>&1 | fgrep '1/1/0%' | cut -d ' ' -f 1)"
+
+NHOSTS="$(echo "$HOSTS" | wc -l)"
+NINFRA="$(echo "$HOSTS" | egrep -c '\.(1|2|10|66|91|97|98|99)$')"
+NDHCP="$(echo "$HOSTS" | egrep -c '\.1?.?.$')"
+NSTATIC="$(echo "$HOSTS" | egrep -c '\.2..$')"
+
+echo "hosts.value $NHOSTS"
+echo "infra.value $NINFRA"
+echo "dynip.value $((NDHCP - NINFRA))"
+echo "static.value $NSTATIC"
+
+echo "$HOSTS" > /tmp/.online_ips
+chmod 644 /tmp/.online_ips

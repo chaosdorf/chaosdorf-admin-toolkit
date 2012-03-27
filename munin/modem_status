@@ -1,0 +1,50 @@
+#!/usr/bin/env ruby1.9.1
+if ARGV.include? "autoconf"
+  puts "yes"
+elsif ARGV.include? "config"
+  puts "graph_category Network"
+  puts "graph_info connection quality as reported by the cable modem"
+  puts "graph_title Modem Status"
+  puts "graph_vlabel Value"
+  puts "graph_args --lower-limit -10 --upper-limit 60"
+  puts "snr.label Signal to Noise Ration (dB)"
+  puts "snr.info higher is better"
+  puts "snr.warning 34:"
+  puts "snr.critical 29:"
+  puts "rxp.label Receive Power Level (dBmV)"
+  puts "rxp.warning -5:5"
+  puts "rxp.critical -8:8"
+  puts "rxp.info zero would be ideal"
+  puts "txp.label Send Power Level (dBmV)"
+  puts "txp.warning 32:50"
+  puts "txp.critical 30:52"
+  puts "txp.info best value is somewhere in the middle"
+  puts "state.label State: Operational (0/1)"
+  puts "state.info whether the modem shows operational state"
+  puts "state.critical 0"
+  puts "state.graph no"
+#  puts "Recommended values from http://www.speedguide.net/articles/cable-modem-signal-levels-1197"
+else
+  require('open-uri')
+  require('rubygems')
+  require('nokogiri')
+  doc = Nokogiri::HTML.parse(open('http://192.168.100.1/system.asp'))
+  doc.css("tr").each do |tr|
+    tr.each{|a| a.content.gsub!(/\s*/,'')}
+    label = tr.css("td").first.content.gsub(/\s+/, " ").strip
+    value = tr.css("td").last.content.gsub(/\s+/, " ").strip
+    value.slice!(0)
+    value = 1 if value == "Operational"
+    value = value.to_f.to_s
+    case label
+    when "Signal to Noise Ratio"
+      print "snr.value ", value, "\n"
+    when "Receive Power Level"
+      print "rxp.value ", value, "\n"
+    when "Transmit Power Level"
+      print "txp.value ", value, "\n"
+    when "Cable Modem Status"
+      print "state.value ", value, "\n"
+    end
+  end
+end
