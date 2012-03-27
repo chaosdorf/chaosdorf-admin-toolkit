@@ -1,3 +1,17 @@
+chaosdorf-admin-toolkit (2012.03.27) unstable; urgency=low
+
+  * backup: sqldump auf extern, nicht mehr frontend
+  * backup: frontend still uses SQL
+  * update submit_checks for new nsca version
+  * add chaosdorf-upgrade helper script
+  * backup: /var/lib/mediawiki on extern
+  * use grml zsh and vim configs
+  * add munin plugins
+  * fabfile: Add task to fetch munin plugins from figurehead
+  * clean up munin plugin code
+
+ -- Daniel Friesel <derf@chaosdorf.de>  Tue, 27 Mar 2012 11:14:52 +0200
+
 chaosdorf-admin-toolkit (2012.02.25) unstable; urgency=low
 
   * nagios-passive: Move icinga host
