@@ -46,7 +46,9 @@ fi
 
 mkdir /var/backups/external
 
-backup_dpkg
+if which dpkg > /dev/null 2>&1; then
+	backup_dpkg
+fi
 
 backup_tar etc       etc
 backup_tar root      root
@@ -54,7 +56,7 @@ backup_tar var/log   var_log
 backup_tar usr/local usr_local
 backup_tar var/local var_local
 
-if [ "${HOST}" != figurehead.chaosdorf.dn42 ]; then
+if ! echo "${HOST}" | fgrep -q .chaosdorf.dn42; then
 	backup_tar home home
 	backup_tar srv  srv
 fi
