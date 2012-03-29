@@ -1,0 +1,129 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use 5.010;
+
+use Date::Format;
+use List::Util qw(max sum);
+use RRDs;
+
+my $debug = (@ARGV and $ARGV[0] eq '-d');
+
+my %ascii = (
+	unknown => <<'EOF',
+            ________
+        _jgN########Ngg_
+      _N##N@@""  ""9NN##Np_
+     d###P            N####p
+     "^^"              T####
+                       d###P
+                    _g###@F
+                 _gN##@P
+               gN###F"
+              d###F
+             0###F
+             0###F
+             0###F
+             "NN@'
+
+              ___
+             q###r
+              ""
+EOF
+	open => <<'EOF',
+                                        :X-
+                                     :X###
+                                   ;@####@
+                                 ;M######X
+                               -@########$
+                             .$##########@
+                            =M############-
+                           +##############$
+                         .H############$=.
+            ,/:         ,M##########M;.
+         -+@###;       =##########M;
+      =%M#######;     :#########M/
+   -$M###########;   :#########/
+    ,;X###########; =########$.
+        ;H#########+#######M=
+          ,+##############+
+             /M#########@-
+               ;M######%
+                 +####:
+                  ,$M-          
+EOF
+	closed => <<'EOF',
+  #####                             #####
+    #####                         #####
+      #####                     #####
+        #####                 #####
+          #####             #####
+            #####         #####
+              #####     #####
+                ##### #####
+                  #######
+                  #######
+                ##### #####
+              #####     #####
+            #####         #####
+          #####             #####
+        #####                 #####
+      #####                     #####
+    #####                         #####
+  #####                             #####
+EOF
+);
+
+sub show_status {
+	my ( $status, $desc ) = @_;
+
+	if ( $status eq 'unknown' ) {
+		$desc = 'no data available';
+	}
+	else {
+		if ($debug) {
+			say "confidence: ${desc}";
+		}
+		given ($desc) {
+			when ( $_ < 25 ) { $desc = 'confidence: low' }
+			when ( $_ < 75 ) { $desc = 'confidence: medium' }
+			default          { $desc = 'confidence: high' }
+		}
+	}
+
+	printf( "%s\n\n%s\n\nupdated: %s\n",
+		$status, $desc,
+		time2str('%Y-%m-%d %H:%M', time),
+	);
+	if (not $debug) {
+		printf("\n%s", $ascii{$status});
+	}
+	exit 0;
+}
+
+my @data = grep { defined } map { $_->[0] } @{
+	(
+		RRDs::fetch(
+			qw(/var/lib/munin/chaosdorf.dn42/chaosdorf.dyndns.org-online_ips-dynip-g.rrd MAX -s end-1h -e now)
+		)
+	  )[3]
+  };
+
+if ( not @data ) {
+	show_states('unknown');
+}
+
+my $avg  = sum(@data) / @data;
+my $last = $data[-1];
+
+if ($debug) {
+	say "average $avg, last $last";
+}
+
+if ( $avg < 2.5 ) {
+	show_status( 'closed', ( ( $avg - $last ) * 50 ) + ( (2.5 - $avg) * 40 ) );
+}
+else {
+	show_status( 'open', ( ( $last - $avg ) * 20 ) + ( ($avg - 2.5) * 20 ) );
+}

@@ -1,0 +1,7 @@
+#!/bin/sh
+
+OUTFILE=/srv/www/de.chaosdorf.intern/raumstatus
+
+raumstatus_calc > "${OUTFILE}.new"
+mv "${OUTFILE}.new" "${OUTFILE}"
+chmod 644 "${OUTFILE}"
