@@ -35,7 +35,7 @@ fi
 HOSTS="$(fping -c 1 -g -i 10 172.22.26.0/24 2>&1 | fgrep '1/1/0%' | cut -d ' ' -f 1)"
 
 NHOSTS="$(echo "$HOSTS" | wc -l)"
-NINFRA="$(echo "$HOSTS" | egrep -c '\.(1|2|10|66|91|97|98|99)$')"
+NINFRA="$(echo "$HOSTS" | egrep -c '\.(1|2|3|10|66|91|97|98|99)$')"
 NDHCP="$(echo "$HOSTS" | egrep -c '\.1?.?.$')"
 NSTATIC="$(echo "$HOSTS" | egrep -c '\.2..$')"
 
