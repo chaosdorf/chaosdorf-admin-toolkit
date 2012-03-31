@@ -101,6 +101,8 @@ sub show_status {
 	exit 0;
 }
 
+# array of non-infrastructure IPs in the Chaosdorf LAN. [0] == 60 minutes ago,
+# [-1] == latest
 my @data = grep { defined } map { $_->[0] } @{
 	(
 		RRDs::fetch(
@@ -113,14 +115,22 @@ if ( not @data ) {
 	show_status('unknown');
 }
 
-my $avg  = sum(@data) / @data;
-my $last = $data[-1];
+my $avg               = sum(@data) / @data;
+my $last              = $data[-1];
+my $closed_confidence = ( ( $avg - $last ) * 50 ) + ( ( 3 - $avg ) * 30 );
+my $open_confidence   = ( ( $last - $avg ) * 20 ) + ( ( $avg - 3 ) * 20 );
 
 say "average $avg, last $last" if ($debug);
 
-if ( $avg <= 3 ) {
-	show_status( 'closed', ( ( $avg - $last ) * 50 ) + ( ( 3 - $avg ) * 30 ) );
+if ( $avg <= 3 and $closed_confidence >= 0 ) {
+	show_status( 'closed', $closed_confidence );
+}
+
+# <= 3 computers online, but one got turned on in the last hour.
+# So there must be someone there. Right?
+elsif ( $closed_confidence < 0 ) {
+	show_status( 'open', $closed_confidence * (-1) );
 }
 else {
-	show_status( 'open', ( ( $last - $avg ) * 20 ) + ( ( $avg - 3 ) * 20 ) );
+	show_status( 'open', $open_confidence );
 }
