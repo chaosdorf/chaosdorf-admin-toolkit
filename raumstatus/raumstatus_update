@@ -1,7 +1,15 @@
 #!/bin/sh
 
 OUTFILE=/srv/www/de.chaosdorf.intern/raumstatus
+SICON=/srv/www/de.chaosdorf.intern/clubraum/status.png
 
 raumstatus_calc > "${OUTFILE}.new"
+STATUS=$?
 mv "${OUTFILE}.new" "${OUTFILE}"
 chmod 644 "${OUTFILE}"
+
+case "$STATUS" in
+	1) ln -sf open.png ${SICON} ;;
+	0) ln -sf closed.png ${SICON} ;;
+	*) ln -sf unknown.png ${SICON} ;;
+esac
