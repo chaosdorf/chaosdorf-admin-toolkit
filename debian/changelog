@@ -1,3 +1,20 @@
+chaosdorf-admin-toolkit (2012.06.21) unstable; urgency=low
+
+  * prepare backup_external for hyperion.chaosdorf.dn42
+  * add raumstatus scripts
+  * raumstatus_calc: code fixes
+  * add twitterfeed_update
+  * munin/online_ips: moar infra
+  * raumstatus_calc: more improvements[tm]
+  * nagios: check_git for extern:/srv/www/de.chaosdorf (wordpress)
+  * add PKGBUILD for hyperion (arch linux)
+  * raumstatus: tuerstatus, icons
+  * passive checks: use absolute values for check_disk
+  * backup: mediawiki moved to /srv/www -> included in generic backup
+  * nagios-passive: add de.chaosdorf.wiki check on extern
+
+ -- Daniel Friesel <derf@chaosdorf.de>  Thu, 21 Jun 2012 09:59:39 +0200
+
 chaosdorf-admin-toolkit (2012.03.27) unstable; urgency=low
 
   * backup: sqldump auf extern, nicht mehr frontend
