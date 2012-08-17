@@ -24,6 +24,7 @@ my %label = (
 	htb_1_11 => 'UDP',
 	htb_1_12 => 'interactive',
 	htb_1_13 => 'freifunk',
+	htb_1_14 => 'penalized',
 	htb_1_20 => 'other',
 );
 my %max = (
