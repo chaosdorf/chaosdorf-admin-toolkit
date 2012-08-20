@@ -6,27 +6,28 @@ KEYS='0x1D643B75'
 HOST="$(hostname -f)"
 
 backup_dpkg() {
-	dpkg --get-selections > "/var/backups/external/${HOST}_packages"
+	dpkg --get-selections \
+	| ssh chaosdorf@aneurysm.derf0.net "cat > backup/${HOST}_packages"
 }
 
 backup_ldap() {
 	slapcat \
 	2> /dev/null \
 	| gpg --encrypt --always-trust -r ${KEYS} \
-	> "/var/backups/external/${HOST}_ldap.gpg"
+	| ssh chaosdorf@aneurysm.derf0.net "cat > backup/${HOST}_ldap.gpg"
 }
 
 backup_sql() {
 	sh sqldump.sh \
 	| gpg --encrypt --always-trust -r ${KEYS} \
-	> "/var/backups/external/${HOST}_sql.gpg"
+	| ssh chaosdorf@aneurysm.derf0.net "cat > backup/${HOST}_sql.gpg"
 }
 
 backup_tar() {
 	tar --warning=no-file-ignored --warning=no-file-changed \
 	-C / -cJf - "${1}" \
 	| gpg --encrypt --always-trust -r ${KEYS} \
-	> "/var/backups/external/${HOST}_${2}.tar.xz.gpg"
+	| ssh chaosdorf@aneurysm.derf0.net "cat > backup/${HOST}_${2}.tar.xz.gpg"
 }
 
 # Do not run *.chaosdorf.de backups simultaneously,
@@ -43,8 +44,6 @@ if [ ! -t 0 ]; then
 		vm.chaosdorf.de)                    ;; # 00:03
 	esac
 fi
-
-mkdir /var/backups/external
 
 if which dpkg > /dev/null 2>&1; then
 	backup_dpkg
@@ -81,12 +80,6 @@ case "${HOST}" in
 		;;
 
 esac
-
-echo 'put /var/backups/external/* backup' \
-| sftp -q -b - chaosdorf@aneurysm.derf0.net \
-> /dev/null 2>&1
-
-rm -r /var/backups/external
 
 echo "${HOST}\tBackup\t0\tCompleted on $(date)" \
 | send_nsca -H icinga.finalrewind.org \
