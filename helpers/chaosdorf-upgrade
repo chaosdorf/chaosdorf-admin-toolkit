@@ -1,8 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
-for host in backend extern frontend shells vm; do
-	echo "\n\t${host}"
-	ssh -t root@${host}.chaosdorf.de 'apt-get update && apt-get dist-upgrade'
+HOSTS=({backend,extern,frontend,shells,vm}.chaosdorf.de chaosdorf.dyndns.org)
+
+for host in ${HOSTS}; do
+	echo -e "\n\t${host}"
+	ssh -t root@${host} 'apt-get update && apt-get dist-upgrade'
 done
-
-ssh -t root@figurehead 'apt-get update && apt-get dist-upgrade'
