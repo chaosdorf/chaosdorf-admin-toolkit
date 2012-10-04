@@ -1,6 +1,6 @@
 #!/bin/bash
 
-HOSTS=({backend,extern,frontend,shells,vm}.chaosdorf.de chaosdorf.dyndns.org)
+HOSTS=({backend,extern,intern,shells,vm}.chaosdorf.de chaosdorf.dyndns.org)
 
 for host in ${HOSTS[@]}; do
 	echo -e "\n\t${host}"

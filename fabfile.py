@@ -5,7 +5,7 @@ env.hosts = [
 	'root@chaosdorf.dyndns.org',
 	'root@backend.chaosdorf.de',
 	'root@extern.chaosdorf.de',
-	'root@frontend.chaosdorf.de',
+	'root@intern.chaosdorf.de',
 	'root@shells.chaosdorf.de',
 	'root@vm.chaosdorf.de',
 ]
