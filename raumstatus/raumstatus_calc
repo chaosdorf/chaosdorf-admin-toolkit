@@ -110,8 +110,8 @@ sub show_status {
 
 # array of non-infrastructure IPs in the Chaosdorf LAN. [0] == 60 minutes ago,
 # [-1] == latest
-my @dhcp = get_rrd('/var/lib/munin/chaosdorf.dn42/chaosdorf.dyndns.org-online_ips-dynip-g.rrd');
-my @status = get_rrd('/var/lib/munin/chaosdorf.dn42/chaosdorf.dyndns.org-chaosdoor-status-g.rrd');
+my @dhcp = get_rrd('/var/lib/munin/chaosdorf.dn42/figurehead.chaosdorf.dn42-online_ips-dynip-g.rrd');
+my @status = get_rrd('/var/lib/munin/chaosdorf.dn42/figurehead.chaosdorf.dn42-chaosdoor-status-g.rrd');
 
 my $doorstatus = 'unknown';
 
