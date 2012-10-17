@@ -1,3 +1,28 @@
+chaosdorf-admin-toolkit (2012.10.17) unstable; urgency=low
+
+  [ Daniel Friesel ]
+  * nagios-passive: allow more processes
+  * nagios-passive: remove unused ikiwiki-www check
+  * munin/tc_new: Add htb_1_14 penalized class
+  * backup_external: Stream backup to aneurysm instead of saving in /var/backups first
+  * backup_external: ssh -q to suppress "adding host key for IP" warning
+  * munin/online_ips: add unifi
+  * online_ips update
+
+  [ Maximilian Gaß ]
+  * chaosdorf-upgrade: run apt-get update and dist-upgrade
+  * chaosdorf-upgrade: use root account
+  * chaosdorf-upgrade: Reduce duplication
+  * Use proper syntax for iterating Bash array
+
+  [ Daniel Friesel ]
+  * add apcupsd_ww munin plugin
+  * {frontend → intern}.chaosdorf.de
+  * raumstatus_calc: Update munin hostname
+  * online_ips update
+
+ -- Daniel Friesel <derf@chaosdorf.de>  Wed, 17 Oct 2012 18:07:10 +0200
+
 chaosdorf-admin-toolkit (2012.06.21) unstable; urgency=low
 
   * prepare backup_external for hyperion.chaosdorf.dn42
