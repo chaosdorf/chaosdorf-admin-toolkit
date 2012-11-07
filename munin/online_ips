@@ -15,13 +15,19 @@ graph_args -l 0
 graph_vlabel Online Hosts
 graph_category network
 graph_info This graph shows the number of pingable hosts
-graph_order hosts infra dynip static
+graph_order hosts infra onfra virt dynip static
 hosts.label hosts
 hosts.draw LINE2
 hosts.info Current number of online hosts
-infra.label Infrastructure
+infra.label Critical Infrastructure
 infra.draw AREA
-infra.info Infrastructure (Gateway, APs, Switches, Printer)
+infra.info Critical Infrastructure (Gateway, APs, Switches)
+virt.label Virtual
+virt.draw STACK
+virt.info Virtual Hosts on hyperion
+oinfra.label Other Infrastructure
+oinfra.draw STACK
+oinfra.info Other Infrastructure (Music, Printer)
 dynip.label DHCP
 dynip.draw STACK
 dynip.info Guest hosts in DHCP range
@@ -35,13 +41,18 @@ fi
 HOSTS="$(fping -c 1 -g -i 10 172.22.26.0/24 2>&1 | fgrep '1/1/0%' | cut -d ' ' -f 1)"
 
 NHOSTS="$(echo "$HOSTS" | wc -l)"
-NINFRA="$(echo "$HOSTS" | egrep -c '\.(1|2|3|4|10|11|66|80|81|91|96|97|98|99|155)$')"
+NCINFRA="$(echo "$HOSTS" | egrep -c '\.(1|2|3|4|91|96|97|98|99)$')"
+NOINFRA="$(echo "$HOSTS" | egrep -c '\.(10|11|66|80|81|155)$')"
+NVIRT="$(echo "$HOSTS" | egrep -c '\.(50|51)$')"
+NINFRA="$((NCINFRA + NOINFRA))"
 NDHCP="$(echo "$HOSTS" | egrep -c '\.1?.?.$')"
 NSTATIC="$(echo "$HOSTS" | egrep -c '\.2..$')"
 
 echo "hosts.value $NHOSTS"
-echo "infra.value $NINFRA"
-echo "dynip.value $((NDHCP - NINFRA))"
+echo "infra.value $NCINFRA"
+echo "virt.value $NVIRT"
+echo "oinfra.value $NOINFRA"
+echo "dynip.value $((NDHCP - NINFRA - NVIRT))"
 echo "static.value $NSTATIC"
 
 echo "$HOSTS" > /tmp/.online_ips
