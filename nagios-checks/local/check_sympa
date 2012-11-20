@@ -1,0 +1,26 @@
+#!/bin/sh
+
+PID_SYMPA="$(pgrep -x sympa.pl)"
+OK_SYMPA="$?"
+
+PID_BULK="$(pgrep -x bulk.pl)"
+OK_BULK="$?"
+
+PID_ARCHIVED="$(pgrep -x archived.pl)"
+OK_ARCHIVED="$?"
+
+PID_MGR="$(pgrep -x task_manager.pl)"
+OK_MGR="$?"
+
+PID_BOUNCED="$(pgrep -x bounced.pl)"
+OK_BOUNCED="$?"
+
+if [ "${OK_SYMPA} ${OK_BULK} ${OK_ARCHIVED} ${OK_MGR} ${OK_BOUNCED}" = "0 0 0 0 0" ]
+then
+	echo "OK: Everything running"
+	exit 0
+else
+	echo "WARNING: sympa=${PID_SYMPA} bulk=${PID_BULK} archived=${PID_ARCHIVED}"\
+" mgr=${PID_MGR} bounced=${PID_BOUNCED}"
+	exit 1
+fi
