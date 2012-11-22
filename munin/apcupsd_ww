@@ -21,7 +21,7 @@ my $apcaccess='/sbin/apcaccess';
 #$apcaccess='/home/behanw/bin/apcaccess';
 my $config='/etc/munin/plugin-conf.d/apcupsd_ww';
 
-my $language = $ENV{LANG} || 'en';
+my $language = 'en';
 
 # Example apcaccess output
 # KEY      : VALUE
