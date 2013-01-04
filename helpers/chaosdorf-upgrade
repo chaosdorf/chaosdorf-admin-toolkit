@@ -4,5 +4,5 @@ HOSTS=({backend,extern,intern,shells,vm}.chaosdorf.de chaosdorf.dyndns.org)
 
 for host in ${HOSTS[@]}; do
 	echo -e "\n\t${host}"
-	ssh -t root@${host} 'apt-get update && apt-get dist-upgrade'
+	ssh -t ${host} 'sudo apt-get update && sudo apt-get dist-upgrade'
 done
