@@ -1,0 +1,22 @@
+#!/bin/sh
+## Copyright © 2013 by Daniel Friesel <derf@derf.homelinux.org>
+## License: WTFPL <http://sam.zoy.org/wtfpl>
+
+
+PID_DOOR="$(pgrep -x door)"
+OK_DOOR="$?"
+PID_IBUTTON="$(pgrep -x ibutton)"
+OK_IBUTTON="$?"
+PID_IBUTTOND="$(pgrep -x ibuttond)"
+OK_IBUTTOND="$?"
+
+if [ "$OK_DOOR $OK_IBUTTON $OK_IBUTTOND" = "0 0 0" ]; then
+	echo "OK: all services running"
+	exit 0
+else
+	echo "CRITICAL: ibuttond=$PID_IBUTTOND ibutton=$PID_IBUTTON door=$PID_DOOR - attempting restart"
+	kill "$PID_IBUTTOND" "$PID_IBUTTON" "$PID_DOOR"
+	sleep 2
+	/usr/local/bin/ibuttond
+	exit 2
+fi
