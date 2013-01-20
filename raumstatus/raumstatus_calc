@@ -122,7 +122,7 @@ given ($status[-1]) {
 
 if (not @dhcp) {
 	show_status($doorstatus, 'unknown');
-	exit int($status[-1]);
+	exit 2;
 }
 
 my $avg               = sum(@dhcp) / @dhcp;
@@ -145,4 +145,4 @@ else {
 	show_status( $doorstatus, 'open', $open_confidence );
 }
 
-exit int($status[-1]);
+exit int($status[-1] // 2);
