@@ -1,0 +1,32 @@
+#!/bin/sh
+
+#%# family=auto
+#%# capabilities=autoconf
+
+if [ "$1" = "autoconf" ]; then
+	echo yes
+	exit 0
+fi
+
+if [ "$1" = "config" ]; then
+    cat <<'EOF'
+graph_title Spendendrucker
+graph_vlabel Spendendrucker
+graph_category other
+graph_info Ausgedruckte Quittungen seit Jan 2013
+blank.label Blanko
+blank.draw LINE1
+blank.info Blankospendenscheine
+filled.label EC-Karte
+filled.draw LINE1
+filled.info EC-Kartenspendenscheine
+EOF
+    exit 0
+fi
+
+STATUS="$(ssh -o ConnectTimeout=3 -i /var/lib/munin/.ssh/id_rsa.door status\@donationprint 2>/dev/null | tail -n 1)"
+
+echo "$STATUS" | cut -d , -f 3 > /tmp/.temp.donationprint
+
+echo blank.value "$(echo $STATUS | cut -d , -f 1)"
+echo filled.value "$(echo $STATUS | cut -d , -f 2)"
