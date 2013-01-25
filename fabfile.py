@@ -34,6 +34,20 @@ def deploy(version):
 	sudo("rm /root/chaosdorf-admin-toolkit_%s_all.deb" % version)
 	etckeeper_done()
 
+def test():
+    sudo("uptime")
+
+def check_upgrades():
+    sudo("apt-get dist-upgrade --simulate --quiet")
+
+def upgrade():
+    sudo("apt-get dist-upgrade --yes --quiet")
+
+@hosts('backend.chaosdorf.de')
+def user(user_name, first_name, last_name):
+    sudo('cpu useradd -f %s -E %s -e %s@chaosdorf.de %s' % (first_name, last_name, user_name, user_name))
+    sudo('ldappasswd -y /root/ldap_password -x -W -D cn=admin,dc=chaosdorf,dc=de uid=%s,ou=People,dc=chaosdorf,dc=de' % user_name)
+
 # most munin plugins need to be edited and tested on figurehead
 @hosts('root@chaosdorf.dyndns.org')
 def get_munin_plugins():
