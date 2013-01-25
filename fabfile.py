@@ -3,35 +3,35 @@ from fabric.api import *
 
 env.hosts = [
 	'root@chaosdorf.dyndns.org',
-	'root@backend.chaosdorf.de',
-	'root@extern.chaosdorf.de',
-	'root@intern.chaosdorf.de',
-	'root@shells.chaosdorf.de',
-	'root@vm.chaosdorf.de',
+	'backend.chaosdorf.de',
+	'extern.chaosdorf.de',
+	'intern.chaosdorf.de',
+	'shells.chaosdorf.de',
+	'vm.chaosdorf.de',
 ]
 
 env.shell = '/bin/sh -c'
 
 def etckeeper_check():
-	run('etckeeper pre-install')
+	sudo('etckeeper pre-install')
 
 def etckeeper_commit(message):
-	run('if etckeeper unclean; then etckeeper commit "%s"; fi' % message)
+	sudo('if etckeeper unclean; then etckeeper commit "%s"; fi' % message)
 
 def etckeeper_done():
-	run('etckeeper post-install')
+	sudo('etckeeper post-install')
 
 def configs():
 	etckeeper_check()
-	put('etckeeper/etckeeper.conf', '/etc/etckeeper/')
-	put('apt/99checkrestart', '/etc/apt/apt.conf.d/')
+	put('etckeeper/etckeeper.conf', '/etc/etckeeper/', use_sudo=True)
+	put('apt/99checkrestart', '/etc/apt/apt.conf.d/', use_sudo=True)
 	etckeeper_commit('chaosdorf-admin-toolkit configfile updates')
 
 def deploy(version):
 	etckeeper_check()
-	put("../chaosdorf-admin-toolkit_%s_all.deb" % version, '/root/')
-	run("dpkg --install /root/chaosdorf-admin-toolkit_%s_all.deb" % version)
-	run("rm /root/chaosdorf-admin-toolkit_%s_all.deb" % version)
+	put("../chaosdorf-admin-toolkit_%s_all.deb" % version, '/root/', use_sudo=True)
+	sudo("dpkg --install /root/chaosdorf-admin-toolkit_%s_all.deb" % version)
+	sudo("rm /root/chaosdorf-admin-toolkit_%s_all.deb" % version)
 	etckeeper_done()
 
 # most munin plugins need to be edited and tested on figurehead
