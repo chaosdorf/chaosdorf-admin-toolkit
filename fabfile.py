@@ -1,5 +1,6 @@
 from __future__ import with_statement
 from fabric.api import *
+from StringIO import StringIO
 
 env.hosts = [
 	'root@chaosdorf.dyndns.org',
