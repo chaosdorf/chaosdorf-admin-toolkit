@@ -3,13 +3,15 @@ from fabric.api import *
 from StringIO import StringIO
 
 env.hosts = [
-	'root@chaosdorf.dyndns.org',
 	'backend.chaosdorf.de',
 	'extern.chaosdorf.de',
 	'intern.chaosdorf.de',
 	'shells.chaosdorf.de',
 	'vm.chaosdorf.de',
 ]
+
+if os.getenv('USER') != 'mxey':
+    env.hosts.append('root@chaosdorf.dyndns.org')
 
 env.shell = '/bin/sh -c'
 
