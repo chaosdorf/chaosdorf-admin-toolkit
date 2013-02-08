@@ -40,11 +40,9 @@ def deploy(version):
 def test():
     sudo("uptime")
 
-def check_upgrades():
-    sudo("apt-get dist-upgrade --simulate --quiet")
 
 def upgrade():
-    sudo("apt-get dist-upgrade --yes --quiet")
+    sudo("apt-get dist-upgrade --quiet")
 
 @hosts('backend.chaosdorf.de')
 def user(user_name, first_name, last_name):
