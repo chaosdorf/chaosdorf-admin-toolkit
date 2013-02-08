@@ -46,9 +46,18 @@ def upgrade():
     sudo("apt-get dist-upgrade --quiet")
 
 @hosts('backend.chaosdorf.de')
-def user(user_name, first_name, last_name):
+def ldapuser(user_name, first_name, last_name):
     sudo('cpu useradd -f %s -E %s -e %s@chaosdorf.de %s' % (first_name, last_name, user_name, user_name))
     sudo('ldappasswd -y /root/ldap_password -x -W -D cn=admin,dc=chaosdorf,dc=de uid=%s,ou=People,dc=chaosdorf,dc=de' % user_name)
+
+@hosts('intern.chaosdorf.de')
+def maildir(user_name):
+    sudo('mkdir -p /srv/mail/%s' % user_name)
+    sudo('chown -R %s:%s /srv/mail/%s' % (user_name, user_name, user_name))
+
+def user(user_name, first_name, last_name):
+    execute(ldapuser, user_name, first_name, last_name)
+    execute(maildir, user_name)
 
 @hosts('backend.chaosdorf.de')
 def mailforward(user_name, mail_forward):
