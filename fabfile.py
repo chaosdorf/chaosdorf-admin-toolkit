@@ -24,12 +24,12 @@ def etckeeper_commit(message):
 def etckeeper_done():
 	sudo('etckeeper post-install')
 
-def configs():
-	etckeeper_check()
-	put('etckeeper/etckeeper.conf', '/etc/etckeeper/', use_sudo=True)
-	put('apt/99checkrestart', '/etc/apt/apt.conf.d/', use_sudo=True)
+def configs():  
+  	etckeeper_check()
+  	put('etckeeper/etckeeper.conf', '/etc/etckeeper/', use_sudo=True)
+  	put('apt/99checkrestart', '/etc/apt/apt.conf.d/', use_sudo=True)
 	etckeeper_commit('chaosdorf-admin-toolkit configfile updates')
-
+ 
 def deploy(version):
 	etckeeper_check()
 	put("../chaosdorf-admin-toolkit_%s_all.deb" % version, '/root/', use_sudo=True)
