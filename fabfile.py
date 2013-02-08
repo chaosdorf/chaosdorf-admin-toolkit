@@ -48,6 +48,17 @@ def user(user_name, first_name, last_name):
     sudo('cpu useradd -f %s -E %s -e %s@chaosdorf.de %s' % (first_name, last_name, user_name, user_name))
     sudo('ldappasswd -y /root/ldap_password -x -W -D cn=admin,dc=chaosdorf,dc=de uid=%s,ou=People,dc=chaosdorf,dc=de' % user_name)
 
+@hosts('backend.chaosdorf.de')
+def mailforward(user_name, mail_forward):
+    ldif = '''dn: uid=%s,ou=People,dc=chaosdorf,dc=de
+changetype: modify
+replace: mailRoutingAddress
+mailRoutingAddress: %s
+''' % (user_name, mail_forward)
+    put(StringIO(ldif), 'fabfile_aliases.ldif')
+    sudo('ldapmodify -y /root/ldap_password -x -W -D cn=admin,dc=chaosdorf,dc=de -f fabfile_aliases.ldif')
+
+
 # most munin plugins need to be edited and tested on figurehead
 @hosts('root@chaosdorf.dyndns.org')
 def get_munin_plugins():
