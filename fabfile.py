@@ -1,5 +1,6 @@
 from __future__ import with_statement
 from fabric.api import *
+import os
 from StringIO import StringIO
 
 env.hosts = [
@@ -58,6 +59,17 @@ mailRoutingAddress: %s
 ''' % (user_name, mail_forward)
     put(StringIO(ldif), 'fabfile_aliases.ldif')
     sudo('ldapmodify -y /root/ldap_password -x -W -D cn=admin,dc=chaosdorf,dc=de -f fabfile_aliases.ldif')
+
+@hosts('backend.chaosdorf.de')
+def sshkey(user_name, key_file):
+    key = open(key_file).read().replace("\n", '').replace("\r", '')
+    ldif = '''dn: uid=%s,ou=People,dc=chaosdorf,dc=de
+changetype: modify
+add: sshPublicKey
+sshPublicKey: %s
+''' % (user_name, key)
+    put(StringIO(ldif), 'fabfile_keys.ldif')
+    sudo('ldapmodify -y /root/ldap_password -x -W -D cn=admin,dc=chaosdorf,dc=de -f fabfile_keys.ldif')
 
 
 # most munin plugins need to be edited and tested on figurehead
