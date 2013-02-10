@@ -17,6 +17,13 @@ backup_ldap() {
 	| ssh -q chaosdorf@aneurysm.derf0.net "cat > backup/${HOST}_ldap.gpg"
 }
 
+backup_mediawiki() {
+	php /srv/www/de.chaosdorf.wiki/maintenance/dumpBackup.php --quiet --full \
+	| xz \
+	| gpg --encrypt --always-trust -r ${KEYS} \
+	| ssh -q chaosdorf@aneurysm.derf0.net "cat > backup/${HOST}_mediawiki.xml.xz.gpg"
+}
+
 backup_sql() {
 	sh sqldump.sh \
 	| gpg --encrypt --always-trust -r ${KEYS} \
@@ -71,6 +78,7 @@ case "${HOST}" in
 		;;
 
 	extern.chaosdorf.de)
+		backup_mediawiki
 		backup_sql
 		;;
 
