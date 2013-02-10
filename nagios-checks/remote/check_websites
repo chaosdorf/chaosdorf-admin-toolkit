@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-## Copyright © 2011 by Daniel Friesel <derf@finalrewind.org>
+## Copyright © 2011-2013 by Daniel Friesel <derf@finalrewind.org>
 ## License: WTFPL:
 ##   0. You just DO WHAT THE FUCK YOU WANT TO.
 use strict;
@@ -39,21 +39,25 @@ $np->add_arg(
 
 sub test {
 	($test) = @_;
-	if ($np->opts()->verbose()) {
+	if ($np->opts->verbose) {
 		say "check ${test}";
 	}
 }
 
 sub pass {
-	push(@passed, $test);
-	if ($np->opts()->verbose()) {
+	my ($msg) = @_;
+	my $extra = $msg ? " -- got $msg" : q{};
+	push(@passed, $test . $extra);
+	if ($np->opts->verbose) {
 		say '      passed';
 	}
 }
 
 sub fail {
-	push(@failed, $test);
-	if ($np->opts()->verbose()) {
+	my ($msg) = @_;
+	my $extra = $msg ? " -- got $msg" : q{};
+	push(@failed, $test . $extra);
+	if ($np->opts->verbose) {
 		say '      failed';
 	}
 }
@@ -67,13 +71,14 @@ sub check_redirect {
 		test("Redirect (HTTP $code) $from => $to");
 
 		if (
-				$response->code() == $code
+				$response->code == $code
 				and $response->header('Location') eq $to
 		) {
 			pass();
 		}
 		else {
-			fail();
+			fail($response->code
+				. "; location " . $response->header('Location'));
 		}
 	}
 }
@@ -86,11 +91,11 @@ sub check_ok {
 
 		test("$site exists (HTTP 200)");
 
-		if ($response->code() == 200) {
+		if ($response->code == 200) {
 			pass();
 		}
 		else {
-			fail();
+			fail($response->code);
 		}
 	}
 }
@@ -103,11 +108,11 @@ sub check_exist {
 
 		test("$url exists (no 404)");
 
-		if ($response->code() ~~ [qw[200 301]]) {
+		if ($response->code ~~ [qw[200 301]]) {
 			pass();
 		}
 		else {
-			fail();
+			fail($response->code);
 		}
 	}
 }
@@ -120,11 +125,11 @@ sub check_auth_required {
 
 		test("$site requires auth (HTTP 401)");
 
-		if ($response->code() == 401) {
+		if ($response->code == 401) {
 			pass();
 		}
 		else {
-			fail();
+			fail($response->code);
 		}
 	}
 }
@@ -153,22 +158,22 @@ sub finish_tests {
 	}
 }
 
-$np->getopts();
+$np->getopts;
 
-if ($np->opts()->auth()) {
-	for my $url (@{ $np->opts()->auth() }) {
+if ($np->opts->auth) {
+	for my $url (@{ $np->opts->auth }) {
 		check_auth_required($url);
 	}
 }
 
-if ($np->opts()->ok()) {
-	for my $url (@{ $np->opts()->ok() }) {
+if ($np->opts->ok) {
+	for my $url (@{ $np->opts->ok }) {
 		check_ok($url);
 	}
 }
 
-if ($np->opts()->redirect()) {
-	for my $pair (@{ $np->opts()->redirect() }) {
+if ($np->opts->redirect) {
+	for my $pair (@{ $np->opts->redirect }) {
 		$pair =~ s{ ^ ["'] }{}ox;
 		$pair =~ s{ ["'] $ }{}ox;
 
