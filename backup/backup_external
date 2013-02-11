@@ -18,7 +18,9 @@ backup_ldap() {
 }
 
 backup_mediawiki() {
+	# php keeps complaining about date stuff on stderr, so discard it
 	php /srv/www/de.chaosdorf.wiki/maintenance/dumpBackup.php --quiet --full \
+	2> /dev/null \
 	| xz \
 	| gpg --encrypt --always-trust -r ${KEYS} \
 	| ssh -q chaosdorf@aneurysm.derf0.net "cat > backup/${HOST}_mediawiki.xml.xz.gpg"
