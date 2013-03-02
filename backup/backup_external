@@ -79,11 +79,13 @@ case "${HOST}" in
 
 	extern.chaosdorf.de)
 		backup_mediawiki
+		backup_tar var/lib/automysqlbackup automysqlbackup
 		backup_sql
 		;;
 
 	intern.chaosdorf.de)
 		backup_sql
+		backup_tar var/lib/automysqlbackup automysqlbackup
 		backup_tar var/mail var_mail
 		;;
 
