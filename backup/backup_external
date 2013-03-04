@@ -67,7 +67,7 @@ if ! echo "${HOST}" | fgrep -q .chaosdorf.dn42; then
 	backup_tar srv  srv
 fi
 
-if echo echo "${HOST}" | fgrep -q -e infodisplay -e door; then
+if echo echo "${HOST}" | fgrep -q -e feedback -e lastlight; then
 	backup_tar home home
 fi
 
