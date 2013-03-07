@@ -56,6 +56,7 @@ if which dpkg > /dev/null 2>&1; then
 	backup_dpkg
 fi
 
+backup_tar boot      boot
 backup_tar etc       etc
 backup_tar root      root
 backup_tar var/log   var_log
