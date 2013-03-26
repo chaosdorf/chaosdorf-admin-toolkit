@@ -55,6 +55,9 @@ def maildir(user_name):
     sudo('mkdir -p /srv/mail/%s' % user_name)
     sudo('chown -R %s:%s /srv/mail/%s' % (user_name, user_name, user_name))
 
+# by default, fabric runs the user target for each host, even though
+# ldapuser and maildir only work for one. Limiting it to one host fixes this.
+@hosts('backend.chaosdorf.de')
 def user(user_name, first_name, last_name):
     execute(ldapuser, user_name, first_name, last_name)
     execute(maildir, user_name)
