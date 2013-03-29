@@ -9,7 +9,8 @@ mv "${OUTFILE}.new" "${OUTFILE}"
 chmod 644 "${OUTFILE}"
 
 case "$STATUS" in
-	1) ln -sf open.png ${SICON} ;;
-	0) ln -sf closed.png ${SICON} ;;
+	0) ln -sf open.png ${SICON} ;;
+	1) ln -sf private.png ${SICON} ;;
+	2) ln -sf closed.png ${SICON} ;;
 	*) ln -sf unknown.png ${SICON} ;;
 esac

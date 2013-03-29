@@ -10,6 +10,13 @@ use RRDs;
 
 my $debug = ( @ARGV and $ARGV[0] eq '-d' );
 
+my %statusmap = (
+	unknown => 10,
+	open => 0,
+	private => 1,
+	closed => 2,
+);
+
 my %ascii = (
 	unknown => <<'EOF',
             ________
@@ -53,6 +60,7 @@ EOF
                  +####:
                   ,$M-          
 EOF
+	private => q{},
 	closed => <<'EOF',
   #####                             #####
     #####                         #####
@@ -112,12 +120,17 @@ sub show_status {
 # [-1] == latest
 my @dhcp = get_rrd('/var/lib/munin/chaosdorf.dn42/figurehead.chaosdorf.dn42-online_ips-dynip-g.rrd');
 my @status = get_rrd('/var/lib/munin/chaosdorf.dn42/figurehead.chaosdorf.dn42-chaosdoor-status-g.rrd');
+my @shutdown = get_rrd('/var/lib/munin/chaosdorf.dn42/figurehead.chaosdorf.dn42-chaosdoor-shutdown-g.rrd');
 
 my $doorstatus = 'unknown';
 
 given ($status[-1]) {
 	when (1) { $doorstatus = 'open' }
-	when (0) { $doorstatus = 'closed' }
+	when (0) { $doorstatus = 'private' }
+}
+
+if ($shutdown[-1] == 1) {
+	$doorstatus = 'closed';
 }
 
 if (not @dhcp) {
@@ -145,4 +158,4 @@ else {
 	show_status( $doorstatus, 'open', $open_confidence );
 }
 
-exit int($status[-1] // 2);
+exit int($statusmap{$doorstatus} // 10);
