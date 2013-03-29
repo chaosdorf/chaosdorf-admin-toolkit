@@ -15,19 +15,18 @@ graph_args -l 0
 graph_vlabel Online Hosts
 graph_category network
 graph_info This graph shows the number of pingable hosts
-graph_order hosts infra onfra virt dynip static
 hosts.label hosts
 hosts.draw LINE2
 hosts.info Current number of online hosts
 infra.label Critical Infrastructure
 infra.draw AREA
 infra.info Critical Infrastructure (Gateway, APs, Switches)
-virt.label Virtual
-virt.draw STACK
-virt.info Virtual Hosts on hyperion
 oinfra.label Other Infrastructure
 oinfra.draw STACK
 oinfra.info Other Infrastructure (Music, Printer)
+virt.label Virtual
+virt.draw STACK
+virt.info Virtual Hosts on hyperion
 dynip.label DHCP
 dynip.draw STACK
 dynip.info Guest hosts in DHCP range
@@ -50,10 +49,11 @@ NSTATIC="$(echo "$HOSTS" | egrep -c '\.2..$')"
 
 echo "hosts.value $NHOSTS"
 echo "infra.value $NCINFRA"
-echo "virt.value $NVIRT"
 echo "oinfra.value $NOINFRA"
+echo "virt.value $NVIRT"
 echo "dynip.value $((NDHCP - NINFRA - NVIRT))"
 echo "static.value $NSTATIC"
 
 echo "$HOSTS" > /tmp/.online_ips
+echo "$((NDHCP - NINFRA - NVIRT))" > /tmp/.online_guests
 chmod 644 /tmp/.online_ips
