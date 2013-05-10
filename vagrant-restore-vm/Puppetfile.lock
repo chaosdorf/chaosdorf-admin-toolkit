@@ -1,0 +1,18 @@
+FORGE
+  remote: http://forge.puppetlabs.com
+  specs:
+    puppetlabs/apt (1.1.0)
+      puppetlabs/stdlib (>= 2.2.1)
+    puppetlabs/stdlib (3.2.0)
+
+GIT
+  remote: https://github.com/davidwinter/puppet-nginx.git
+  ref: master
+  sha: 1835446d8cc3943f8cc11146b2d6d4eae151e98d
+  specs:
+    nginx (0.0.1)
+
+DEPENDENCIES
+  nginx (>= 0)
+  puppetlabs/apt (>= 0)
+
