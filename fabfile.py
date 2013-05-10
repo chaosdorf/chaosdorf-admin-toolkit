@@ -44,6 +44,9 @@ def test():
 
 def upgrade():
     sudo("apt-get dist-upgrade --quiet")
+    
+def checkrestart():
+    sudo("checkrestart")
 
 @hosts('backend.chaosdorf.de')
 def ldapuser(user_name, first_name, last_name):
