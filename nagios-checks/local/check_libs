@@ -117,6 +117,7 @@ for my $line (@lsof)  {
 		next if $path =~ m#^/var/tmp/#;
 		next if $path =~ m#^/SYS#;
 		next if $path =~ m#^/dev/zero#;
+		next if $path =~ m#^/srv/mail#;
 		next if ($INVSERVER && ($process eq 'init') && ($pid == 1) && ($user eq 'root'));
 		#$processes{$user}->{$process} = [] unless defined $processes{$user}->{$process};
 		$processes{$user}->{$process}->{$pid} = 1;
