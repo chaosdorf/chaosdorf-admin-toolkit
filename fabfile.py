@@ -95,3 +95,18 @@ def get_munin_plugins():
 		get('modem_status', 'munin/')
 		get('online_ips', 'munin/')
 		get('tc_new', 'munin/')
+
+@hosts('extern.chaosdorf.de')
+def upgrade_mediawiki(version):
+    with cd('/root'):
+        sudo('bash /root/sqldump.sh > /root/mediawiki_before_upgrade_%s.sql' % version)
+    with cd('/srv/www'):
+        sudo('wget --quiet -O mediawiki.tar.gz http://download.wikimedia.org/mediawiki/%s/mediawiki-%s.tar.gz' 
+             % ('.'.join(x.split('.')[0:2]), version))
+        sudo('tar xf mediawiki.tar.gz -C /srv/www/de.chaosdorf.wiki --strip-components=1')
+        sudo('rm mediawiki.tar.gz')
+        with cd('de.chaosdorf.wiki'):
+            with cd('maintenance'):
+                sudo('php update.php')
+            sudo('git add -A')
+            sudo('git commit -m "Upgrade auf MediaWiki %s"' % version)
