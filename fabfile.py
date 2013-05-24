@@ -1,5 +1,7 @@
 from __future__ import with_statement
 from fabric.api import *
+from fabric.contrib.files import exists
+
 import os
 from StringIO import StringIO
 
@@ -110,3 +112,20 @@ def upgrade_mediawiki(version):
                 sudo('php update.php')
             sudo('git add -A')
             sudo('git commit -m "Upgrade auf MediaWiki %s"' % version)
+
+@hosts('intern.chaosdorf.de')
+def cgit():
+    if exists('/opt/cgit/src'):
+        with cd('/opt/cgit/src') as d:
+            sudo('git pull')
+            sudo('git submodule update --init')
+    else:
+        sudo('apt-get install --assume-yes build-essential libssl-dev zlib1g-dev')
+        sudo('mkdir -p /opt/cgit/static')
+        sudo('git clone --recursive http://git.zx2c4.com/cgit '
+                '/opt/cgit/src')
+
+    with cd('/opt/cgit/src') as d:
+        sudo('make')
+        sudo('cp cgit /opt/cgit/cgit.cgi')
+        sudo('cp cgit.css cgit.png /opt/cgit/static')
