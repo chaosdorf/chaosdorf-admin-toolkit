@@ -55,6 +55,10 @@ def ldapuser(user_name, first_name, last_name):
     sudo('cpu useradd -f %s -E %s -e %s@chaosdorf.de %s' % (first_name, last_name, user_name, user_name))
     sudo('ldappasswd -y /root/ldap_password -x -W -D cn=admin,dc=chaosdorf,dc=de uid=%s,ou=People,dc=chaosdorf,dc=de' % user_name)
 
+@hosts('backend.chaosdorf.de')
+def ldappasswd(user_name):
+    sudo('ldappasswd -y /root/ldap_password -x -W -D cn=admin,dc=chaosdorf,dc=de uid=%s,ou=People,dc=chaosdorf,dc=de' % user_name)
+
 @hosts('intern.chaosdorf.de')
 def maildir(user_name):
     sudo('mkdir -p /srv/mail/%s' % user_name)
