@@ -10,7 +10,7 @@ env.hosts = [
     'extern.chaosdorf.de',
     'intern.chaosdorf.de',
     'shells.chaosdorf.de',
-    # 'vm.chaosdorf.de',
+    'vm.chaosdorf.de',
 ]
 
 if os.getenv('USER') != 'mxey':
