@@ -3,6 +3,7 @@ backup/backup_external usr/sbin/
 ldap-sshkeys usr/sbin
 munin/* usr/share/munin/plugins/
 nagios-checks/local/* usr/lib/nagios/plugins/
+nagios-checks/obsolete-packages-ignore etc/nagios-plugins/obsolete-packages-ignore.d/chaosdorf-admin-toolkit
 nagios-passive/submit_checks usr/lib/nagios/
 nagios-passive/run_checks usr/lib/nagios/
 nagios-passive/passive_checks.cfg etc/nagios/
