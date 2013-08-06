@@ -112,6 +112,8 @@ if ($CHILD_ERROR) { # program failed
 
 for my $line (@lsof)  {
 	if ($line =~ m/\.dpkg-/ || $line =~ m/path inode=/ || $line =~ m/ DEL /) {
+		# work around non-empty TID fields
+		$line =~ s{ ^ \S+ \s+ \K (\d+) \s \d+ }{$1}ox;
 		my ($process, $pid, $user, undef, undef, undef, undef, $path, $rest) = split /\s+/, $line;
 		next if $path =~ m#^/proc/#;
 		next if $path =~ m#^/var/tmp/#;
