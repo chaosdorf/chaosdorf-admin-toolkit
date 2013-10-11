@@ -84,6 +84,12 @@ case "${HOST}" in
 		backup_sql
 		;;
 
+	figurehead.chaosdorf.dn42)
+		rm -f /srv/mete/db-backup.sqlite3
+		echo .backup /srv/mete/db-backup.sqlite3 | sqlite3 /srv/mete/shared/db/production.sqlite3
+		backup_tar srv  srv
+		;;
+
 	intern.chaosdorf.de)
 		backup_sql
 		backup_tar var/lib/automysqlbackup automysqlbackup
