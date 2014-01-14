@@ -21,8 +21,6 @@ Depends: ${misc:Depends},
  libnagios-plugin-perl,
  libipc-run-perl,
  nagios-plugins-basic,
- ntp,
- postfix,
  sudo,
  vim,
  zsh
