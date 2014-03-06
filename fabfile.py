@@ -107,7 +107,7 @@ def upgrade_mediawiki(version):
     with cd('/root'):
         sudo('bash /root/sqldump.sh > /root/mediawiki_before_upgrade_%s.sql' % version)
     with cd('/srv/www'):
-        sudo('wget --quiet -O mediawiki.tar.gz http://download.wikimedia.org/mediawiki/%s/mediawiki-%s.tar.gz' 
+        sudo('wget --quiet -O mediawiki.tar.gz http://releases.wikimedia.org/mediawiki/%s/mediawiki-%s.tar.gz' 
              % ('.'.join(version.split('.')[0:2]), version))
         sudo('tar xf mediawiki.tar.gz -C /srv/www/de.chaosdorf.wiki --strip-components=1')
         sudo('rm mediawiki.tar.gz')
