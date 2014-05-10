@@ -11,10 +11,8 @@ env.hosts = [
     'intern.chaosdorf.de',
     'shells.chaosdorf.de',
     'vm.chaosdorf.de',
+    'root@2001:4dd0:ff00:9788::1',
 ]
-
-if os.getenv('USER') != 'mxey':
-    env.hosts.append('root@chaosdorf.dyndns.org')
 
 env.shell = '/bin/sh -c'
 
@@ -94,7 +92,7 @@ sshPublicKey: %s
 
 
 # most munin plugins need to be edited and tested on figurehead
-@hosts('root@chaosdorf.dyndns.org')
+@hosts('root@2001:4dd0:ff00:9788::1')
 def get_munin_plugins():
     with cd('/usr/share/munin/plugins/'):
         get('freifunk_nodes', 'munin/')
