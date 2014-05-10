@@ -1,4 +1,4 @@
-chaosdorf-admin-toolkit (2012.10.17) unstable; urgency=low
+chaosdorf-admin-toolkit (2014.05.10) unstable; urgency=medium
 
   [ Daniel Friesel ]
   * nagios-passive: allow more processes
@@ -20,8 +20,102 @@ chaosdorf-admin-toolkit (2012.10.17) unstable; urgency=low
   * {frontend → intern}.chaosdorf.de
   * raumstatus_calc: Update munin hostname
   * online_ips update
+  * version bump
+  * munin/online_ips: divide infrastructure into critical and noncritical
+  * passive checks: figurehead: check some hosts
 
- -- Daniel Friesel <derf@chaosdorf.de>  Wed, 17 Oct 2012 18:07:10 +0200
+  [ Maximilian Gaß ]
+  * Add ldap-sshkeys
+
+  [ Daniel Friesel ]
+  * add check_sympa
+  * munin: fix apcupsd_ww permissions
+  * apcupsd_ww: always output in english
+  * passive checks: Add postgrey and spampd
+  * backup_external: Do backup /home on door and infodisplay
+  * add doord / ibuttond
+  * raumstatus_calc: return unknown if no data is available
+  * munin/online_ips: update
+  * add donationprint munin plugin
+
+  [ Maximilian Gaß ]
+  * Install ldap-sshkeys to /usr/sbin
+  * Use sudo in chaosdorf-upgrade script
+  * remove dotfiles
+  * Use sudo
+  * Add upgrade and user commands
+
+  [ Daniel Friesel ]
+  * oline_ips update
+
+  [ Maximilian Gaß ]
+  * Add mailforward target to fabfile
+  * Add StringIO import for maiforward target
+  * fabfile: Disable chaosdorf.dyndns.org for mxey
+  * Merge upgrade targets into single interactive one
+  * Whitespace changes
+  * Add sshkey task to fabfile
+  * Disable vm.chaosdorf.de for now
+  * fabfile: add maildir creation for new users
+
+  [ Daniel Friesel ]
+  * check_websites: show current HTTP status for failing checks
+  * backup_external: backup mediawiki XML dump on extern
+  * backup_external: mediawiki: discard stderr (uncritical php warnings)
+
+  [ Maximilian Gaß ]
+  * Revert "backup_external: mediawiki: discard stderr (uncritical php warnings)"
+
+  [ Daniel Friesel ]
+  * backup_external: add automysqlbackup
+  * backup_external: fix chaosdorf.dn42-exception hostnames
+  * backup_external: backup /boot as well
+  * backup: update /home-backup hostnames
+  * update passive checks (lastlight -> door, need sudo)
+  * fabfile: fix 'user' target trying to run several times
+  * online_ips: Fix graph order
+  * remove twitterfeed_update (no longer used)
+  * raumstatus: Update scripts (show shutdown flag)
+
+  [ Maximilian Gaß ]
+  * add checkrestart target to fabfile
+  * Add vagrant-restore-vm
+
+  [ Daniel Friesel ]
+  * check_libs: Ignore /srv/mail (fixes dovecot imap warnings)
+
+  [ Maximilian Gaß ]
+  * Add task upgrade_mediawiki
+  * Tabs → Spaces
+  * Add cgit task
+  * Fix variable name
+
+  [ Daniel Friesel ]
+  * replace obsolete homelinux.org domain
+  * fabfile: add separate ldappasswd target
+  * check cpu temperature on raspberry pies
+  * add wordpress version check for extern.chaosdorf.de
+  * fabfile: re-enable vm.chaosdorf.de
+  * remove check_cert_expire, it's part of nagios-plugins-contrib as of Debian 7
+  * check_{libs,packages,raid} are also shipped by nagios-plugins-contrib
+  * check_libs: non-empty TID workaround
+  * add obsolete-packages-ignore for upstream check_packages
+  * fix debian/install fuckup
+  * check_libs_chaosdorf: Fix TID workaround
+  * update chaosdorf_websites files
+  * online_ips: Add DHCP lease count
+  * backup_external: add /srv and mete-db on figurehead
+  * backup: move mete to meteserver
+  * passive checks: add bgdata / fluksod on feedback
+  * check_raspi_temp: use non-dyndns domain for copyright
+  * debian/control: remove ntp and postfix, we now run on non-servers as well
+  * backup_external: Start extern backup later (takes quite a while now)
+  * fabfile: adjust mediawiki download link
+  * online_ips: add VMs and Unifis
+  * online_ips update
+  * fabfile: Use raw IP for figurehead
+
+ -- Daniel Friesel <derf@chaosdorf.de>  Sat, 10 May 2014 18:54:43 +0200
 
 chaosdorf-admin-toolkit (2012.06.21) unstable; urgency=low
 
