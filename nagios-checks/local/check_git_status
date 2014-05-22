@@ -17,6 +17,11 @@ fi
 
 cd "${REPO}" || exit 3
 
+if [ ! -d .git ]; then
+	echo "${REPO}/.git does not exist"
+	exit 1
+fi
+
 if [ -z "$(git ls-files --modified --deleted --others --exclude-standard)" ]
 then
 	echo "No uncommited changes in ${REPO}"
