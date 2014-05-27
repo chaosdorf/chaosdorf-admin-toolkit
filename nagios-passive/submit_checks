@@ -13,7 +13,7 @@ our $VERSION = '0.1';
 my %opt;
 getopts( 'H:R:c:', \%opt );
 
-my $conffile = $opt{c} || die("Usage: $0 <config> [intervals]\n");
+my $conffile = $opt{c} || die("Usage: $0 -c <config> [intervals]\n");
 
 my $cfg         = Config::Tiny->read($conffile);
 my $hostname    = $opt{H} || qx{hostname -f};
