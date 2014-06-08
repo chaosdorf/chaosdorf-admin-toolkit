@@ -1,0 +1,32 @@
+#!/bin/sh
+
+#%# family=auto
+#%# capabilities=autoconf
+
+if [ "$1" = "autoconf" ]; then
+	echo yes
+	exit 0
+fi
+
+if [ "$1" = "config" ]; then
+    cat <<'EOF'
+graph_title dn42 routes
+graph_args -l 0
+graph_vlabel Routes
+graph_category network
+graph_info number of dn42 routes per AS
+EOF
+	for as in $(fgrep remote-as /etc/quagga/bgpd.conf | cut -d ' ' -f 5 | sed 's/^/as/'); do
+		echo "${as}.label ${as}"
+		echo "${as}.draw AREASTACK"
+		echo "${as}.info Routes for ${as}"
+	done
+	echo total.label total
+	echo total.draw LINE1
+	echo total.info Sum of all routes
+	exit 0
+    exit 0
+fi
+
+ip route | cut -d' ' -f 5 | fgrep dn42 | perl -MList::Util=sum -E \
+'my %cnt; $fmt = "%s.value %d\n"; while (<>) { chomp; s/-dn42$//; $cnt{$_}++ }; for my $k (reverse sort { $cnt{$a} <=> $cnt{$b} } keys %cnt) { printf($fmt, $k, $cnt{$k}) } printf($fmt, "total", sum values %cnt)'
