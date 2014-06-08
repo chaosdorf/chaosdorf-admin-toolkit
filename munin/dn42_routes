@@ -16,10 +16,10 @@ graph_vlabel Routes
 graph_category network
 graph_info number of dn42 routes per AS
 EOF
-	for as in $(fgrep remote-as /etc/quagga/bgpd.conf | cut -d ' ' -f 5 | sed 's/^/as/'); do
-		echo "${as}.label ${as}"
-		echo "${as}.draw AREASTACK"
-		echo "${as}.info Routes for ${as}"
+	for as in $(fgrep remote-as /etc/quagga/bgpd.conf | cut -d ' ' -f 5); do
+		echo "as${as}.label $(fgrep -A2 "${as}" /etc/quagga/bgpd.conf | fgrep description | cut -d ' ' -f 5)"
+		echo "as${as}.draw AREASTACK"
+		echo "as${as}.info Routes for as${as}"
 	done
 	echo total.label total
 	echo total.draw LINE1
