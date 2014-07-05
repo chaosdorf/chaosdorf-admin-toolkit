@@ -43,9 +43,9 @@ fi
 HOSTS="$(fping -c 1 -g -i 10 172.22.26.0/24 2>&1 | fgrep '1/1/0%' | cut -d ' ' -f 1)"
 
 NHOSTS="$(echo "$HOSTS" | wc -l)"
-NCINFRA="$(echo "$HOSTS" | egrep -c '\.(1|2|3|4|7|91|93|94|95|96|97|98|99)$')"
-NOINFRA="$(echo "$HOSTS" | egrep -c '\.(5|6|8|10|11|12|20|66|80|81|82)$')"
-NVIRT="$(echo "$HOSTS" | egrep -c '\.(50|51|52|55|56|57|58|59|77|103|152)$')"
+NCINFRA="$(echo "$HOSTS" | egrep -c '\.(1|2|3|4|7|9|10|93|94|95|96)$')"
+NOINFRA="$(echo "$HOSTS" | egrep -c '\.(5|6|8|11|12|20|66|81|82)$')"
+NVIRT="$(echo "$HOSTS" | egrep -c '\.(5.|60|61|77|103|128|155)$')"
 NINFRA="$((NCINFRA + NOINFRA))"
 NDHCP="$(echo "$HOSTS" | egrep -c '\.1?.?.$')"
 NSTATIC="$(echo "$HOSTS" | egrep -c '\.2..$')"
