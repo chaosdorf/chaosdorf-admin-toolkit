@@ -7,34 +7,34 @@ HOST="$(hostname -f)"
 
 backup_dpkg() {
 	dpkg --get-selections \
-	| ssh -q chaosdorf@aneurysm.derf0.net "cat > backup/${HOST}_packages"
+	| ssh -q chaosdorf@descent.derf0.net "cat > backup/${HOST}_packages"
 }
 
 backup_ldap() {
 	slapcat \
 	2> /dev/null \
 	| gpg --encrypt --always-trust -r ${KEYS} \
-	| ssh -q chaosdorf@aneurysm.derf0.net "cat > backup/${HOST}_ldap.gpg"
+	| ssh -q chaosdorf@descent.derf0.net "cat > backup/${HOST}_ldap.gpg"
 }
 
 backup_mediawiki() {
 	php /srv/www/de.chaosdorf.wiki/maintenance/dumpBackup.php --quiet --full \
 	| xz \
 	| gpg --encrypt --always-trust -r ${KEYS} \
-	| ssh -q chaosdorf@aneurysm.derf0.net "cat > backup/${HOST}_mediawiki.xml.xz.gpg"
+	| ssh -q chaosdorf@descent.derf0.net "cat > backup/${HOST}_mediawiki.xml.xz.gpg"
 }
 
 backup_sql() {
 	sh sqldump.sh \
 	| gpg --encrypt --always-trust -r ${KEYS} \
-	| ssh -q chaosdorf@aneurysm.derf0.net "cat > backup/${HOST}_sql.gpg"
+	| ssh -q chaosdorf@descent.derf0.net "cat > backup/${HOST}_sql.gpg"
 }
 
 backup_tar() {
 	tar --warning=no-file-ignored --warning=no-file-changed \
 	-C / -cJf - "${1}" \
 	| gpg --encrypt --always-trust -r ${KEYS} \
-	| ssh -q chaosdorf@aneurysm.derf0.net "cat > backup/${HOST}_${2}.tar.xz.gpg"
+	| ssh -q chaosdorf@descent.derf0.net "cat > backup/${HOST}_${2}.tar.xz.gpg"
 }
 
 # Do not run *.chaosdorf.de backups simultaneously,
