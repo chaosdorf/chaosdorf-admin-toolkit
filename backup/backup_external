@@ -45,7 +45,6 @@ if [ ! -t 0 ]; then
 	case "${HOST}" in
 		backend.chaosdorf.de)      sleep 1h ;; # 01:03
 		extern.chaosdorf.de)       sleep 8h ;; # 08:03
-		figurehead.chaosdorf.dn42)          ;; # 00:03
 		intern.chaosdorf.de)       sleep 5h ;; # 05:03
 		shells.chaosdorf.de)       sleep 4h ;; # 04:03
 		vm.chaosdorf.de)                    ;; # 00:03

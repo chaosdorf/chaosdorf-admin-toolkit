@@ -11,7 +11,6 @@ env.hosts = [
     'intern.chaosdorf.de',
     'shells.chaosdorf.de',
     'vm.chaosdorf.de',
-    'root@2001:4dd0:ff00:9788::1',
 ]
 
 env.shell = '/bin/sh -c'
@@ -89,16 +88,6 @@ sshPublicKey: %s
 ''' % (user_name, key)
     put(StringIO(ldif), 'fabfile_keys.ldif')
     sudo('ldapmodify -y /root/ldap_password -x -W -D cn=admin,dc=chaosdorf,dc=de -f fabfile_keys.ldif')
-
-
-# most munin plugins need to be edited and tested on figurehead
-@hosts('root@2001:4dd0:ff00:9788::1')
-def get_munin_plugins():
-    with cd('/usr/share/munin/plugins/'):
-        get('freifunk_nodes', 'munin/')
-        get('modem_status', 'munin/')
-        get('online_ips', 'munin/')
-        get('tc_new', 'munin/')
 
 @hosts('extern.chaosdorf.de')
 def upgrade_mediawiki(version):
