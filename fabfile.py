@@ -118,6 +118,7 @@ def deploy_raumstatus():
     usrlocal_check()
     put('raumstatus/raumstatus_update', '/usr/local/bin', use_sudo=True, mode=0755)
     put('raumstatus/cron', '/etc/cron.d/chaosdorf-raumstatus', use_sudo=True)
+    sudo('chown root:root /etc/cron.d/chaosdorf-raumstatus')
     put('raumstatus/bilder/*.png', '/srv/www/de.chaosdorf/raumstatus', use_sudo=True)
     etckeeper_commit('raumstatus update')
     usrlocal_commit('raumstatus update')
