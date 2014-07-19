@@ -1,16 +1,21 @@
 #!/bin/sh
 
-OUTFILE=/srv/www/de.chaosdorf.intern/raumstatus
-SICON=/srv/www/de.chaosdorf.intern/clubraum/status.png
+# without --globoff, curl tries to interpret [] as globbing
+DOOR="$(curl --globoff -s -m 4 http://[2001:4dd0:ff00:9788:ba27:ebff:fe38:9302]/doorstatus 2> /dev/null)"
+SHUTDOWN="$(curl --globoff -s -m 4 http://[2001:4dd0:ff00:9788:ba27:ebff:fe38:9302]/is_shutdown 2> /dev/null )"
 
-raumstatus_calc > "${OUTFILE}.new"
-STATUS=$?
-mv "${OUTFILE}.new" "${OUTFILE}"
-chmod 644 "${OUTFILE}"
+cd /srv/www/de.chaosdorf/raumstatus
 
-case "$STATUS" in
-	0) ln -sf open.png ${SICON} ;;
-	1) ln -sf private.png ${SICON} ;;
-	2) ln -sf closed.png ${SICON} ;;
-	*) ln -sf unknown.png ${SICON} ;;
-esac
+if [ "${SHUTDOWN}" = 1 ]; then
+	STATEFILE=closed.png
+elif [ "${DOOR}" = closed ]; then
+	STATEFILE=private.png
+elif [ "${DOOR}" = open ]; then
+	STATEFILE=open.png
+else
+	STATEFILE=unknown.png
+fi
+
+if [ "$(readlink status.png)" != "${STATEFILE}" ]; then
+	ln -sf $STATEFILE status.png
+fi

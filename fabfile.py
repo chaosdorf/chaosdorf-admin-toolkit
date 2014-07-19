@@ -24,12 +24,20 @@ def etckeeper_commit(message):
 def etckeeper_done():
     sudo('etckeeper post-install')
 
-def configs():  
+def usrlocal_check():
+    with cd('/usr/local'):
+        sudo('test -z "`git status --porcelain`"')
+
+def usrlocal_commit(message):
+    with cd('/usr/local'):
+        sudo('if test -n "`git status --porcelain`"; then git add -A .; git commit -m "%s"; fi' % message)
+
+def configs():
     etckeeper_check()
     put('etckeeper/etckeeper.conf', '/etc/etckeeper/', use_sudo=True)
     put('apt/99checkrestart', '/etc/apt/apt.conf.d/', use_sudo=True)
     etckeeper_commit('chaosdorf-admin-toolkit configfile updates')
- 
+
 def deploy(version):
     etckeeper_check()
     put("../chaosdorf-admin-toolkit_%s_all.deb" % version, '/root/', use_sudo=True)
@@ -103,6 +111,16 @@ def upgrade_mediawiki(version):
                 sudo('php update.php')
             sudo('git add -A')
             sudo('git commit -m "Upgrade auf MediaWiki %s"' % version)
+
+@hosts('extern.chaosdorf.de')
+def deploy_raumstatus():
+    etckeeper_check()
+    usrlocal_check()
+    put('raumstatus/raumstatus_update', '/usr/local/bin', use_sudo=True, mode=0755)
+    put('raumstatus/cron', '/etc/cron.d/chaosdorf-raumstatus', use_sudo=True)
+    put('raumstatus/bilder/*.png', '/srv/www/de.chaosdorf/raumstatus', use_sudo=True)
+    etckeeper_commit('raumstatus update')
+    usrlocal_commit('raumstatus update')
 
 @hosts('intern.chaosdorf.de')
 def cgit():
