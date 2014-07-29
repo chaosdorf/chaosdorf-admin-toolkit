@@ -6,4 +6,4 @@ nagios-checks/local/* usr/lib/nagios/plugins/
 nagios-checks/admin-toolkit-ignore etc/nagios-plugins/obsolete-packages-ignore.d/
 nagios-passive/submit_checks usr/lib/nagios/
 nagios-passive/run_checks usr/lib/nagios/
-nagios-passive/passive_checks.cfg etc/nagios/
+nagios-passive/admin/passive_checks.cfg etc/nagios/

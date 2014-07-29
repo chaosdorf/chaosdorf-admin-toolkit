@@ -12,8 +12,28 @@ Vcs-Browser: http://github.com/chaosdorf/chaosdorf-admin-toolkit
 
 Package: chaosdorf-admin-toolkit
 Architecture: all
+Conflicts: chaosdorf-raumadmin-toolkit
 Depends: ${misc:Depends},
  cron-apt,
+ etckeeper,
+ git-core,
+ htop,
+ libconfig-tiny-perl,
+ libnagios-plugin-perl,
+ libipc-run-perl,
+ nagios-plugins-basic,
+ sudo,
+ vim,
+ zsh
+Description: all-in-one package for Chaosdorf hosts
+ chaosdorf-admin-toolkit depends on several packages commonly used hosts of the
+ Chaos Computer Club Düsseldorf. It also provides tools and configuration files
+ we use like Nagios/Icinga check scripts.
+
+Package: chaosdorf-raumadmin-toolkit
+Architecture: all
+Conflicts: chaosdorf-admin-toolkit
+Depends: ${misc:Depends},
  etckeeper,
  git-core,
  htop,
