@@ -83,16 +83,20 @@ case "${HOST}" in
 		backup_sql
 		;;
 
-	meteserver.chaosdorf.dn42)
-		rm -f /srv/mete/db-backup.sqlite3
-		echo .backup /srv/mete/db-backup.sqlite3 | sqlite3 /srv/mete/shared/db/production.sqlite3
-		backup_tar srv  srv
-		;;
-
 	intern.chaosdorf.de)
 		backup_sql
 		backup_tar var/lib/automysqlbackup automysqlbackup
 		backup_tar var/mail var_mail
+		;;
+
+	hyperion.chaosorf.dn42)
+		backup_tar lib/systemd lib_systemd
+		;;
+
+	meteserver.chaosdorf.dn42)
+		rm -f /srv/mete/db-backup.sqlite3
+		echo .backup /srv/mete/db-backup.sqlite3 | sqlite3 /srv/mete/shared/db/production.sqlite3
+		backup_tar srv  srv
 		;;
 
 	shells.chaosdorf.de)
