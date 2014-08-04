@@ -5,13 +5,14 @@ from fabric.contrib.files import exists
 import os
 from StringIO import StringIO
 
-env.hosts = [
-    'backend.chaosdorf.de',
-    'extern.chaosdorf.de',
-    'intern.chaosdorf.de',
-    'shells.chaosdorf.de',
-    'vm.chaosdorf.de',
-]
+if not env.hosts:
+    env.hosts = [
+        'backend.chaosdorf.de',
+        'extern.chaosdorf.de',
+        'intern.chaosdorf.de',
+        'shells.chaosdorf.de',
+        'vm.chaosdorf.de',
+    ]
 
 env.shell = '/bin/sh -c'
 
