@@ -31,10 +31,20 @@ backup_sql() {
 }
 
 backup_tar() {
-	tar --warning=no-file-ignored --warning=no-file-changed \
-	-C / -cJf - "${1}" \
-	| gpg --encrypt --always-trust -r ${KEYS} \
-	| ssh -q chaosdorf@descent.derf0.net "cat > backup/${HOST}_${2}.tar.xz.gpg"
+	# xzip is more space-efficinet than gzip and therefore preferred. However,
+	# it requires more RAM and CPU time, which should be avoided on embedded
+	# hosts.
+	if uname -m | grep -q '^armv'; then
+		tar --warning=no-file-ignored --warning=no-file-changed \
+		-C / -czf - "${1}" \
+		| gpg --encrypt --always-trust -r ${KEYS} \
+		| ssh -q chaosdorf@descent.derf0.net "cat > backup/${HOST}_${2}.tar.gz.gpg"
+	else
+		tar --warning=no-file-ignored --warning=no-file-changed \
+		-C / -cJf - "${1}" \
+		| gpg --encrypt --always-trust -r ${KEYS} \
+		| ssh -q chaosdorf@descent.derf0.net "cat > backup/${HOST}_${2}.tar.xz.gpg"
+	fi
 }
 
 # Do not run *.chaosdorf.de backups simultaneously,
