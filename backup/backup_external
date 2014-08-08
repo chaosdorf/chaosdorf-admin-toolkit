@@ -115,7 +115,7 @@ case "${HOST}" in
 
 esac
 
-echo -e "${HOST}\tBackup\t0\tCompleted on $(date)" \
+echo "${HOST}\tBackup\t0\tCompleted on $(date)" \
 | send_nsca -H icinga.finalrewind.org \
 > /dev/null
 
