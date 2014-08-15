@@ -140,3 +140,10 @@ def cgit():
         sudo('make')
         sudo('cp cgit /opt/cgit/cgit.cgi')
         sudo('cp cgit.css cgit.png /opt/cgit/static')
+
+# fuer embedded hosts mit readonly / (z.B. raspis im Clubraum)
+def setup_readonly_host():
+    run('mount -o remount,rw /')
+    with cd('/var/lib'):
+        run('if ! readlink logrotate; then rm -rf logrotate; ln -s /tmp logrotate; fi')
+    run('mount -o remount,ro /')
