@@ -19,3 +19,7 @@ fi
 if [ "$(readlink status.png)" != "${STATEFILE}" ]; then
 	ln -sf $STATEFILE status.png
 fi
+
+curl --globoff -s -m 4 http://[2001:4dd0:ff00:9788:ba27:ebff:fe38:9302]/space_api.json \
+> /srv/www/de.chaosdorf/space_api.json.tmp
+mv /srv/www/de.chaosdorf/space_api.json.tmp /srv/www/de.chaosdorf/space_api.json
