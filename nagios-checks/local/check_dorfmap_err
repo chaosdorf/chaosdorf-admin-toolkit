@@ -1,0 +1,19 @@
+#!/bin/sh
+## Copyright © 2013 by Daniel Friesel <derf@finalrewind.org>
+## License: WTFPL <http://sam.zoy.org/wtfpl>
+
+ERRPATH=/tmp/dorfmap-err
+ERRFILE=/tmp/dorfmap-err/${1}
+
+if [ ! -d ${ERRPATH} ]; then
+	echo "Error path ${ERRPATH} does not exist"
+	exit 1
+fi
+
+if [ -e ${ERRFILE} ]; then
+	head -n 1 ${ERRFILE}
+	exit 2
+fi
+
+echo "No errors logged"
+exit 0
