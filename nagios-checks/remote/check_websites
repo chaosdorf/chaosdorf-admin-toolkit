@@ -79,8 +79,8 @@ sub check_redirect {
 			pass();
 		}
 		else {
-			fail($response->code
-				. "; location " . $response->header('Location'));
+			fail(($response->code // 'undef')
+				. "; location " . ($response->header('Location') // 'undef'));
 		}
 	}
 }
