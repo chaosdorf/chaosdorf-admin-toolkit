@@ -147,3 +147,9 @@ def setup_readonly_host():
     with cd('/var/lib'):
         run('if ! readlink logrotate; then rm -rf logrotate; ln -s /tmp logrotate; fi')
     run('mount -o remount,ro /')
+
+@hosts('extern.chaosdorf.de')
+def jabber_adduser(nickname):
+    local('echo generating temporary password:')
+    local('pwgen -s 23 1')
+    sudo('prosodyctl adduser %s@chaosdorf.de' % nickname, user='prosody')
