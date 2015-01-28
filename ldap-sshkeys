@@ -17,6 +17,7 @@ MERGED = ['git']
 def atomic_save(fname, data):
     with open(fname + '.new', 'w') as f:
         f.write(data)
+    os.chmod(fname + '.new', 0644)
     os.rename(fname + '.new', fname)
 
 conn = ldap.open(LDAP_SERVER)
