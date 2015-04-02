@@ -87,6 +87,10 @@ case "${HOST}" in
 		backup_ldap
 		;;
 
+	dashboardserver.chaosdorf.dn42)
+		backup_tar srv  srv
+		;;
+
 	extern.chaosdorf.de)
 		backup_mediawiki
 		backup_tar var/lib/automysqlbackup automysqlbackup
