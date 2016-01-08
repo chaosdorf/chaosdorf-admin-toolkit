@@ -99,7 +99,7 @@ while (<FH>) {
 	}
 	elsif ( $line =~ / resync /) {
 		#       [==>..................]  resync = 10.3% (15216320/146994624) finish=2153.2min speed=1018K/sec
-		my ($percent) = ($line =~ m# resync = ([0-9.]+%)#);
+		my ($percent) = ($line =~ m# resync = ([ 0-9.]+%)#);
 		my ($finish)  = ($line =~ m# finish=([0-9.]+min)#);
 		my ($speed)   = ($line =~ m# speed=([0-9.]+K/sec)#);
 		push @resyncing, "$device ($percent done, finish in $finish at $speed)";
