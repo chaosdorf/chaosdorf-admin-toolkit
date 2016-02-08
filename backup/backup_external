@@ -19,9 +19,9 @@ backup_ldap() {
 
 backup_mediawiki() {
 	php /srv/www/de.chaosdorf.wiki/maintenance/dumpBackup.php --quiet --full \
-	| xz \
+	| gzip \
 	| gpg --encrypt --always-trust -r ${KEYS} \
-	| ssh -q chaosdorf@lastlight.derf0.net "cat > backup/${HOST}_mediawiki.xml.xz.gpg"
+	| ssh -q chaosdorf@lastlight.derf0.net "cat > backup/${HOST}_mediawiki.xml.gz.gpg"
 }
 
 backup_sql() {
@@ -31,20 +31,10 @@ backup_sql() {
 }
 
 backup_tar() {
-	# xzip is more space-efficinet than gzip and therefore preferred. However,
-	# it requires more RAM and CPU time, which should be avoided on embedded
-	# hosts.
-	if uname -m | grep -q '^armv'; then
-		tar --warning=no-file-ignored --warning=no-file-changed \
-		-C / -czf - "${1}" \
-		| gpg --encrypt --always-trust -r ${KEYS} \
-		| ssh -q chaosdorf@lastlight.derf0.net "cat > backup/${HOST}_${2}.tar.gz.gpg"
-	else
-		tar --warning=no-file-ignored --warning=no-file-changed \
-		-C / -cJf - "${1}" \
-		| gpg --encrypt --always-trust -r ${KEYS} \
-		| ssh -q chaosdorf@lastlight.derf0.net "cat > backup/${HOST}_${2}.tar.xz.gpg"
-	fi
+	tar --warning=no-file-ignored --warning=no-file-changed \
+	-C / -czf - "${1}" \
+	| gpg --encrypt --always-trust -r ${KEYS} \
+	| ssh -q chaosdorf@lastlight.derf0.net "cat > backup/${HOST}_${2}.tar.gz.gpg"
 }
 
 # Do not run *.chaosdorf.de backups simultaneously,
