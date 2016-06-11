@@ -1,4 +1,4 @@
-chaosdorf-admin-toolkit (2014.05.10) unstable; urgency=medium
+chaosdorf-admin-toolkit (2016.06.11) unstable; urgency=medium
 
   [ Daniel Friesel ]
   * nagios-passive: allow more processes
@@ -115,7 +115,7 @@ chaosdorf-admin-toolkit (2014.05.10) unstable; urgency=medium
   * online_ips update
   * fabfile: Use raw IP for figurehead
 
- -- Daniel Friesel <derf@chaosdorf.de>  Sat, 10 May 2014 18:54:43 +0200
+ -- Daniel Friesel <derf@chaosdorf.de>  Sat, 11 Jun 2016 23:08:46 +0200
 
 chaosdorf-admin-toolkit (2012.06.21) unstable; urgency=low
 
