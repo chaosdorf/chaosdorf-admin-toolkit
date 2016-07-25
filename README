@@ -10,4 +10,4 @@ on a few Debian packages we use on all hosts.
 You'll probably only be interested in the scripts in this repo, but if you
 want to build the Debian package for some reason, use:
 
-> git-buildpackage -us -uc
+> gbp buildpackage -us -uc
