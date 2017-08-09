@@ -9,9 +9,9 @@ use autodie;
 
 use IkiWiki;
 use IkiWiki::Setup;
-use Nagios::Plugin;
+use Monitoring::Plugin;
 
-my $np = Nagios::Plugin->new(
+my $np = Monitoring::Plugin->new(
 	usage => 'Usage: %s [-v|--verbose] -c|--config <ikiwiki config file>',
 );
 

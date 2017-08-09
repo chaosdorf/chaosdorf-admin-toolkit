@@ -19,16 +19,16 @@ Depends: ${misc:Depends},
  git-core,
  htop,
  libconfig-tiny-perl,
- libnagios-plugin-perl,
+ libmonitoring-plugin-perl,
  libipc-run-perl,
- nagios-plugins-basic,
+ monitoring-plugins-basic,
  sudo,
  vim,
  zsh
 Description: all-in-one package for Chaosdorf hosts
  chaosdorf-admin-toolkit depends on several packages commonly used hosts of the
  Chaos Computer Club Düsseldorf. It also provides tools and configuration files
- we use like Nagios/Icinga check scripts.
+ we use like Icinga check scripts.
 
 Package: chaosdorf-raumadmin-toolkit
 Architecture: all
@@ -38,13 +38,13 @@ Depends: ${misc:Depends},
  git-core,
  htop,
  libconfig-tiny-perl,
- libnagios-plugin-perl,
+ libmonitoring-plugin-perl,
  libipc-run-perl,
- nagios-plugins-basic,
+ monitoring-plugins-basic,
  sudo,
  vim,
  zsh
 Description: all-in-one package for Chaosdorf hosts
  chaosdorf-admin-toolkit depends on several packages commonly used hosts of the
  Chaos Computer Club Düsseldorf. It also provides tools and configuration files
- we use like Nagios/Icinga check scripts.
+ we use like Icinga check scripts.
