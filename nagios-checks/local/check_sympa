@@ -1,6 +1,6 @@
 #!/bin/sh
 
-PID_SYMPA="$(pgrep -x sympa.pl)"
+PID_SYMPA="$(pgrep -x sympa_msg.pl)"
 OK_SYMPA="$?"
 
 PID_BULK="$(pgrep -x bulk.pl)"
