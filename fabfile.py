@@ -98,6 +98,25 @@ sshPublicKey: %s
     put(StringIO(ldif), 'fabfile_keys.ldif')
     sudo('ldapmodify -y /root/ldap_password -x -W -D cn=admin,dc=chaosdorf,dc=de -f fabfile_keys.ldif')
 
+@hosts('backend.chaosdorf.de')
+def deluser(user_name):
+    execute(archive_maildir, user_name)
+    execute(archive_home, user_name)
+
+@hosts('intern.chaosdorf.de')
+def archive_maildir(user_name):
+    with cd('/srv/mail'):
+        if exists(user_name):
+            sudo('tar czf {user}.tgz {user}'.format(user = user_name))
+            sudo('rm -r {user}'.format(user = user_name))
+
+@hosts('extern.chaosdorf.de', 'shells.chaosdorf.de')
+def archive_home(user_name):
+    with cd('/home'):
+        if exists(user_name):
+            sudo('tar czf {user}.tgz {user}'.format(user = user_name))
+            sudo('rm -r {user}'.format(user = user_name))
+
 @hosts('extern.chaosdorf.de')
 def upgrade_mediawiki(version):
     with cd('/root'):
