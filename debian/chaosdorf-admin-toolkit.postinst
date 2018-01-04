@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -e
+
+if [ "$1" = configure ]; then
+	adduser --quiet --system --no-create-home --disabled-login \
+		--shell /bin/sh --home /var/lib/nagios nagios
+fi
+
+#DEBHELPER#
+
+exit 0
