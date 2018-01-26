@@ -1,8 +1,8 @@
 #!/bin/sh
 
-# without --globoff, curl tries to interpret [] as globbing
-DOOR="$(curl --globoff -s -m 4 http://[2001:4dd0:ff00:9788:ba27:ebff:fe38:9302]/doorstatus 2> /dev/null)"
-SHUTDOWN="$(curl --globoff -s -m 4 http://[2001:4dd0:ff00:9788:ba27:ebff:fe38:9302]/is_shutdown 2> /dev/null )"
+read DOOR
+read SHUTDOWN
+read EVENT
 
 cd /srv/www/de.chaosdorf/raumstatus
 
@@ -11,7 +11,11 @@ if [ "${SHUTDOWN}" = 1 ]; then
 elif [ "${DOOR}" = closed ]; then
 	STATEFILE=private.png
 elif [ "${DOOR}" = open ]; then
-	STATEFILE=open.png
+	if [ "${EVENT}" = 1 ]; then
+		STATEFILE=open.png
+	else
+		STATEFILE=maybe_open.png
+	fi
 else
 	STATEFILE=unknown.png
 fi
@@ -20,6 +24,5 @@ if [ "$(readlink status.png)" != "${STATEFILE}" ]; then
 	ln -sf $STATEFILE status.png
 fi
 
-curl --globoff -s -m 4 http://[2001:4dd0:ff00:9788:ba27:ebff:fe38:9302]/space_api.json \
-> /srv/www/de.chaosdorf/space_api.json.tmp
-mv /srv/www/de.chaosdorf/space_api.json.tmp /srv/www/de.chaosdorf/space_api.json
+cat > space_api.json.tmp
+mv space_api.json.tmp space_api.json
