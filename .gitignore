@@ -5,4 +5,5 @@
 /debian/chaosdorf-raumadmin-toolkit
 /debian/chaosdorf-raumadmin-toolkit.substvars
 /debian/chaosdorf-raumadmin-toolkit.debhelper.log
+/debian/.debhelper
 /fabfile.pyc
