@@ -14,17 +14,13 @@ Package: chaosdorf-admin-toolkit
 Architecture: all
 Conflicts: chaosdorf-raumadmin-toolkit
 Depends: ${misc:Depends},
- cron-apt,
  etckeeper,
  git-core,
- htop,
  libconfig-tiny-perl,
  libmonitoring-plugin-perl,
  libipc-run-perl,
  monitoring-plugins-basic,
- sudo,
- vim,
- zsh
+ sudo
 Description: all-in-one package for Chaosdorf hosts
  chaosdorf-admin-toolkit depends on several packages commonly used hosts of the
  Chaos Computer Club Düsseldorf. It also provides tools and configuration files
@@ -36,14 +32,11 @@ Conflicts: chaosdorf-admin-toolkit
 Depends: ${misc:Depends},
  etckeeper,
  git-core,
- htop,
  libconfig-tiny-perl,
  libmonitoring-plugin-perl,
  libipc-run-perl,
  monitoring-plugins-basic,
- sudo,
- vim,
- zsh
+ sudo
 Description: all-in-one package for Chaosdorf hosts
  chaosdorf-admin-toolkit depends on several packages commonly used hosts of the
  Chaos Computer Club Düsseldorf. It also provides tools and configuration files
