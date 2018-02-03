@@ -82,6 +82,7 @@ case "${HOST}" in
 		;;
 
 	dockerserver.chaosdorf.space)
+		backup_tar var/lib/docker/volumes/chaospizza_backup/_data/ chaospizza_backup_data
 		backup_tar var/lib/docker/volumes/mete_backup/_data/ mete_backup_data
 		;;
 
