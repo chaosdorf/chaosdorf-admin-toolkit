@@ -81,6 +81,10 @@ case "${HOST}" in
 		backup_tar srv  srv
 		;;
 
+	dockerserver.chaosdorf.space)
+		backup_tar var/lib/docker/volumes/mete_backup/_data/ mete_backup_data
+		;;
+
 	extern.chaosdorf.de)
 		backup_mediawiki
 		backup_tar var/lib/automysqlbackup automysqlbackup
@@ -91,12 +95,6 @@ case "${HOST}" in
 		backup_sql
 		backup_tar var/lib/automysqlbackup automysqlbackup
 		backup_tar var/mail var_mail
-		;;
-
-	meteserver.chaosdorf.dn42)
-		rm -f /srv/mete/db-backup.sqlite3
-		echo .backup /srv/mete/db-backup.sqlite3 | sqlite3 /srv/mete/shared/db/production.sqlite3
-		backup_tar srv  srv
 		;;
 
 	shells.chaosdorf.de)
