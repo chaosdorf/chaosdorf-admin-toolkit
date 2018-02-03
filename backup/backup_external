@@ -62,7 +62,7 @@ backup_tar var/log   var_log
 backup_tar usr/local usr_local
 backup_tar var/local var_local
 
-if ! echo "${HOST}" | fgrep -q .chaosdorf.dn42; then
+if ! echo "${HOST}" | fgrep -q .chaosdorf.space; then
 	backup_tar home home
 	backup_tar srv  srv
 fi
@@ -77,7 +77,7 @@ case "${HOST}" in
 		backup_ldap
 		;;
 
-	dashboardserver.chaosdorf.dn42)
+	dashboardserver.chaosdorf.space)
 		backup_tar srv  srv
 		;;
 
