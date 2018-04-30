@@ -1,0 +1,18 @@
+#!/bin/sh
+
+set -e
+
+rm -f common.ignore
+
+for host in backend extern intern shells vm; do
+	scp root@${host}.chaosdorf.de:/etc/logcheck/ignore.d.server/local ${host}.ignore
+done
+
+cat *.ignore | ./merge_logcheck.pl > common.ignore
+
+vim common.ignore
+
+for host in backend extern intern shells vm; do
+	scp common.ignore root@${host}.chaosdorf.de:/etc/logcheck/ignore.d.server/local
+	ssh -t root@${host}.chaosdorf.de etckeeper commit logcheck
+done
