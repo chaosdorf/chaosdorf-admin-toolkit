@@ -2,39 +2,44 @@
 
 set -e
 
-KEYS='0x1D643B75'
+KEYS='862134606E27D23BF68D1DA0796F7DAA1D643B75'
 HOST="$(hostname -f)"
 
 backup_dpkg() {
 	dpkg --get-selections \
-	| ssh -q chaosdorf@backup.finalrewind.org "cat > backup/${HOST}_packages"
+	| ssh -q -o CheckHostIP=no -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+	chaosdorf@backup.finalrewind.org "cat > backup/${HOST}_packages"
 }
 
 backup_ldap() {
 	slapcat \
 	2> /dev/null \
 	| gpg --encrypt --always-trust -r ${KEYS} \
-	| ssh -q chaosdorf@backup.finalrewind.org "cat > backup/${HOST}_ldap.gpg"
+	| ssh -q -o CheckHostIP=no -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+	chaosdorf@backup.finalrewind.org "cat > backup/${HOST}_ldap.gpg"
 }
 
 backup_mediawiki() {
 	php /srv/www/de.chaosdorf.wiki/maintenance/dumpBackup.php --quiet --full \
 	| gzip \
 	| gpg --encrypt --always-trust -r ${KEYS} \
-	| ssh -q chaosdorf@backup.finalrewind.org "cat > backup/${HOST}_mediawiki.xml.gz.gpg"
+	| ssh -q -o CheckHostIP=no -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+	chaosdorf@backup.finalrewind.org "cat > backup/${HOST}_mediawiki.xml.gz.gpg"
 }
 
 backup_sql() {
 	sh sqldump.sh \
 	| gpg --encrypt --always-trust -r ${KEYS} \
-	| ssh -q chaosdorf@backup.finalrewind.org "cat > backup/${HOST}_sql.gpg"
+	| ssh -q -o CheckHostIP=no -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+	chaosdorf@backup.finalrewind.org "cat > backup/${HOST}_sql.gpg"
 }
 
 backup_tar() {
 	tar --warning=no-file-ignored --warning=no-file-changed \
 	-C / -czf - "${1}" \
 	| gpg --encrypt --always-trust -r ${KEYS} \
-	| ssh -q chaosdorf@backup.finalrewind.org "cat > backup/${HOST}_${2}.tar.gz.gpg"
+	| ssh -q -o CheckHostIP=no -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+	chaosdorf@backup.finalrewind.org "cat > backup/${HOST}_${2}.tar.gz.gpg"
 }
 
 # Do not run *.chaosdorf.de backups simultaneously,
