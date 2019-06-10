@@ -73,7 +73,7 @@ if ! echo "${HOST}" | fgrep -q .chaosdorf.space; then
 	backup_tar srv  srv
 fi
 
-if echo echo "${HOST}" | fgrep -q -e feedback -e door -e donationprint -e unifiserver; then
+if echo "${HOST}" | fgrep -q -e feedback -e door -e donationprint -e unifiserver; then
 	backup_tar home home
 fi
 
