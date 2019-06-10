@@ -1,6 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
+set -o pipefail
 
 KEYS='862134606E27D23BF68D1DA0796F7DAA1D643B75'
 HOST="$(hostname -f)"
@@ -109,7 +110,7 @@ case "${HOST}" in
 
 esac
 
-echo "${HOST}\tBackup\t0\tCompleted on $(date)" \
+echo -e "${HOST}\tBackup\t0\tCompleted on $(date)" \
 | send_nsca -H icinga.finalrewind.org \
 > /dev/null
 
