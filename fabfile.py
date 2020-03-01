@@ -80,6 +80,14 @@ mailRoutingAddress: {mail_forward}
     c.run('ldapmodify -y /root/ldap_password -x -W -D cn=admin,dc=chaosdorf,dc=de -f fabfile_aliases.ldif')
     c.run('rm fabfile_aliases.ldif')
 
+# Add Jabber account
+
+@task(hosts=['root@extern.chaosdorf.de'])
+def jabber_adduser(c, user_name):
+    print('Temporaeres Passwort: ', end='')
+    c.run('pwgen -s 23 1')
+    c.run('''sudo -u prosody prosodyctl adduser '{user_name}@chaosdorf.de' '''.format(user_name=user_name))
+
 # Delete user
 
 @task(hosts=['root@backend.chaosdorf.de'])
