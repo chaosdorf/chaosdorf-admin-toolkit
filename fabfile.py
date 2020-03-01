@@ -83,7 +83,7 @@ mailRoutingAddress: {mail_forward}
 # Delete user
 
 @task(hosts=['root@backend.chaosdorf.de'])
-def deluser(c, user):
+def ldapdeluser(c, user):
     c.run('''cpu userdel '{user}' && cpu groupdel '{user}' '''.format(user=user))
 
 @task(hosts=['root@intern.chaosdorf.de'])
@@ -93,3 +93,14 @@ def archive_maildir(c, user):
 @task(hosts=['root@extern.chaosdorf.de', 'root@shells.chaosdorf.de'])
 def archive_home(c, user):
     c.run('''if test -d '/home/{user}'; then cd /home && tar czf '{user}.tgz' '{user}' && chmod 600 '{user}.tgz' && rm -r '{user}'; fi'''.format(user=user))
+
+@task
+def deluser(c, user_name):
+    with Connection('root@backend.chaosdorf.de') as c_backend:
+        ldapdeluser(c_backend, user_name)
+    with Connection('root@intern.chaosdorf.de') as c_intern:
+        archive_maildir(c_intern, user_name)
+    with Connection('root@extern.chaosdorf.de') as c_extern:
+        archive_home(c_extern, user_name)
+    with Connection('root@shell.chaosdorf.de') as c_shells:
+        archive_home(c_shells, user_name)
