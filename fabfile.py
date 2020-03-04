@@ -110,5 +110,5 @@ def deluser(c, user_name):
         archive_maildir(c_intern, user_name)
     with Connection('root@extern.chaosdorf.de') as c_extern:
         archive_home(c_extern, user_name)
-    with Connection('root@shell.chaosdorf.de') as c_shells:
+    with Connection('root@shells.chaosdorf.de') as c_shells:
         archive_home(c_shells, user_name)
