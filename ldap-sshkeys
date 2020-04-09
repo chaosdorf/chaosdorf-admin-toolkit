@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # This scripts reads SSH public keys from LDAP and
 # writes them into /var/cache/ssh/$user. 
@@ -8,7 +8,7 @@ from __future__ import with_statement
 import ldap
 import os
 
-LDAP_SERVER='backend.chaosdorf.de'
+LDAP_SERVER='ldap://backend.chaosdorf.de'
 LDAP_BASE='dc=chaosdorf,dc=de'
 DESTINATION = '/var/cache/ssh'
 LOCAL = ['root', 'nagios']
@@ -17,15 +17,15 @@ MERGED = ['git']
 def atomic_save(fname, data):
     with open(fname + '.new', 'w') as f:
         f.write(data)
-    os.chmod(fname + '.new', 0644)
+    os.chmod(fname + '.new', 0o644)
     os.rename(fname + '.new', fname)
 
-conn = ldap.open(LDAP_SERVER)
+conn = ldap.initialize(LDAP_SERVER)
 conn.simple_bind_s()
 code, result = conn.result(conn.search(LDAP_BASE, ldap.SCOPE_SUBTREE,
                                  '(sshPublicKey=*)', ('uid', 'sshPublicKey')))
 
-sshkeys = dict([(x[1]['uid'][0], x[1]['sshPublicKey']) for x in result])
+sshkeys = dict([(x[1]['uid'][0].decode('ascii'), list(map(lambda y: y.decode('ascii'), x[1]['sshPublicKey']))) for x in result])
 
 # Make sure manually placed keys are not imported from LDAP
 for l in LOCAL:
@@ -39,12 +39,11 @@ for user in delete:
     os.unlink(os.path.join(DESTINATION, user))
 
 allkeys = []
-for user, keys in sshkeys.iteritems():
+for user, keys in sshkeys.items():
     allkeys += keys
     atomic_save(os.path.join(DESTINATION, user), '\n'.join(keys))
 
 for m in MERGED:
     atomic_save(os.path.join(DESTINATION, m), '\n'.join(allkeys))
-
 
 conn.unbind_s()
