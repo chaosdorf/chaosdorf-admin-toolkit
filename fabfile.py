@@ -102,6 +102,10 @@ def archive_maildir(c, user):
 def archive_home(c, user):
     c.run('''if test -d '/home/{user}'; then cd /home && tar czf '{user}.tgz' '{user}' && chmod 600 '{user}.tgz' && rm -r '{user}'; fi'''.format(user=user))
 
+@task(hosts=['root@shells.chaosdorf.de'])
+def remove_crontab(c, user):
+    c.run(f'rm -f /var/spool/cron/crontabs/{user}')
+
 @task
 def deluser(c, user_name):
     with Connection('root@backend.chaosdorf.de') as c_backend:
@@ -112,3 +116,4 @@ def deluser(c, user_name):
         archive_home(c_extern, user_name)
     with Connection('root@shells.chaosdorf.de') as c_shells:
         archive_home(c_shells, user_name)
+        remove_crontab(c_shells, user_name)
