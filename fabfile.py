@@ -31,18 +31,6 @@ def test(c):
 def checkrestart(c):
     c.run('checkrestart')
 
-# Upgrade cgit
-
-@task(hosts=['root@intern.chaosdorf.de'])
-def cgit(c):
-    c.run('if ! test -e /opt/cgit/src; then apt --quiet --assume-yes install build-essential libssl-dev zlib1g-dev; mkdir -p /opt/cgit/static; git clone --recursive https://git.zx2c4.com/cgit /opt/cgit/src; fi')
-    with c.cd('/opt/cgit/src'):
-        c.run('git pull')
-        c.run('git submodule update --init')
-        c.run('make')
-        c.run('cp cgit /opt/cgit/cgit.cgi')
-        c.run('cp cgit.css cgit.png /opt/cgit/static')
-
 # Add user
 
 @task(hosts=['root@backend.chaosdorf.de'])
