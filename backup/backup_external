@@ -110,8 +110,6 @@ case "${HOST}" in
 
 esac
 
-echo -e "${HOST}\tBackup\t0\tCompleted on $(date)" \
-| send_nsca -H icinga.finalrewind.org \
-> /dev/null
+curl -s -u $(python3 -c 'import json; f = open("/tmp/api.json", "r"); data = json.load(f); print(":".join(data["auth"]))') -H 'Accept: application/json' -X POST 'https://icinga2.finalrewind.org:5665/v1/actions/process-check-result' -d '{ "type": "Service", "filter": "host.name==\"'${HOST}'\" && service.name==\"backup\"", "exit_status": 0, "plugin_output": "OK"}' > /dev/null
 
 exit 0
