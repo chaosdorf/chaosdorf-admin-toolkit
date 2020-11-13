@@ -1,5 +1,4 @@
 apt/99checkrestart /etc/apt/apt.conf.d/
-backup/backup_external usr/sbin/
 ldap-sshkeys usr/sbin
 munin/* usr/share/munin/plugins/
 nagios-checks/local/* usr/lib/nagios/plugins/

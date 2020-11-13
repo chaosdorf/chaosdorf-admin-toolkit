@@ -2,24 +2,28 @@ from fabric import task
 from fabric.connection import Connection
 import io
 
+# Usage: fab --prompt-for-sudo-password -H user@host some-task
+# Or: fab -H root@host some-task
+
 all_hosts=list(map(lambda x: 'root@{}.chaosdorf.de'.format(x), 'backend dashbaord extern intern shells vm'.split()))
 
 # Git helpers
 
 def etckeeper_check(c):
-    c.run('etckeeper pre-install')
+    c.sudo('etckeeper pre-install')
 
 def etckeeper_commit(c, message):
-    c.run('''if etckeeper unclean; then etckeeper commit '{}'; fi'''.format(message))
+    if c.sudo("etckeeper unclean", warn=True).ok:
+        c.sudo(f"etckeeper commit '{message}'")
 
 def etckeeper_done(c):
-    c.run('etckeeper post-install')
+    c.sudo('etckeeper post-install')
 
 def usrlocal_check(c):
-    c.run('cd /usr/local && test -z "`git status --porcelain`"')
+    c.sudo('cd /usr/local && test -z "`git status --porcelain`"')
 
 def usrlocal_commit(c, message):
-    c.run('''if test -n "`git status --porcelain`"; then git add -A .; git commit -m '{}'; fi'''.format(message))
+    c.sudo('''if test -n "`git status --porcelain`"; then git add -A .; git commit -m '{}'; fi'''.format(message))
 
 # Checks
 
@@ -105,3 +109,24 @@ def deluser(c, user_name):
     with Connection('root@shells.chaosdorf.de') as c_shells:
         archive_home(c_shells, user_name)
         remove_crontab(c_shells, user_name)
+
+@task
+def deploy_weekly_backup(c):
+    etckeeper_check(c)
+
+    c.sudo('apt-get -y update')
+    c.sudo('apt-get -y install gpg')
+
+    c.put('backup/pubkey', '/tmp')
+    c.sudo('gpg --import /tmp/pubkey')
+    c.run('rm /tmp/pubkey')
+
+    c.put('backup/backup_external', '/tmp')
+    c.sudo('install -m 0755 /tmp/backup_external /usr/sbin/backup_external')
+    c.run('rm -f /tmp/backup_external')
+
+    c.put('backup/cron', '/tmp')
+    c.sudo('install -m 0644 /tmp/cron /etc/cron.d/chaosdorf-backup')
+    c.run('rm -f /tmp/cron')
+
+    etckeeper_commit(c, "deploy weekly backup")
