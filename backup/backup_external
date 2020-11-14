@@ -64,7 +64,6 @@ fi
 backup_tar boot      boot
 backup_tar etc       etc
 backup_tar root      root
-backup_tar var/log   var_log
 backup_tar usr/local usr_local
 backup_tar var/local var_local
 
