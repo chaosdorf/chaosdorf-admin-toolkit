@@ -1,0 +1,12 @@
+{
+	"host": "sentryserver.chaosdorf.space",
+	"passive_ping": true,
+	"checks" : {
+		"disk /": "/usr/lib/nagios/plugins/check_disk -w 8% -c 2% -p /",
+		"users": "/usr/lib/nagios/plugins/check_users -w 20 -c 30",
+		"load": "/usr/lib/nagios/plugins/check_load --warning=20,15,10 --critical=30,25,20",
+		"procs": "/usr/lib/nagios/plugins/check_procs -w 400 -c 500",
+		"systemd": "/usr/lib/nagios/plugins/check_systemd"
+	},
+	"api": "https://icinga2.finalrewind.org:5665/v1/actions/process-check-result"
+}
