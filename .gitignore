@@ -7,3 +7,4 @@
 /debian/chaosdorf-raumadmin-toolkit.debhelper.log
 /debian/.debhelper
 /fabfile.pyc
+/monitoring/config/auth.json

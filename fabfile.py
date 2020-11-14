@@ -1,6 +1,7 @@
 from fabric import task
 from fabric.connection import Connection
 import io
+import json
 
 # Usage: fab --prompt-for-sudo-password -H user@host some-task
 # Or: fab -H root@host some-task
@@ -180,6 +181,53 @@ def deluser(c, user_name):
     with Connection("root@shells.chaosdorf.de") as c_shells:
         archive_home(c_shells, user_name)
         remove_crontab(c_shells, user_name)
+
+
+# monitoring/config/auth.json must contain {"user":"...","password":"..."}
+# (with the Icinga2 API credentials filled in).
+# It is not part of this repository.
+@task
+def deploy_icinga_client(c, hostname):
+    with open(f"monitoring/config/{hostname}.json", "r") as f:
+        client_config = json.load(f)
+    with open("monitoring/config/auth.json", "r") as f:
+        auth_config = json.load(f)
+
+    client_config["auth"] = [auth_config["user"], auth_config["password"]]
+
+    etckeeper_check(c)
+
+    if c.run("getent passwd nagios", warn=True).failed:
+        c.sudo(
+            "adduser --quiet --system --no-create-home --disabled-login --shell /bin/sh --home /var/lib/nagios nagios"
+        )
+        c.sudo("apt-get update")
+        c.sudo("apt-get install monitoring-plugins-basic python3-requests")
+        c.sudo("mkdir -p /etc/nagios")
+        c.sudo("chmod 755 /etc/nagios")
+
+    install(
+        c,
+        io.StringIO(json.dumps(client_config, indent=4)),
+        "/etc/nagios/api.json",
+        "0660",
+        "nagios",
+        "root",
+    )
+    for check in "git_status kernel libs_chaosdorf sympa systemd wordpress".split():
+        install(
+            c,
+            f"monitoring/checks/check_{check}",
+            f"/usr/lib/nagios/plugins/check_{check}",
+            "0755",
+        )
+    install(c, "sudoers.d/nagios", "/etc/sudoers.d/nagios", "0440")
+    install(
+        c, "monitoring/icinga-run-checks", "/usr/local/lib/icinga-run-checks", "0755"
+    )
+    install(c, "monitoring/cron", "/etc/cron.d/chaosdorf-admin-toolkit")
+
+    etckeeper_commit(c, "deploy icinga2 checks")
 
 
 @task
