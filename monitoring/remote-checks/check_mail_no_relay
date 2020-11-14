@@ -4,12 +4,12 @@
 FROM='foo@example.org'
 TO='barz@example.org'
 
-if [ -z "$1" ]; then
+if [ -z "$2" ]; then
 	echo 'NORELAY: Invalid invocation'
 	exit 10
 fi
 
-OUT="$(swaks -S 2 -s "$1" -f "${FROM}" -t "${TO}")"
+OUT="$(swaks -S 2 -s "$2" -f "${FROM}" -t "${TO}")"
 
 RET=${?}
 

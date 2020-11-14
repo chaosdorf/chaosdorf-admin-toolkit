@@ -1,9 +1,0 @@
-#!/bin/sh
-
-if [ -z "$RANDOM" ]; then
-	RANDOM=$(dd if=/dev/urandom count=1 2> /dev/null | cksum | cut -c"1-5")
-fi
-
-sleep $(( RANDOM % 60 ))
-
-exec /usr/lib/nagios/submit_checks -c /etc/nagios/passive_checks.cfg "$@"

@@ -1,5 +1,0 @@
-#!/bin/sh
-#
-# Handled by chaosdorf-admin-toolkit. Only edit in git repo.
-
-echo "$@" | nc -q 3 10.200.200.2 6666
