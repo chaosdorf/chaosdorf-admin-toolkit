@@ -40,6 +40,17 @@ def usrlocal_commit(c, message):
     )
 
 
+def install(c, source, destination, mode="0644", owner=None, group=None):
+    install_cmd = f"install -m {mode}"
+    if owner is not None and group is not None:
+        install_cmd += f" -o {owner} -g {group}"
+    install_cmd += f" /tmp/.chaosdorf-admin-tmp {destination}"
+
+    c.put(source, "/tmp/.chaosdorf-admin-tmp")
+    c.sudo(install_cmd)
+    c.run("rm /tmp/.chaosdorf-admin-tmp")
+
+
 # Checks
 
 
@@ -182,12 +193,7 @@ def deploy_weekly_backup(c):
     c.sudo("gpg --import /tmp/pubkey")
     c.run("rm /tmp/pubkey")
 
-    c.put("backup/backup_external", "/tmp")
-    c.sudo("install -m 0755 /tmp/backup_external /usr/sbin/backup_external")
-    c.run("rm -f /tmp/backup_external")
-
-    c.put("backup/cron", "/tmp")
-    c.sudo("install -m 0644 /tmp/cron /etc/cron.d/chaosdorf-backup")
-    c.run("rm -f /tmp/cron")
+    install(c, "backup/backup_external", "/usr/sbin/backup_external", "0755")
+    install(c, "backup/cron", "/etc/cron.d/chaosdorf-backup", "0644")
 
     etckeeper_commit(c, "deploy weekly backup")
