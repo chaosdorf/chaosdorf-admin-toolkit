@@ -188,9 +188,10 @@ def deluser(c, user_name):
 # It is not part of this repository.
 @task
 def deploy_icinga_client(c, hostname):
+    domain = ".".join(hostname.split(".")[-2:])
     with open(f"monitoring/config/{hostname}.json", "r") as f:
         client_config = json.load(f)
-    with open("monitoring/config/auth.json", "r") as f:
+    with open(f"monitoring/auth/{domain}.json", "r") as f:
         auth_config = json.load(f)
 
     client_config["auth"] = [auth_config["user"], auth_config["password"]]
