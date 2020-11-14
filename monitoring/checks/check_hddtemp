@@ -1,0 +1,29 @@
+#!/bin/sh
+## Copyright © 2010 by Daniel Friesel <derf@finalrewind.org>
+## License: WTFPL <http://sam.zoy.org/wtfpl>
+
+DISK="${1}"
+WARN="${2}"
+CRIT="${3}"
+
+if [ -z "${1}" -o -z "${2}" -o -z "${3}" ]; then
+	exit 3
+fi
+
+TEMP="$(hddtemp -n ${DISK})"
+
+echo "${DISK}: ${TEMP}C"
+
+if [ -z "${TEMP}" ]; then
+	exit 3
+fi
+
+if [ "${TEMP}" -ge "${CRIT}" ]; then
+	exit 2
+fi
+
+if [ "${TEMP}" -ge "${WARN}" ]; then
+	exit 1
+fi
+
+exit 0

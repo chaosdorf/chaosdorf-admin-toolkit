@@ -2,9 +2,11 @@ from fabric import task
 from fabric.connection import Connection
 import io
 import json
+import os
 
 # Usage: fab --prompt-for-sudo-password -H user@host some-task
 # Or: fab -H root@host some-task
+# "--ssh-config ~/.ssh/config" may also be useful
 
 all_hosts = list(
     map(
@@ -215,14 +217,21 @@ def deploy_icinga_client(c, hostname):
         "nagios",
         "root",
     )
-    for check in "git_status kernel libs_ng sympa systemd wordpress".split():
+    for (
+        check
+    ) in "git_status hddtemp kernel libs_ng raid_chaosdorf sympa systemd wordpress".split():
         install(
             c,
             f"monitoring/checks/check_{check}",
             f"/usr/lib/nagios/plugins/check_{check}",
             "0755",
         )
-    install(c, "sudoers.d/nagios", "/etc/sudoers.d/nagios", "0440")
+    if os.path.isfile(f"monitoring/sudo/{hostname}"):
+        install(c, f"monitoring/sudo/{hostname}", "/etc/sudoers.d/nagios", "0440")
+    elif os.path.isfile(f"monitoring/sudo/{domain}"):
+        install(c, f"monitoring/sudo/{domain}", "/etc/sudoers.d/nagios", "0440")
+    else:
+        install(c, "monitoring/sudo/common", "/etc/sudoers.d/nagios", "0440")
     install(
         c, "monitoring/icinga-run-checks", "/usr/local/lib/icinga-run-checks", "0755"
     )
