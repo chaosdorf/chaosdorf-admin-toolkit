@@ -3,4 +3,4 @@ nagios ALL=(root) NOPASSWD: /usr/lib/nagios/plugins/check_git_status /etc
 nagios ALL=(root) NOPASSWD: /usr/lib/nagios/plugins/check_git_status /usr/local
 nagios ALL=(root) NOPASSWD: /usr/lib/nagios/plugins/check_git_status /srv/www/de.chaosdorf
 nagios ALL=(root) NOPASSWD: /usr/lib/nagios/plugins/check_git_status /srv/www/de.chaosdorf.wiki
-nagios ALL=(root) NOPASSWD: /usr/lib/nagios/plugins/check_libs_chaosdorf
+nagios ALL=(root) NOPASSWD: /usr/lib/nagios/plugins/check_libs_ng

@@ -214,7 +214,7 @@ def deploy_icinga_client(c, hostname):
         "nagios",
         "root",
     )
-    for check in "git_status kernel libs_chaosdorf sympa systemd wordpress".split():
+    for check in "git_status kernel libs_ng sympa systemd wordpress".split():
         install(
             c,
             f"monitoring/checks/check_{check}",

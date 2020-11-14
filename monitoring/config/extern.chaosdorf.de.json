@@ -8,7 +8,7 @@
 		"procs": "/usr/lib/nagios/plugins/check_procs -w 500 -c 700",
 		"packages": "/usr/lib/nagios/plugins/check_packages",
 		"systemd": "/usr/lib/nagios/plugins/check_systemd",
-		"running libraries": "/usr/bin/sudo /usr/lib/nagios/plugins/check_libs_chaosdorf",
+		"running libraries": "/usr/bin/sudo /usr/lib/nagios/plugins/check_libs_ng",
 		"kernel version": "/usr/lib/nagios/plugins/check_kernel",
 		"git /srv/www/de.chaosdorf": "/usr/bin/sudo /usr/lib/nagios/plugins/check_git_status /srv/www/de.chaosdorf",
 		"git /srv/www/de.chaosdorf.wiki": "/usr/bin/sudo /usr/lib/nagios/plugins/check_git_status /srv/www/de.chaosdorf.wiki",
