@@ -8,7 +8,7 @@ import sys
 import time
 
 with open("/etc/nagios/api.json", "r") as f:
-	config = json.load(f)
+    config = json.load(f)
 
 host = config["host"]
 passive_ping = config["passive_ping"]
@@ -18,7 +18,7 @@ headers = {"Accept": "application/json"}
 auth = tuple(config["auth"])
 
 if len(sys.argv) > 1 and sys.argv[1] == "cron":
-	time.sleep(random.random() * 30)
+    time.sleep(random.random() * 30)
 
 for check, command in checks.items():
     check_result = subprocess.run(command, shell=True, capture_output=True)
@@ -36,7 +36,10 @@ for check, command in checks.items():
     else:
         req["plugin_output"] = check_output.strip()
 
-    res = requests.post(api, auth=auth, headers=headers, json=req)
+    try:
+        res = requests.post(api, auth=auth, headers=headers, json=req)
+    except requests.exceptions.ConnectionError:
+        continue
     if res.status_code != 200:
         print(f"Error {res.status_code} when submitting {check}: {res.json()}")
 
@@ -47,6 +50,9 @@ if passive_ping:
         "exit_status": 0,
         "plugin_output": "Alive",
     }
-    res = requests.post(api, auth=auth, headers=headers, json=req)
+    try:
+        res = requests.post(api, auth=auth, headers=headers, json=req)
+    except requests.exceptions.ConnectionError:
+        sys.exit(0)
     if res.status_code != 200:
         print(f"Error {res.status_code} when submitting hostalive: {res.json()}")
