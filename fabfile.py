@@ -127,6 +127,25 @@ mailRoutingAddress: {mail_forward}
     c.run("rm fabfile_aliases.ldif")
 
 
+
+@task(hosts=["root@backend.chaosdorf.de"])
+def mailalias(c, from_name, to_name):
+    ldif = """dn: cn={from_name},ou=Aliases,dc=chaosdorf,dc=de
+changetype: add
+objectClass: nisMailAlias
+objectClass: top
+cn: {from_name}
+rfc822MailMember: {to_name}
+""".format(
+        from_name=from_name, to_name=to_name
+    )
+    c.put(io.StringIO(ldif), "fabfile_aliases.ldif")
+    c.run(
+        "ldapmodify -y /root/ldap_password -x -W -D cn=admin,dc=chaosdorf,dc=de -f fabfile_aliases.ldif"
+    )
+    c.run("rm fabfile_aliases.ldif")
+
+
 # Add Jabber account
 
 
