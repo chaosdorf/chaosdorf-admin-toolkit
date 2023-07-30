@@ -29,7 +29,7 @@ backup_mediawiki() {
 }
 
 backup_sql() {
-	sh sqldump.sh \
+	sh /root/sqldump.sh \
 	| gpg --encrypt --always-trust -r ${KEYS} \
 	| ssh -q -o CheckHostIP=no -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
 	chaosdorf@backup.finalrewind.org "cat > backup/${HOST}_sql.gpg"
