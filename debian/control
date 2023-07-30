@@ -3,7 +3,7 @@ Section: admin
 Priority: optional
 Maintainer: Chaosdorf Admins <admin@chaosdorf.de>
 Uploaders: Maximilian Gass <mxey@chaosdorf.de>,
- Daniel Friesel <derf@chaosdorf.de>
+ Birte Friesel <derf@chaosdorf.de>
 Build-Depends: debhelper (>= 11)
 Standards-Version: 4.1.3
 Homepage: http://github.com/chaosdorf/chaosdorf-admin-toolkit

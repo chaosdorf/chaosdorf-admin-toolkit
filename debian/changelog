@@ -1,6 +1,6 @@
 chaosdorf-admin-toolkit (2016.06.11) unstable; urgency=medium
 
-  [ Daniel Friesel ]
+  [ Birte Friesel ]
   * nagios-passive: allow more processes
   * nagios-passive: remove unused ikiwiki-www check
   * munin/tc_new: Add htb_1_14 penalized class
@@ -15,7 +15,7 @@ chaosdorf-admin-toolkit (2016.06.11) unstable; urgency=medium
   * chaosdorf-upgrade: Reduce duplication
   * Use proper syntax for iterating Bash array
 
-  [ Daniel Friesel ]
+  [ Birte Friesel ]
   * add apcupsd_ww munin plugin
   * {frontend → intern}.chaosdorf.de
   * raumstatus_calc: Update munin hostname
@@ -27,7 +27,7 @@ chaosdorf-admin-toolkit (2016.06.11) unstable; urgency=medium
   [ Maximilian Gaß ]
   * Add ldap-sshkeys
 
-  [ Daniel Friesel ]
+  [ Birte Friesel ]
   * add check_sympa
   * munin: fix apcupsd_ww permissions
   * apcupsd_ww: always output in english
@@ -45,7 +45,7 @@ chaosdorf-admin-toolkit (2016.06.11) unstable; urgency=medium
   * Use sudo
   * Add upgrade and user commands
 
-  [ Daniel Friesel ]
+  [ Birte Friesel ]
   * oline_ips update
 
   [ Maximilian Gaß ]
@@ -58,7 +58,7 @@ chaosdorf-admin-toolkit (2016.06.11) unstable; urgency=medium
   * Disable vm.chaosdorf.de for now
   * fabfile: add maildir creation for new users
 
-  [ Daniel Friesel ]
+  [ Birte Friesel ]
   * check_websites: show current HTTP status for failing checks
   * backup_external: backup mediawiki XML dump on extern
   * backup_external: mediawiki: discard stderr (uncritical php warnings)
@@ -66,7 +66,7 @@ chaosdorf-admin-toolkit (2016.06.11) unstable; urgency=medium
   [ Maximilian Gaß ]
   * Revert "backup_external: mediawiki: discard stderr (uncritical php warnings)"
 
-  [ Daniel Friesel ]
+  [ Birte Friesel ]
   * backup_external: add automysqlbackup
   * backup_external: fix chaosdorf.dn42-exception hostnames
   * backup_external: backup /boot as well
@@ -81,7 +81,7 @@ chaosdorf-admin-toolkit (2016.06.11) unstable; urgency=medium
   * add checkrestart target to fabfile
   * Add vagrant-restore-vm
 
-  [ Daniel Friesel ]
+  [ Birte Friesel ]
   * check_libs: Ignore /srv/mail (fixes dovecot imap warnings)
 
   [ Maximilian Gaß ]
@@ -90,7 +90,7 @@ chaosdorf-admin-toolkit (2016.06.11) unstable; urgency=medium
   * Add cgit task
   * Fix variable name
 
-  [ Daniel Friesel ]
+  [ Birte Friesel ]
   * replace obsolete homelinux.org domain
   * fabfile: add separate ldappasswd target
   * check cpu temperature on raspberry pies
@@ -115,7 +115,7 @@ chaosdorf-admin-toolkit (2016.06.11) unstable; urgency=medium
   * online_ips update
   * fabfile: Use raw IP for figurehead
 
- -- Daniel Friesel <derf@chaosdorf.de>  Sat, 11 Jun 2016 23:08:46 +0200
+ -- Birte Friesel <derf@chaosdorf.de>  Sat, 11 Jun 2016 23:08:46 +0200
 
 chaosdorf-admin-toolkit (2012.06.21) unstable; urgency=low
 
@@ -132,7 +132,7 @@ chaosdorf-admin-toolkit (2012.06.21) unstable; urgency=low
   * backup: mediawiki moved to /srv/www -> included in generic backup
   * nagios-passive: add de.chaosdorf.wiki check on extern
 
- -- Daniel Friesel <derf@chaosdorf.de>  Thu, 21 Jun 2012 09:59:39 +0200
+ -- Birte Friesel <derf@chaosdorf.de>  Thu, 21 Jun 2012 09:59:39 +0200
 
 chaosdorf-admin-toolkit (2012.03.27) unstable; urgency=low
 
@@ -146,7 +146,7 @@ chaosdorf-admin-toolkit (2012.03.27) unstable; urgency=low
   * fabfile: Add task to fetch munin plugins from figurehead
   * clean up munin plugin code
 
- -- Daniel Friesel <derf@chaosdorf.de>  Tue, 27 Mar 2012 11:14:52 +0200
+ -- Birte Friesel <derf@chaosdorf.de>  Tue, 27 Mar 2012 11:14:52 +0200
 
 chaosdorf-admin-toolkit (2012.02.25) unstable; urgency=low
 
@@ -160,7 +160,7 @@ chaosdorf-admin-toolkit (2012.02.25) unstable; urgency=low
   * fabfile: deploy checkrestart hook
   * nagios-passive: check SSL on extern as well
 
- -- Daniel Friesel <derf@chaosdorf.de>  Sat, 25 Feb 2012 02:01:38 +0100
+ -- Birte Friesel <derf@chaosdorf.de>  Sat, 25 Feb 2012 02:01:38 +0100
 
 chaosdorf-admin-toolkit (2011.09.19) unstable; urgency=low
 
@@ -171,7 +171,7 @@ chaosdorf-admin-toolkit (2011.09.19) unstable; urgency=low
   * check_mail_no_relay: DRY
   * backup: Change GPG key
 
- -- Daniel Friesel <derf@chaosdorf.de>  Mon, 19 Sep 2011 16:14:15 +0200
+ -- Birte Friesel <derf@chaosdorf.de>  Mon, 19 Sep 2011 16:14:15 +0200
 
 chaosdorf-admin-toolkit (2011.07.31) unstable; urgency=low
 
@@ -179,7 +179,7 @@ chaosdorf-admin-toolkit (2011.07.31) unstable; urgency=low
   * passive/submit_checks: Do not die if nsca failed. We'll notice anyways if it persists
   * Add dpkg checkrestart hook
 
- -- Daniel Friesel <derf@chaosdorf.de>  Sun, 31 Jul 2011 12:21:50 +0200
+ -- Birte Friesel <derf@chaosdorf.de>  Sun, 31 Jul 2011 12:21:50 +0200
 
 chaosdorf-admin-toolkit (2011.07.12) unstable; urgency=low
 
@@ -194,7 +194,7 @@ chaosdorf-admin-toolkit (2011.07.12) unstable; urgency=low
   * debian: Update to standards version 3.9.2 (no changes needed)
   * nagios-passive: Add a meta-check (to be used for service dependencies)
 
- -- Daniel Friesel <derf@chaosdorf.de>  Tue, 12 Jul 2011 11:15:48 +0200
+ -- Birte Friesel <derf@chaosdorf.de>  Tue, 12 Jul 2011 11:15:48 +0200
 
 chaosdorf-admin-toolkit (2011.06.08) unstable; urgency=low
 
@@ -207,7 +207,7 @@ chaosdorf-admin-toolkit (2011.06.08) unstable; urgency=low
   * Push backups instead of pulling them from aneurysm
   * backup_external: frontend is the slowest host, so make it run last
 
- -- Daniel Friesel <derf@chaosdorf.de>  Wed, 08 Jun 2011 18:02:58 +0200
+ -- Birte Friesel <derf@chaosdorf.de>  Wed, 08 Jun 2011 18:02:58 +0200
 
 chaosdorf-admin-toolkit (2011.06.01) unstable; urgency=low
 
@@ -217,7 +217,7 @@ chaosdorf-admin-toolkit (2011.06.01) unstable; urgency=low
   * Switch to passive checks
   * passive checks: Sleep up to one minute before running
 
- -- Daniel Friesel <derf@chaosdorf.de>  Wed, 01 Jun 2011 16:15:51 +0200
+ -- Birte Friesel <derf@chaosdorf.de>  Wed, 01 Jun 2011 16:15:51 +0200
 
 chaosdorf-admin-toolkit (2011.04.08) unstable; urgency=low
 
@@ -233,7 +233,7 @@ chaosdorf-admin-toolkit (2011.04.08) unstable; urgency=low
   * check_ikiwiki: Check for UID/GID of wrappers as well
   * fab deploy: Put .deb into /root/ instead of /tmp/
 
- -- Daniel Friesel <derf@chaosdorf.de>  Fri, 08 Apr 2011 19:16:58 +0200
+ -- Birte Friesel <derf@chaosdorf.de>  Fri, 08 Apr 2011 19:16:58 +0200
 
 chaosdorf-admin-toolkit (2011.04.07) unstable; urgency=low
 
@@ -248,7 +248,7 @@ chaosdorf-admin-toolkit (2011.04.07) unstable; urgency=low
   * Add check_ikiwiki
   * Enable ikiwiki checks in forcecommand
 
- -- Daniel Friesel <derf@chaosdorf.de>  Thu, 07 Apr 2011 22:25:14 +0200
+ -- Birte Friesel <derf@chaosdorf.de>  Thu, 07 Apr 2011 22:25:14 +0200
 
 chaosdorf-admin-toolkit (2011.04.06) unstable; urgency=low
 
@@ -256,47 +256,47 @@ chaosdorf-admin-toolkit (2011.04.06) unstable; urgency=low
   * Add nagios check for websites (redirects etc)
   * forcecommand/nagios: Sort, add sensors check
 
- -- Daniel Friesel <derf@chaosdorf.de>  Wed, 06 Apr 2011 13:03:44 +0200
+ -- Birte Friesel <derf@chaosdorf.de>  Wed, 06 Apr 2011 13:03:44 +0200
 
 chaosdorf-admin-toolkit (2011.03.16) unstable; urgency=low
 
   * forcecommand/nagios: Adjust limits
 
- -- Daniel Friesel <derf@chaosdorf.de>  Wed, 16 Mar 2011 17:32:23 +0100
+ -- Birte Friesel <derf@chaosdorf.de>  Wed, 16 Mar 2011 17:32:23 +0100
 
 chaosdorf-admin-toolkit (2011.03.05) unstable; urgency=low
 
   * Add Nagios check for hard disk temperature
 
- -- Daniel Friesel <derf@chaosdorf.de>  Sat, 05 Mar 2011 22:00:23 +0100
+ -- Birte Friesel <derf@chaosdorf.de>  Sat, 05 Mar 2011 22:00:23 +0100
 
 chaosdorf-admin-toolkit (2011.01.28) unstable; urgency=low
 
-  [ Daniel Friesel ]
+  [ Birte Friesel ]
   * Fix forcecommand for nagios. Whoops.
   * forcecommand/nagios: Add smart checks for figurehead
 
   [ Maximilian Gass ]
   * forcecommand/nagios: Use sudo for check_libs
 
-  [ Daniel Friesel ]
+  [ Birte Friesel ]
   * forcecommand/nagios: Adjust check thresholds
 
- -- Daniel Friesel <derf@chaosdorf.de>  Fri, 28 Jan 2011 19:20:41 +0100
+ -- Birte Friesel <derf@chaosdorf.de>  Fri, 28 Jan 2011 19:20:41 +0100
 
 chaosdorf-admin-toolkit (2010.12.23) unstable; urgency=low
 
   [ Maximilian Gass ]
   * check_ssh_no_password_login: remove use of temporary file
 
-  [ Daniel Friesel ]
+  [ Birte Friesel ]
   * forcecommand/nagios: Add SMART checks
 
- -- Daniel Friesel <derf@chaosdorf.de>  Thu, 23 Dec 2010 18:43:13 +0100
+ -- Birte Friesel <derf@chaosdorf.de>  Thu, 23 Dec 2010 18:43:13 +0100
 
 chaosdorf-admin-toolkit (2010.11.16) unstable; urgency=low
 
-  [ Daniel Friesel ]
+  [ Birte Friesel ]
   * Add nagios-goodies
 
   [ Maximilian Gass ]
@@ -308,7 +308,7 @@ chaosdorf-admin-toolkit (2010.11.16) unstable; urgency=low
 
 chaosdorf-admin-toolkit (2010.09.11) unstable; urgency=low
 
-  [ Daniel Friesel ]
+  [ Birte Friesel ]
   * Add README
   * Add forcecommand for backups
   * zshrc: Enable menu completion
@@ -326,24 +326,24 @@ chaosdorf-admin-toolkit (2010.08.07) unstable; urgency=low
   [ Maximilian Gass ]
   * Add preliminary debian/copyright file
 
-  [ Daniel Friesel ]
+  [ Birte Friesel ]
   * forcecommand: Raise user limits (we have a shell server, after all)
 
- -- Daniel Friesel <derf@chaosdorf.de>  Sat, 07 Aug 2010 23:47:13 +0200
+ -- Birte Friesel <derf@chaosdorf.de>  Sat, 07 Aug 2010 23:47:13 +0200
 
 chaosdorf-admin-toolkit (2010.08.01) unstable; urgency=low
 
-  [ Daniel Friesel ]
+  [ Birte Friesel ]
   * forcecommand.cfg: +/srv/roundup (on frontend)
   * Add .zshrc
   * git: Ignore debian build files
   * forcecommand.cfg: Use mountpoints instead of devices
 
- -- Daniel Friesel <derf@chaosdorf.de>  Sun, 01 Aug 2010 18:09:44 +0200
+ -- Birte Friesel <derf@chaosdorf.de>  Sun, 01 Aug 2010 18:09:44 +0200
 
 chaosdorf-admin-toolkit (2010.07.30) unstable; urgency=low
 
-  [ Daniel Friesel ]
+  [ Birte Friesel ]
   * Add check_git_status nagios check
 
   [ Maximilian Gass ]

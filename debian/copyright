@@ -2,7 +2,7 @@ Format-Specification:
   http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?op=file&rev=135
 
 Files: forcecommand/*, nagios-checks/local/check_git_status, nagios-goodies/*
-Copyright: 2010, Daniel Friesel <derf@chaosdorf.de>
+Copyright: 2010, Birte Friesel <derf@chaosdorf.de>
 License: WTFPL
 
 Files: nagios-checks/local/check_packages
@@ -41,7 +41,7 @@ License: GPL-3
 
 Files: dotfiles/*, debian/*
 Copyright: 2010, Maximilian Gass <mxey@chaosdorf.de>
-           2010, Daniel Friesel <derf@chaosdorf.de>
+           2010, Birte Friesel <derf@chaosdorf.de>
 License: WTFPL
 
 License: MIT
