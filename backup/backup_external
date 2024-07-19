@@ -28,6 +28,13 @@ backup_mediawiki() {
 	chaosdorf@backup.finalrewind.org "cat > backup/${HOST}_mediawiki.xml.gz.gpg"
 }
 
+backup_hedgedoc() {
+	docker exec chaosdorf-database-1 pg_dump hedgedoc -U hedgedoc \
+	| gpg --encrypt --always-trust -r ${KEYS} \
+	| ssh -q -o CheckHostIP=no -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+	chaosdorf@backup.finalrewind.org "cat > backup/${HOST}_sql.gpg"
+}
+
 backup_sql() {
 	sh /root/sqldump.sh \
 	| gpg --encrypt --always-trust -r ${KEYS} \
@@ -49,11 +56,12 @@ backup_tar() {
 # (we start at 00:03)
 if [ ! -t 0 ]; then
 	case "${HOST}" in
-		backend.chaosdorf.de)      sleep 1h ;; # 01:03
-		extern.chaosdorf.de)       sleep 8h ;; # 08:03
-		intern.chaosdorf.de)       sleep 5h ;; # 05:03
-		shells.chaosdorf.de)       sleep 4h ;; # 04:03
-		vm.chaosdorf.de)                    ;; # 00:03
+		md.chaosdorf.de)           sleep 30m ;; # 00:33
+		backend.chaosdorf.de)      sleep  1h ;; # 01:03
+		extern.chaosdorf.de)       sleep  8h ;; # 08:03
+		intern.chaosdorf.de)       sleep  5h ;; # 05:03
+		shells.chaosdorf.de)       sleep  4h ;; # 04:03
+		vm.chaosdorf.de)                     ;; # 00:03
 	esac
 fi
 
@@ -105,6 +113,11 @@ case "${HOST}" in
 
 	shells.chaosdorf.de)
 		backup_tar var/spool/cron crontabs
+		;;
+
+	md.chaosdorf.de)
+		backup_hedgedoc
+		backup_tar $(docker volume inspect chaosdorf_uploads | jq -r '.[0].Mountpoint') hedgedoc_uploads
 		;;
 
 esac
