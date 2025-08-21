@@ -11,7 +11,7 @@ import os
 all_hosts = list(
     map(
         lambda x: "root@{}.chaosdorf.de".format(x),
-        "backend dashbaord extern intern shells vm".split(),
+        "backend dashboard extern intern shells vm docker frontier".split(),
     )
 )
 
