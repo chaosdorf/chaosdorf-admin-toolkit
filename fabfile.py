@@ -274,3 +274,7 @@ def deploy_weekly_backup(c):
     install(c, "backup/cron", "/etc/cron.d/chaosdorf-backup", "0644")
 
     etckeeper_commit(c, "deploy weekly backup")
+
+@task(hosts=["root@frontier.chaosdorf.de"])
+def update_authentik(c):
+    c.run("cd /srv/docker/authentik/ && ./manage.sh update")
